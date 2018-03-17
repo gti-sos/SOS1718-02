@@ -78,6 +78,7 @@ app.post(BASE_API_PATH_EXPENDITURES , (req, res) => {
     dbEx.insert(expenditure, function (err, newExpenditure){});
     res.sendStatus(201);
 });
+
 app.put(BASE_API_PATH_EXPENDITURES, (req, res) => {
     console.log(Date() + " - PUT /expenditures-per-students");
     res.sendStatus(405);
@@ -96,7 +97,7 @@ app.get(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
 
     res.send(initialsExpenditures.filter((c) => {
         return (c.country == country);
-    })[0]);
+    }));
 });
 
 app.delete(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
