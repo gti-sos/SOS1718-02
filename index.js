@@ -551,7 +551,7 @@ app.put(BASE_API_PATH_EMPLOYMENTS + "/:country/:year", (req, res) => {
 app.get(BASE_API_PATH_EMPLOYMENTS + "/loadInitialData/", (req, res) => {
    
     if(employments.length==0){
-        employments=employments1; 
+        employments.push(employments1); 
     }
      res.sendStatus(200);
 });
@@ -559,12 +559,10 @@ app.get(BASE_API_PATH_EMPLOYMENTS + "/loadInitialData/", (req, res) => {
 app.get(BASE_API_PATH_UNEMPLOYMENTS + "/loadInitialData/", (req, res) => {
    
     if(unemployments.length==0){
-        unemployments=unemployments1; 
+        unemployments.push(unemployments1); 
     }
      res.sendStatus(200);
 });
-
-
 
 app.listen(port, () => {
     console.log("Server ready on port: " + port + "!")
