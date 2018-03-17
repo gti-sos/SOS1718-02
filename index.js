@@ -103,7 +103,7 @@ app.delete(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
     console.log(Date() + " - DELETE /expenditures-per-students/" + country);
 
-    expenditures = expenditures.filter((c) => {
+    initialsExpenditures = initialsExpenditures.filter((c) => {
         return (c.country != country);
     });
 
