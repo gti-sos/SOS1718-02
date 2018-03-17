@@ -17,13 +17,23 @@ var employments1 = [
 ];
 
 var unemployments = [
+    {"country": "austria","year": 1998,"young-unemployment":1.600000024,"adult-unemployment":1.600000024,"old-unemployment":1.600000024,"long-term-unemployment":1.600000024},
+    {"country": "belgium","year": 2003,"young-unemployment":3.5,"adult-unemployment":3.5,"old-unemployment":3.5,"long-term-unemployment":3.5},
 ];
 var unemployments1 = [
+    {"country": "bulgaria","year": 1998,"young-unemployment":8,"adult-unemployment":8,"old-unemployment":8,"long-term-unemployment":8},
+    {"country": "croatia","year": 2003,"young-unemployment":8,"adult-unemployment":8,"old-unemployment":8,"long-term-unemployment":8},
+
 ];
  
 var expenditures = [
+    {"country": "austria","year": 1998,"primary":27.8599,"secundary":27.46764,"tertiery":49.0146},
+    {"country": "belgium","year": 2005,"primary":19.83316,"secundary":32.84222,"tertiery":34.572},
+
 ];
 var expenditures = [
+    {"country": "romania","year": 1998,"primary":19.7114,"secundary":27.59638,"tertiery":25.89706},
+    {"country": "portugal","year": 2005,"primary":22.47196,"secundary":33.54664,"tertiery":26.26249},
 ];
  
 app.get("/hello",(req,res)=>{
