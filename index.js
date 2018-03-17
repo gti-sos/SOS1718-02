@@ -75,6 +75,7 @@ app.post(BASE_API_PATH_EXPENDITURES , (req, res) => {
     console.log(Date() + " - POST /expenditures-per-students");
     var expenditure = req.body;
     initialsExpenditures.push(expenditure);
+    dbEx.insert(expenditure, function (err, newExpenditure){});
     res.sendStatus(201);
 });
 app.put(BASE_API_PATH_EXPENDITURES, (req, res) => {
