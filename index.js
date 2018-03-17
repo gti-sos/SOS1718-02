@@ -5,7 +5,7 @@ var DataStore = require("nedb");
 
 var BASE_API_PATH_EMPLOYMENTS = "/api/v1/employments-by-status";
 var BASE_API_PATH_UNEMPLOYMENTS = "/api/v1/unemployments";
-var BASE_API_PATH_EXPENDITURES="/api/v1/expenditures-per-students";
+var BASE_API_PATH_EXPENDITURES = "/api/v1/expenditures-per-students";
 
 var dbEmployments = __dirname + "/employments-by-status.db";
 var dbUnemployments = __dirname + "/unemployments.db";
@@ -15,35 +15,35 @@ var bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
 var employments = [
-    {"country": "croatia","year": 1998,"total-self-employed":18.5,"total-salaried-employed":75.30000305,"total-contributing-family-worker":6.19999980926514},
-    {"country": "cyprus","year": 2005,"total-self-employed":20.5,"total-salaried-employed":76.80000305,"total-contributing-family-worker":2.799999952},
+    { "country": "croatia", "year": 1998, "total-self-employed": 18.5, "total-salaried-employed": 75.30000305, "total-contributing-family-worker": 6.19999980926514 },
+    { "country": "cyprus", "year": 2005, "total-self-employed": 20.5, "total-salaried-employed": 76.80000305, "total-contributing-family-worker": 2.799999952 },
 ];
 var employments1 = [
-    {"country": "romania","year": 1998,"total-self-employed":22.60000038,"total-salaried-employed":59.70000076,"total-contributing-family-worker":17.79999924},
-    {"country": "romania","year": 2005,"total-self-employed":21.39999962,"total-salaried-employed":64.69999695,"total-contributing-family-worker":13.80000019}
+    { "country": "romania", "year": 1998, "total-self-employed": 22.60000038, "total-salaried-employed": 59.70000076, "total-contributing-family-worker": 17.79999924 },
+    { "country": "romania", "year": 2005, "total-self-employed": 21.39999962, "total-salaried-employed": 64.69999695, "total-contributing-family-worker": 13.80000019 }
 ];
 
 var unemployments = [
-    {"country": "austria","year": 1998,"young-unemployment":1.600000024,"adult-unemployment":1.600000024,"old-unemployment":1.600000024,"long-term-unemployment":1.600000024},
-    {"country": "belgium","year": 2003,"young-unemployment":3.5,"adult-unemployment":3.5,"old-unemployment":3.5,"long-term-unemployment":3.5},
+    { "country": "austria", "year": 1998, "young-unemployment": 1.600000024, "adult-unemployment": 1.600000024, "old-unemployment": 1.600000024, "long-term-unemployment": 1.600000024 },
+    { "country": "belgium", "year": 2003, "young-unemployment": 3.5, "adult-unemployment": 3.5, "old-unemployment": 3.5, "long-term-unemployment": 3.5 },
 ];
 var unemployments1 = [
-    {"country": "bulgaria","year": 1998,"young-unemployment":8,"adult-unemployment":8,"old-unemployment":8,"long-term-unemployment":8},
-    {"country": "croatia","year": 2003,"young-unemployment":8,"adult-unemployment":8,"old-unemployment":8,"long-term-unemployment":8},
-];
- 
-var initialsExpenditures = [
-    {"country": "austria","year": 1998,"primary":27.8599,"secundary":27.46764,"tertiery":49.0146},
-    {"country": "belgium","year": 2005,"primary":19.83316,"secundary":32.84222,"tertiery":34.572},
-    {"country": "romania","year": 1998,"primary":19.7114,"secundary":27.59638,"tertiery":25.89706},
-    {"country": "portugal","year": 2005,"primary":22.47196,"secundary":33.54664,"tertiery":26.26249}
+    { "country": "bulgaria", "year": 1998, "young-unemployment": 8, "adult-unemployment": 8, "old-unemployment": 8, "long-term-unemployment": 8 },
+    { "country": "croatia", "year": 2003, "young-unemployment": 8, "adult-unemployment": 8, "old-unemployment": 8, "long-term-unemployment": 8 },
 ];
 
-app.get("/hello",(req,res)=>{
+var initialsExpenditures = [
+    { "country": "austria", "year": 1998, "primary": 27.8599, "secundary": 27.46764, "tertiery": 49.0146 },
+    { "country": "belgium", "year": 2005, "primary": 19.83316, "secundary": 32.84222, "tertiery": 34.572 },
+    { "country": "romania", "year": 1998, "primary": 19.7114, "secundary": 27.59638, "tertiery": 25.89706 },
+    { "country": "portugal", "year": 2005, "primary": 22.47196, "secundary": 33.54664, "tertiery": 26.26249 }
+];
+
+app.get("/hello", (req, res) => {
     res.send("Hello World");
 });
 
-app.use("/",express.static(__dirname+"/public"));
+app.use("/", express.static(__dirname + "/public"));
 
 //expenditures
 
@@ -66,88 +66,89 @@ dbEx.find({}, (err, expenditures) => {
     }
 });
 
-//GET
-
-app.get(BASE_API_PATH_EXPENDITURES , (req, res) => {
-    console.log(Date() + " - GET /expenditures-per-students");
-    res.send(initialsExpenditures);
+//Get todos los datos
+app.get(BASE_API_PATH_EXPENDITURES, (req, res) => {
+    dbEx.find({}, function(err, expenditure) {
+        console.log("Get de todos los datos")
+        console.log(Date() + " - GET /expenditures-per-students");
+        res.send(expenditure)
+    });
 });
 
+//Get de una ciudad en concreto
 app.get(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
-    console.log(Date() + " - GET /expenditures-per-students" + country);
-
-    res.send(initialsExpenditures.filter((c) => {
-        return (c.country == country);
-    }));
+    dbEx.find({ country: country }, function(err, expenditures) {
+        console.log("Get de una ciudad en concreto")
+        console.log(Date() + " - GET /expenditures-per-students/" + country);
+        res.send(expenditures)
+    });
 });
 
+//Get de un año en concreto NO FUNCIONA
 app.get(BASE_API_PATH_EXPENDITURES + "/:year", (req, res) => {
     var year = req.params.year;
-    console.log(Date() + " - GET /expenditures-per-students" + year);
-
-    res.send(initialsExpenditures.filter((c) => {
-        return (c.year == year);
-    }));
+    dbEx.find({ year: year }, function(err, expenditures) {
+        console.log("Get de un año en concreto")
+        console.log(Date() + " - GET /expenditures-per-students/" + year);
+        res.send(expenditures)
+    });
 });
 
-app.get(BASE_API_PATH_EXPENDITURES + "/:country/:year", (req, res) => {
+//Get de una ciudad y año
+app.get(BASE_API_PATH_EXPENDITURES + "/:country" + "/:year", (req, res) => {
     var country = req.params.country;
     var year = req.params.year;
-    console.log(Date() + " - GET /expenditures-per-students" + country + "/" + year);
-
-    res.send(initialsExpenditures.filter((c) => {
-        return (c.country == country);
-    }).filter((c) => {
-        return (c.year == year);
-     }));
+    dbEx.find({ $and: [{ country: country }, { year: Number(year) }] }, function(err, expenditures) {
+        console.log("Get de una ciudad y año")
+        console.log(Date() + " - GET /expenditures-per-students/" + country + "/" + year);
+        res.send(expenditures)
+    });
 });
 
-//DELETE
-
+//Delete all
 app.delete(BASE_API_PATH_EXPENDITURES, (req, res) => {
-    console.log(Date() + " - DELETE /expenditures-per-students");
-    initialsExpenditures = [];
-    res.sendStatus(200);
+
+    dbEx.remove({}, { multi: true }, function(err, numRemoved) {
+        res.sendStatus(200);
+        console.log(Date() + " - DELETE /expenditures-per-students");
+        console.log(numRemoved + " elements removed.")
+    });
 });
 
+//Delete country
 app.delete(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
-    console.log(Date() + " - DELETE /expenditures-per-students/" + country);
-
-    initialsExpenditures =  initialsExpenditures.filter((c) => {
-        return (c.country != country);
+    dbEx.remove({ country: country }, { multi: true }, function(err, numRemoved) {
+        res.sendStatus(200);
+        console.log(Date() + " - DELETE /expenditures-per-students/" + country);
+        console.log(numRemoved + "elements removed.")
     });
-
-    res.sendStatus(200);
 });
 
+//Delete year
 app.delete(BASE_API_PATH_EXPENDITURES + "/:year", (req, res) => {
     var year = req.params.year;
-    console.log(Date() + " - DELETE /expenditures-per-students/" + year);
-
-    initialsExpenditures =  initialsExpenditures.filter((c) => {
-        return (c.year != year);
+    dbEx.remove({ year: Number(year) }, { multi: true }, function(err, numRemoved) {
+        res.sendStatus(200);
+        console.log(Date() + " - DELETE /expenditures-per-students/" + year);
+        console.log(numRemoved + "elements removed.")
     });
-
-    res.sendStatus(200);
 });
 
-app.delete(BASE_API_PATH_EXPENDITURES + "/:country/:year", (req, res) => {
+//Delete country and year
+app.delete(BASE_API_PATH_EXPENDITURES + "/:year", (req, res) => {
     var country = req.params.country;
     var year = req.params.year;
-    
-    console.log(Date() + " - DELETE /expenditures-per-students/" + country + "/" + year);
-
-    initialsExpenditures = initialsExpenditures.filter((c) => {
-        return (c.country != country && c.year != year );
+    //dbEx.remove{ $and: [{ country: country }, { year: Number(year) }],{nulti:true}, function(err, numRemoved) {
+    dbEx.remove({ $and: [{ country: country }, { year: Number(year) }] }, { multi: true }, function(err, numRemoved) {
+        res.sendStatus(200);
+        console.log(Date() + " - DELETE /expenditures-per-students/" + year);
+        console.log(numRemoved + "elements removed.")
     });
-
-    res.sendStatus(200);
 });
 
 //POST
-
 app.post(BASE_API_PATH_EXPENDITURES, (req, res) => {
     console.log(Date() + " - POST /expenditures-per-students");
     var expenditure = req.body;
@@ -155,18 +156,21 @@ app.post(BASE_API_PATH_EXPENDITURES, (req, res) => {
     res.sendStatus(201);
 });
 
+//POST country
 app.post(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
     console.log(Date() + " - POST /expenditures-per-students" + country);
     res.sendStatus(405);
 });
 
+//POST year
 app.post(BASE_API_PATH_EXPENDITURES + "/:year", (req, res) => {
     var year = req.params.year;
     console.log(Date() + " - POST /expenditures-per-students/" + year);
     res.sendStatus(405);
 });
 
+//POST country and year
 app.post(BASE_API_PATH_EXPENDITURES + "/:country/:year", (req, res) => {
     var country = req.params.country;
     var year = req.params.year;
@@ -174,32 +178,34 @@ app.post(BASE_API_PATH_EXPENDITURES + "/:country/:year", (req, res) => {
     res.sendStatus(405);
 });
 
-//PUT
-
+//PUT 
 app.put(BASE_API_PATH_EXPENDITURES, (req, res) => {
     var expenditure = req.body;
     console.log(Date() + " - PUT /expenditures-per-students");
     res.sendStatus(405);
 });
 
+//PUT country
 app.put(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
     var expenditure = req.body;
-    
-    console.log(Date() + " - PUT /expenditures-per-students/"+ country);
-    
+
+    console.log(Date() + " - PUT /expenditures-per-students/" + country);
+
     res.sendStatus(405);
 });
 
+//PUT year
 app.put(BASE_API_PATH_EXPENDITURES + "/:year", (req, res) => {
     var year = req.params.year;
     var expenditure = req.body;
-    
-    console.log(Date() + " - PUT /expenditures-per-students/"+ year);
-    
+
+    console.log(Date() + " - PUT /expenditures-per-students/" + year);
+
     res.sendStatus(405);
 });
 
+//PUT ESTE ME FALTA
 app.put(BASE_API_PATH_EXPENDITURES + "/:country/:year", (req, res) => {
     var country = req.params.country;
     var year = req.params.year;
@@ -214,7 +220,7 @@ app.put(BASE_API_PATH_EXPENDITURES + "/:country/:year", (req, res) => {
     }
 
     initialsExpenditures = initialsExpenditures.map((c) => {
-        if (c.country == expenditure.country  && c.year == expenditure.year)
+        if (c.country == expenditure.country && c.year == expenditure.year)
             return expenditure;
         else
             return c;
@@ -224,11 +230,11 @@ app.put(BASE_API_PATH_EXPENDITURES + "/:country/:year", (req, res) => {
 });
 
 /////////////////////////////
- 
+
 //unemployments
 
 //GET
-app.get(BASE_API_PATH_UNEMPLOYMENTS , (req, res) => {
+app.get(BASE_API_PATH_UNEMPLOYMENTS, (req, res) => {
     console.log(Date() + " - GET /unemployments");
     res.send(unemployments);
 });
@@ -260,7 +266,7 @@ app.get(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
         return (c.country == country);
     }).filter((c) => {
         return (c.year == year);
-     }));
+    }));
 });
 
 //DELETE
@@ -296,18 +302,18 @@ app.delete(BASE_API_PATH_UNEMPLOYMENTS + "/:year", (req, res) => {
 app.delete(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
     var country = req.params.country;
     var year = req.params.year;
-    
+
     console.log(Date() + " - DELETE /unemployments/" + country + "/" + year);
 
     unemployments = unemployments.filter((c) => {
-        return (c.country != country && c.year != year );
+        return (c.country != country && c.year != year);
     });
 
     res.sendStatus(200);
 });
 
 //POST
-app.post(BASE_API_PATH_UNEMPLOYMENTS , (req, res) => {
+app.post(BASE_API_PATH_UNEMPLOYMENTS, (req, res) => {
     console.log(Date() + " - POST /unemployments");
     var unemployment = req.body;
     employments.push(unemployment);
@@ -344,18 +350,18 @@ app.put(BASE_API_PATH_UNEMPLOYMENTS, (req, res) => {
 app.put(BASE_API_PATH_UNEMPLOYMENTS + "/:country", (req, res) => {
     var country = req.params.country;
     var unemployment = req.body;
-    
-    console.log(Date() + " - PUT /unemployments/"+ country);
-    
+
+    console.log(Date() + " - PUT /unemployments/" + country);
+
     res.sendStatus(405);
 });
 
 app.put(BASE_API_PATH_UNEMPLOYMENTS + "/:year", (req, res) => {
     var year = req.params.year;
     var unemployment = req.body;
-    
-    console.log(Date() + " - PUT /unemployments/"+ year);
-    
+
+    console.log(Date() + " - PUT /unemployments/" + year);
+
     res.sendStatus(405);
 });
 
@@ -373,7 +379,7 @@ app.put(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
     }
 
     unemployments = unemployments.map((c) => {
-        if (c.country == unemployment.country  && c.year == unemployment.year)
+        if (c.country == unemployment.country && c.year == unemployment.year)
             return unemployment;
         else
             return c;
@@ -389,15 +395,15 @@ app.put(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
 
 //GET
 
-app.get(BASE_API_PATH_EMPLOYMENTS , (req, res) => {
+app.get(BASE_API_PATH_EMPLOYMENTS, (req, res) => {
     console.log(Date() + " - GET /employments-by-status");
     res.send(employments);
-}); 
+});
 
 app.get(BASE_API_PATH_EMPLOYMENTS + "/:country", (req, res) => {
     var country = req.params.country;
     console.log(Date() + " - GET /employments-by-status/" + country);
-    
+
     res.send(employments.filter((c) => {
         return (c.country == country);
     }));
@@ -406,7 +412,7 @@ app.get(BASE_API_PATH_EMPLOYMENTS + "/:country", (req, res) => {
 app.get(BASE_API_PATH_EMPLOYMENTS + "/:year", (req, res) => {
     var year = req.params.year;
     console.log(Date() + " - GET /employments-by-status/" + year);
-    
+
     res.send(employments.filter((c) => {
         return (c.year == year);
     }));
@@ -422,7 +428,7 @@ app.get(BASE_API_PATH_EMPLOYMENTS + "/:country/:year", (req, res) => {
         return (c.country == country);
     }).filter((c) => {
         return (c.year == year);
-     }));
+    }));
 });
 
 
@@ -460,11 +466,11 @@ app.delete(BASE_API_PATH_EMPLOYMENTS + "/:year", (req, res) => {
 app.delete(BASE_API_PATH_EMPLOYMENTS + "/:country/:year", (req, res) => {
     var country = req.params.country;
     var year = req.params.year;
-    
+
     console.log(Date() + " - DELETE /employments-by-status/" + country + "/" + year);
 
     employments = employments.filter((c) => {
-        return (c.country != country && c.year != year );
+        return (c.country != country && c.year != year);
     });
 
     res.sendStatus(200);
@@ -472,7 +478,7 @@ app.delete(BASE_API_PATH_EMPLOYMENTS + "/:country/:year", (req, res) => {
 
 //POST 
 
-app.post(BASE_API_PATH_EMPLOYMENTS , (req, res) => {
+app.post(BASE_API_PATH_EMPLOYMENTS, (req, res) => {
     console.log(Date() + " - POST /employments-by-status");
     var employment = req.body;
     employments.push(employment);
@@ -508,18 +514,18 @@ app.put(BASE_API_PATH_EMPLOYMENTS, (req, res) => {
 app.put(BASE_API_PATH_EMPLOYMENTS + "/:country", (req, res) => {
     var country = req.params.country;
     var employment = req.body;
-    
-    console.log(Date() + " - PUT /employments-by-status/"+ country);
-    
+
+    console.log(Date() + " - PUT /employments-by-status/" + country);
+
     res.sendStatus(405);
 });
 
 app.put(BASE_API_PATH_EMPLOYMENTS + "/:year", (req, res) => {
     var year = req.params.year;
     var employment = req.body;
-    
-    console.log(Date() + " - PUT /employments-by-status/"+ year);
-    
+
+    console.log(Date() + " - PUT /employments-by-status/" + year);
+
     res.sendStatus(405);
 });
 
@@ -529,7 +535,7 @@ app.put(BASE_API_PATH_EMPLOYMENTS + "/:country/:year", (req, res) => {
     var year = req.params.year;
     var employment = req.body;
 
-    console.log(Date() + " - PUT /employments-by-status/" +  + country + "/" + year);
+    console.log(Date() + " - PUT /employments-by-status/" + +country + "/" + year);
 
     if (country != employment.country) {
         res.sendStatus(409);
@@ -549,19 +555,19 @@ app.put(BASE_API_PATH_EMPLOYMENTS + "/:country/:year", (req, res) => {
 
 
 app.get(BASE_API_PATH_EMPLOYMENTS + "/loadInitialData/", (req, res) => {
-   
-    if(employments.length==0){
-        employments.push(employments1); 
+
+    if (employments.length == 0) {
+        employments.push(employments1);
     }
-     res.sendStatus(200);
+    res.sendStatus(200);
 });
 
 app.get(BASE_API_PATH_UNEMPLOYMENTS + "/loadInitialData/", (req, res) => {
-   
-    if(unemployments.length==0){
-        unemployments.push(unemployments1); 
+
+    if (unemployments.length == 0) {
+        unemployments.push(unemployments1);
     }
-     res.sendStatus(200);
+    res.sendStatus(200);
 });
 
 app.listen(port, () => {
