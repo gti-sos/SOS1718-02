@@ -66,22 +66,44 @@ dbEx.find({}, (err, expenditures) => {
     }
 });
 
+//GET
+
 app.get(BASE_API_PATH_EXPENDITURES , (req, res) => {
     console.log(Date() + " - GET /expenditures-per-students");
     res.send(initialsExpenditures);
 });
 
-app.post(BASE_API_PATH_EXPENDITURES , (req, res) => {
-    console.log(Date() + " - POST /expenditures-per-students");
-    var expenditure = req.body;
-    initialsExpenditures.push(expenditure);
-    res.sendStatus(201);
+app.get(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
+    var country = req.params.country;
+    console.log(Date() + " - GET /expenditures-per-students" + country);
+
+    res.send(initialsExpenditures.filter((c) => {
+        return (c.country == country);
+    }));
 });
 
-app.put(BASE_API_PATH_EXPENDITURES, (req, res) => {
-    console.log(Date() + " - PUT /expenditures-per-students");
-    res.sendStatus(405);
+app.get(BASE_API_PATH_EXPENDITURES + "/:year", (req, res) => {
+    var year = req.params.year;
+    console.log(Date() + " - GET /expenditures-per-students" + year);
+
+    res.send(initialsExpenditures.filter((c) => {
+        return (c.year == year);
+    }));
 });
+
+app.get(BASE_API_PATH_EXPENDITURES + "/:country/:year", (req, res) => {
+    var country = req.params.country;
+    var year = req.params.year;
+    console.log(Date() + " - GET /expenditures-per-students" + country + "/" + year);
+
+    res.send(initialsExpenditures.filter((c) => {
+        return (c.country == country);
+    }).filter((c) => {
+        return (c.year == year);
+     }));
+});
+
+//DELETE
 
 app.delete(BASE_API_PATH_EXPENDITURES, (req, res) => {
     console.log(Date() + " - DELETE /expenditures-per-students");
@@ -89,47 +111,110 @@ app.delete(BASE_API_PATH_EXPENDITURES, (req, res) => {
     res.sendStatus(200);
 });
 
-
-app.get(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
-    var country = req.params.country;
-    console.log(Date() + " - GET /expenditures-per-students/" + country);
-
-    res.send(initialsExpenditures.filter((c) => {
-        return (c.country == country);
-    }));
-});
-
 app.delete(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
     console.log(Date() + " - DELETE /expenditures-per-students/" + country);
 
-    initialsExpenditures = initialsExpenditures.filter((c) => {
+    initialsExpenditures =  initialsExpenditures.filter((c) => {
         return (c.country != country);
     });
 
     res.sendStatus(200);
 });
 
+app.delete(BASE_API_PATH_EXPENDITURES + "/:year", (req, res) => {
+    var year = req.params.year;
+    console.log(Date() + " - DELETE /expenditures-per-students/" + year);
+
+    initialsExpenditures =  initialsExpenditures.filter((c) => {
+        return (c.year != year);
+    });
+
+    res.sendStatus(200);
+});
+
+app.delete(BASE_API_PATH_EXPENDITURES + "/:country/:year", (req, res) => {
+    var country = req.params.country;
+    var year = req.params.year;
+    
+    console.log(Date() + " - DELETE /expenditures-per-students/" + country + "/" + year);
+
+    initialsExpenditures = initialsExpenditures.filter((c) => {
+        return (c.country != country && c.year != year );
+    });
+
+    res.sendStatus(200);
+});
+
+//POST
+
+app.post(BASE_API_PATH_EXPENDITURES, (req, res) => {
+    console.log(Date() + " - POST /expenditures-per-students");
+    var expenditure = req.body;
+    initialsExpenditures.push(expenditure);
+    res.sendStatus(201);
+});
+
 app.post(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
-    console.log(Date() + " - POST /expenditures-per-students/" + country);
+    console.log(Date() + " - POST /expenditures-per-students" + country);
+    res.sendStatus(405);
+});
+
+app.post(BASE_API_PATH_EXPENDITURES + "/:year", (req, res) => {
+    var year = req.params.year;
+    console.log(Date() + " - POST /expenditures-per-students/" + year);
+    res.sendStatus(405);
+});
+
+app.post(BASE_API_PATH_EXPENDITURES + "/:country/:year", (req, res) => {
+    var country = req.params.country;
+    var year = req.params.year;
+    console.log(Date() + " - POST /expenditures-per-students/" + country + "/" + year);
+    res.sendStatus(405);
+});
+
+//PUT
+
+app.put(BASE_API_PATH_EXPENDITURES, (req, res) => {
+    var expenditure = req.body;
+    console.log(Date() + " - PUT /expenditures-per-students");
     res.sendStatus(405);
 });
 
 app.put(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
     var expenditure = req.body;
+    
+    console.log(Date() + " - PUT /expenditures-per-students/"+ country);
+    
+    res.sendStatus(405);
+});
 
-    console.log(Date() + " - PUT /expenditures-per-students/" + country);
+app.put(BASE_API_PATH_EXPENDITURES + "/:year", (req, res) => {
+    var year = req.params.year;
+    var expenditure = req.body;
+    
+    console.log(Date() + " - PUT /expenditures-per-students/"+ year);
+    
+    res.sendStatus(405);
+});
+
+app.put(BASE_API_PATH_EXPENDITURES + "/:country/:year", (req, res) => {
+    var country = req.params.country;
+    var year = req.params.year;
+    var expenditure = req.body;
+
+    console.log(Date() + " - PUT /expenditures-per-students/" + country + "/" + year);
 
     if (country != expenditure.country) {
         res.sendStatus(409);
         console.warn(Date() + " - Hacking attempt!");
-        return;
+        return 1;
     }
 
     initialsExpenditures = initialsExpenditures.map((c) => {
-        if (c.country == expenditure.country)
+        if (c.country == expenditure.country  && c.year == expenditure.year)
             return expenditure;
         else
             return c;
@@ -138,7 +223,8 @@ app.put(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     res.sendStatus(200);
 });
 
-
+/////////////////////////////
+ 
 //unemployments
 
 //GET
