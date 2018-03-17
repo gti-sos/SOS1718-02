@@ -75,7 +75,6 @@ app.post(BASE_API_PATH_EXPENDITURES , (req, res) => {
     console.log(Date() + " - POST /expenditures-per-students");
     var expenditure = req.body;
     initialsExpenditures.push(expenditure);
-    dbEx.insert(expenditure, function (err, newExpenditure){});
     res.sendStatus(201);
 });
 
@@ -104,7 +103,7 @@ app.delete(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
     console.log(Date() + " - DELETE /expenditures-per-students/" + country);
 
-    initialsExpenditures = initialsExpenditures.filter((c) => {
+    expenditures = expenditures.filter((c) => {
         return (c.country != country);
     });
 
@@ -141,28 +140,12 @@ app.put(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
 
 
 //unemployments
+
+//GET
 app.get(BASE_API_PATH_UNEMPLOYMENTS , (req, res) => {
     console.log(Date() + " - GET /unemployments");
     res.send(unemployments);
 });
-
-app.post(BASE_API_PATH_UNEMPLOYMENTS , (req, res) => {
-    console.log(Date() + " - POST /unemployments");
-    var unemployment = req.body;
-    employments.push(unemployment);
-    res.sendStatus(201);
-});
-app.put(BASE_API_PATH_UNEMPLOYMENTS, (req, res) => {
-    console.log(Date() + " - PUT /unemployments");
-    res.sendStatus(405);
-});
-
-app.delete(BASE_API_PATH_UNEMPLOYMENTS, (req, res) => {
-    console.log(Date() + " - DELETE /unemployments");
-    unemployments = [];
-    res.sendStatus(200);
-});
-
 
 app.get(BASE_API_PATH_UNEMPLOYMENTS + "/:country", (req, res) => {
     var country = req.params.country;
@@ -170,7 +153,36 @@ app.get(BASE_API_PATH_UNEMPLOYMENTS + "/:country", (req, res) => {
 
     res.send(unemployments.filter((c) => {
         return (c.country == country);
-    })[0]);
+    }));
+});
+
+app.get(BASE_API_PATH_UNEMPLOYMENTS + "/:year", (req, res) => {
+    var year = req.params.year;
+    console.log(Date() + " - GET /unemployments/" + year);
+
+    res.send(unemployments.filter((c) => {
+        return (c.year == year);
+    }));
+});
+
+app.get(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
+    var country = req.params.country;
+    var year = req.params.year;
+    console.log(Date() + " - GET /unemployments/" + country + "/" + year);
+
+    res.send(unemployments.filter((c) => {
+        return (c.country == country);
+    }).filter((c) => {
+        return (c.year == year);
+     }));
+});
+
+//DELETE
+
+app.delete(BASE_API_PATH_UNEMPLOYMENTS, (req, res) => {
+    console.log(Date() + " - DELETE /unemployments");
+    unemployments = [];
+    res.sendStatus(200);
 });
 
 app.delete(BASE_API_PATH_UNEMPLOYMENTS + "/:country", (req, res) => {
@@ -184,26 +196,98 @@ app.delete(BASE_API_PATH_UNEMPLOYMENTS + "/:country", (req, res) => {
     res.sendStatus(200);
 });
 
+app.delete(BASE_API_PATH_UNEMPLOYMENTS + "/:year", (req, res) => {
+    var year = req.params.year;
+    console.log(Date() + " - DELETE /unemployments/" + year);
+
+    unemployments = unemployments.filter((c) => {
+        return (c.year != year);
+    });
+
+    res.sendStatus(200);
+});
+
+app.delete(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
+    var country = req.params.country;
+    var year = req.params.year;
+    
+    console.log(Date() + " - DELETE /unemployments/" + country + "/" + year);
+
+    unemployments = unemployments.filter((c) => {
+        return (c.country != country && c.year != year );
+    });
+
+    res.sendStatus(200);
+});
+
+//POST
+app.post(BASE_API_PATH_UNEMPLOYMENTS , (req, res) => {
+    console.log(Date() + " - POST /unemployments");
+    var unemployment = req.body;
+    employments.push(unemployment);
+    res.sendStatus(201);
+});
+
 app.post(BASE_API_PATH_UNEMPLOYMENTS + "/:country", (req, res) => {
     var country = req.params.country;
     console.log(Date() + " - POST /unemployments/" + country);
     res.sendStatus(405);
 });
 
+app.post(BASE_API_PATH_UNEMPLOYMENTS + "/:year", (req, res) => {
+    var year = req.params.year;
+    console.log(Date() + " - POST /unemployments/" + year);
+    res.sendStatus(405);
+});
+
+app.post(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
+    var country = req.params.country;
+    var year = req.params.year;
+    console.log(Date() + " - POST /unemployments/" + country + "/" + year);
+    res.sendStatus(405);
+});
+
+//PUT
+
+app.put(BASE_API_PATH_UNEMPLOYMENTS, (req, res) => {
+    var unemployment = req.body;
+    console.log(Date() + " - PUT /unemployments");
+    res.sendStatus(405);
+});
+
 app.put(BASE_API_PATH_UNEMPLOYMENTS + "/:country", (req, res) => {
     var country = req.params.country;
     var unemployment = req.body;
+    
+    console.log(Date() + " - PUT /unemployments/"+ country);
+    
+    res.sendStatus(405);
+});
 
-    console.log(Date() + " - PUT /unemployments/" + country);
+app.put(BASE_API_PATH_UNEMPLOYMENTS + "/:year", (req, res) => {
+    var year = req.params.year;
+    var unemployment = req.body;
+    
+    console.log(Date() + " - PUT /unemployments/"+ year);
+    
+    res.sendStatus(405);
+});
+
+app.put(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
+    var country = req.params.country;
+    var year = req.params.year;
+    var unemployment = req.body;
+
+    console.log(Date() + " - PUT /unemployments/" + country + "/" + year);
 
     if (country != unemployment.country) {
         res.sendStatus(409);
         console.warn(Date() + " - Hacking attempt!");
-        return;
+        return 1;
     }
 
     unemployments = unemployments.map((c) => {
-        if (c.country == unemployment.country)
+        if (c.country == unemployment.country  && c.year == unemployment.year)
             return unemployment;
         else
             return c;
@@ -211,6 +295,8 @@ app.put(BASE_API_PATH_UNEMPLOYMENTS + "/:country", (req, res) => {
 
     res.sendStatus(200);
 });
+
+////////////////////////////////////////////////////////////////////////////////////
 
 
 //employments-by-status
