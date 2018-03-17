@@ -1,8 +1,15 @@
+var port = (process.env.PORT || 1607);
 var express = require("express");
 var app = express();
+var DataStore = require("nedb");
+
 var BASE_API_PATH_EMPLOYMENTS = "/api/v1/employments-by-status";
 var BASE_API_PATH_UNEMPLOYMENTS = "/api/v1/unemployments";
 var BASE_API_PATH_EXPENDITURES="/api/v1/expenditures-per-students";
+
+var dbEmployments = __dirname + "/employments-by-status.db";
+var dbUnemployments = __dirname + "/unemployments.db";
+var dbExpenditures = __dirname + "/expenditures-per-students.db";
 
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());
@@ -23,16 +30,15 @@ var unemployments = [
 var unemployments1 = [
     {"country": "bulgaria","year": 1998,"young-unemployment":8,"adult-unemployment":8,"old-unemployment":8,"long-term-unemployment":8},
     {"country": "croatia","year": 2003,"young-unemployment":8,"adult-unemployment":8,"old-unemployment":8,"long-term-unemployment":8},
-
 ];
  
-var expenditures = [
+var initialsExpenditures = [
     {"country": "austria","year": 1998,"primary":27.8599,"secundary":27.46764,"tertiery":49.0146},
     {"country": "belgium","year": 2005,"primary":19.83316,"secundary":32.84222,"tertiery":34.572},
     {"country": "romania","year": 1998,"primary":19.7114,"secundary":27.59638,"tertiery":25.89706},
     {"country": "portugal","year": 2005,"primary":22.47196,"secundary":33.54664,"tertiery":26.26249}
 ];
- 
+
 app.get("/hello",(req,res)=>{
     res.send("Hello World");
 });
@@ -40,15 +46,35 @@ app.get("/hello",(req,res)=>{
 app.use("/",express.static(__dirname+"/public"));
 
 //expenditures
+
+var dbEx = new DataStore({
+    filename: dbExpenditures,
+    autoload: true
+});
+
+dbEx.find({}, (err, expenditures) => {
+    if (err) {
+        console.error("Error accesing DB");
+        process.exit(1);
+    }
+    if (expenditures.length == 0) {
+        console.log("Empty DB");
+        dbEx.insert(initialsExpenditures);
+    }
+    else {
+        console.log("DB initialized with " + expenditures.length + " contacts")
+    }
+});
+
 app.get(BASE_API_PATH_EXPENDITURES , (req, res) => {
     console.log(Date() + " - GET /expenditures-per-students");
-    res.send(expenditures);
+    res.send(initialsExpenditures);
 });
 
 app.post(BASE_API_PATH_EXPENDITURES , (req, res) => {
     console.log(Date() + " - POST /expenditures-per-students");
     var expenditure = req.body;
-    expenditures.push(expenditure);
+    initialsExpenditures.push(expenditure);
     res.sendStatus(201);
 });
 app.put(BASE_API_PATH_EXPENDITURES, (req, res) => {
@@ -58,7 +84,7 @@ app.put(BASE_API_PATH_EXPENDITURES, (req, res) => {
 
 app.delete(BASE_API_PATH_EXPENDITURES, (req, res) => {
     console.log(Date() + " - DELETE /expenditures-per-students");
-    expenditures = [];
+    initialsExpenditures = [];
     res.sendStatus(200);
 });
 
@@ -67,7 +93,7 @@ app.get(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
     console.log(Date() + " - GET /expenditures-per-students/" + country);
 
-    res.send(expenditures.filter((c) => {
+    res.send(initialsExpenditures.filter((c) => {
         return (c.country == country);
     })[0]);
 });
@@ -76,7 +102,7 @@ app.delete(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
     console.log(Date() + " - DELETE /expenditures-per-students/" + country);
 
-    expenditures = expenditures.filter((c) => {
+    initialsExpenditures = initialsExpenditures.filter((c) => {
         return (c.country != country);
     });
 
@@ -101,7 +127,7 @@ app.put(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
         return;
     }
 
-    expenditures = expenditures.map((c) => {
+    initialsExpenditures = initialsExpenditures.map((c) => {
         if (c.country == expenditure.country)
             return expenditure;
         else
@@ -257,4 +283,10 @@ app.put(BASE_API_PATH_EMPLOYMENTS + "/:country", (req, res) => {
     res.sendStatus(200);
 });
 
-app.listen(process.env.PORT);
+app.listen(port, () => {
+    console.log("Server ready on port: " + port + "!")
+}).on("error", (e) => {
+    console.log("Server NOT READY:" + e)
+});
+
+console.log("Server setting up...")
