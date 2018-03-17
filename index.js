@@ -386,21 +386,47 @@ app.put(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
 
 
 //employments-by-status
+
+//GET
+
 app.get(BASE_API_PATH_EMPLOYMENTS , (req, res) => {
     console.log(Date() + " - GET /employments-by-status");
     res.send(employments);
+}); 
+
+app.get(BASE_API_PATH_EMPLOYMENTS + "/:country", (req, res) => {
+    var country = req.params.country;
+    console.log(Date() + " - GET /employments-by-status/" + country);
+    
+    res.send(employments.filter((c) => {
+        return (c.country == country);
+    }));
 });
 
-app.post(BASE_API_PATH_EMPLOYMENTS , (req, res) => {
-    console.log(Date() + " - POST /employments-by-status");
-    var employment = req.body;
-    employments.push(employment);
-    res.sendStatus(201);
+app.get(BASE_API_PATH_EMPLOYMENTS + "/:year", (req, res) => {
+    var year = req.params.year;
+    console.log(Date() + " - GET /employments-by-status/" + year);
+    
+    res.send(employments.filter((c) => {
+        return (c.year == year);
+    }));
 });
-app.put(BASE_API_PATH_EMPLOYMENTS, (req, res) => {
-    console.log(Date() + " - PUT /employments-by-status");
-    res.sendStatus(405);
+
+
+app.get(BASE_API_PATH_EMPLOYMENTS + "/:country/:year", (req, res) => {
+    var country = req.params.country;
+    var year = req.params.year;
+    console.log(Date() + " - GET /employments-by-status/" + country + "/" + year);
+
+    res.send(employments.filter((c) => {
+        return (c.country == country);
+    }).filter((c) => {
+        return (c.year == year);
+     }));
 });
+
+
+//DELETE 
 
 app.delete(BASE_API_PATH_EMPLOYMENTS, (req, res) => {
     console.log(Date() + " - DELETE /employments-by-status");
@@ -408,15 +434,6 @@ app.delete(BASE_API_PATH_EMPLOYMENTS, (req, res) => {
     res.sendStatus(200);
 });
 
-
-app.get(BASE_API_PATH_EMPLOYMENTS + "/:country", (req, res) => {
-    var country = req.params.country;
-    console.log(Date() + " - GET /employments-by-status/" + country);
-
-    res.send(employments.filter((c) => {
-        return (c.country == country);
-    })[0]);
-});
 
 app.delete(BASE_API_PATH_EMPLOYMENTS + "/:country", (req, res) => {
     var country = req.params.country;
@@ -429,26 +446,99 @@ app.delete(BASE_API_PATH_EMPLOYMENTS + "/:country", (req, res) => {
     res.sendStatus(200);
 });
 
+app.delete(BASE_API_PATH_EMPLOYMENTS + "/:year", (req, res) => {
+    var year = req.params.year;
+    console.log(Date() + " - DELETE /employments-by-status/" + year);
+
+    employments = employments.filter((c) => {
+        return (c.year != year);
+    });
+
+    res.sendStatus(200);
+});
+
+app.delete(BASE_API_PATH_EMPLOYMENTS + "/:country/:year", (req, res) => {
+    var country = req.params.country;
+    var year = req.params.year;
+    
+    console.log(Date() + " - DELETE /employments-by-status/" + country + "/" + year);
+
+    employments = employments.filter((c) => {
+        return (c.country != country && c.year != year );
+    });
+
+    res.sendStatus(200);
+});
+
+//POST 
+
+app.post(BASE_API_PATH_EMPLOYMENTS , (req, res) => {
+    console.log(Date() + " - POST /employments-by-status");
+    var employment = req.body;
+    employments.push(employment);
+    res.sendStatus(201);
+});
+
 app.post(BASE_API_PATH_EMPLOYMENTS + "/:country", (req, res) => {
     var country = req.params.country;
     console.log(Date() + " - POST /employments-by-status/" + country);
     res.sendStatus(405);
 });
 
+app.post(BASE_API_PATH_EMPLOYMENTS + "/:year", (req, res) => {
+    var year = req.params.year;
+    console.log(Date() + " - POST /employments-by-status/" + year);
+    res.sendStatus(405);
+});
+
+app.post(BASE_API_PATH_EMPLOYMENTS + "/:country/:year", (req, res) => {
+    var country = req.params.country;
+    var year = req.params.year;
+    console.log(Date() + " - POST /employments-by-status/" + country + "/" + year);
+    res.sendStatus(405);
+});
+
+//PUT 
+
+app.put(BASE_API_PATH_EMPLOYMENTS, (req, res) => {
+    console.log(Date() + " - PUT /employments-by-status");
+    res.sendStatus(405);
+});
+
 app.put(BASE_API_PATH_EMPLOYMENTS + "/:country", (req, res) => {
     var country = req.params.country;
     var employment = req.body;
+    
+    console.log(Date() + " - PUT /employments-by-status/"+ country);
+    
+    res.sendStatus(405);
+});
 
-    console.log(Date() + " - PUT /employments-by-status/" + country);
+app.put(BASE_API_PATH_EMPLOYMENTS + "/:year", (req, res) => {
+    var year = req.params.year;
+    var employment = req.body;
+    
+    console.log(Date() + " - PUT /employments-by-status/"+ year);
+    
+    res.sendStatus(405);
+});
+
+
+app.put(BASE_API_PATH_EMPLOYMENTS + "/:country/:year", (req, res) => {
+    var country = req.params.country;
+    var year = req.params.year;
+    var employment = req.body;
+
+    console.log(Date() + " - PUT /employments-by-status/" +  + country + "/" + year);
 
     if (country != employment.country) {
         res.sendStatus(409);
         console.warn(Date() + " - Hacking attempt!");
-        return;
+        return 1;
     }
 
     employments = employments.map((c) => {
-        if (c.country == employment.country)
+        if (c.country == employment.country && c.year == employment.year)
             return employment;
         else
             return c;
@@ -456,6 +546,9 @@ app.put(BASE_API_PATH_EMPLOYMENTS + "/:country", (req, res) => {
 
     res.sendStatus(200);
 });
+
+
+
 
 app.listen(port, () => {
     console.log("Server ready on port: " + port + "!")
