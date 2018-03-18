@@ -119,7 +119,7 @@ app.get(BASE_API_PATH_EMPLOYMENTS + "/loadInitialData", (req, res) => {
     });
 });
 
-//Base de datos unemployments
+//DB unemployments
 app.get(BASE_API_PATH_UNEMPLOYMENTS + "/loadInitialData", (req, res) => {
     dbUn.find({}, (err, unemployments) => {
         if (err) {
@@ -448,6 +448,164 @@ app.put(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
             return c;
     });
 
+    res.sendStatus(200);
+});
+
+
+//PARTE ESTATICA UNEMPLOYMENT:
+
+//Get todos los datos
+app.get(BASE_API_PATH_UNEMPLOYMENTS, (req, res) => {
+    dbUn.find({}, function(err, unemployment) {
+        console.log("Get de todos los datos")
+        console.log(Date() + " - GET /unemployments");
+        res.send(unemployment)
+    });
+});
+
+//Get de una ciudad en concreto
+app.get(BASE_API_PATH_UNEMPLOYMENTS + "/:country", (req, res) => {
+    var country = req.params.country;
+    dbUn.find({ country: country }, function(err, unemployments) {
+        console.log("Get de una ciudad en concreto")
+        console.log(Date() + " - GET /unemployments/" + country);
+        res.send(unemployments)
+    });
+});
+
+//Get de un año en concreto NO FUNCIONA
+app.get(BASE_API_PATH_UNEMPLOYMENTS + "/:year", (req, res) => {
+    var year = req.params.year;
+    dbUn.find({ year: year }, function(err, unemployments) {
+        console.log("Get de un año en concreto")
+        console.log(Date() + " - GET /unemployments/" + year);
+        res.send(unemployments)
+    });
+});
+
+//Get de una ciudad y año
+app.get(BASE_API_PATH_UNEMPLOYMENTS + "/:country" + "/:year", (req, res) => {
+    var country = req.params.country;
+    var year = req.params.year;
+    dbUn.find({ $and: [{ country: country }, { year: Number(year) }] }, function(err, unemployments) {
+        console.log("Get de una ciudad y año")
+        console.log(Date() + " - GET /unemployments/" + country + "/" + year);
+        res.send(unemployments)
+    });
+});
+
+//Delete all
+app.delete(BASE_API_PATH_UNEMPLOYMENTS, (req, res) => {
+
+    dbUn.remove({}, { multi: true }, function(err, numRemoved) {
+        res.sendStatus(200);
+        console.log(Date() + " - DELETE /unemployments");
+        console.log(numRemoved + " elements removed.")
+    });
+});
+
+//Delete country
+app.delete(BASE_API_PATH_UNEMPLOYMENTS + "/:country", (req, res) => {
+    var country = req.params.country;
+    dbUn.remove({ country: country }, { multi: true }, function(err, numRemoved) {
+        res.sendStatus(200);
+        console.log(Date() + " - DELETE /unemployments/" + country);
+        console.log(numRemoved + "elements removed.")
+    });
+});
+
+//Delete year
+app.delete(BASE_API_PATH_UNEMPLOYMENTS + "/:year", (req, res) => {
+    var year = req.params.year;
+    dbUn.remove({ year: Number(year) }, { multi: true }, function(err, numRemoved) {
+        res.sendStatus(200);
+        console.log(Date() + " - DELETE /unemployments/" + year);
+        console.log(numRemoved + "elements removed.")
+    });
+});
+
+//Delete country and year
+app.delete(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
+    var country = req.params.country;
+    var year = req.params.year;
+    //dbEx.remove{ $and: [{ country: country }, { year: Number(year) }],{nulti:true}, function(err, numRemoved) {
+    dbUn.remove({ $and: [{ country: country }, { year: Number(year) }] }, { multi: true }, function(err, numRemoved) {
+        res.sendStatus(200);
+        console.log(Date() + " - DELETE /unemployments/" + year);
+        console.log(numRemoved + "elements removed.")
+    });
+});
+
+//POST
+app.post(BASE_API_PATH_UNEMPLOYMENTS, (req, res) => {
+    console.log(Date() + " - POST /unemployments");
+    var unemployment = req.body;
+    initialsUnemployments.push(unemployment);
+    res.sendStatus(201);
+});
+
+//POST country
+app.post(BASE_API_PATH_UNEMPLOYMENTS + "/:country", (req, res) => {
+    var country = req.params.country;
+    console.log(Date() + " - POST /unemployments" + country);
+    res.sendStatus(405);
+});
+
+//POST year
+app.post(BASE_API_PATH_UNEMPLOYMENTS + "/:year", (req, res) => {
+    var year = req.params.year;
+    console.log(Date() + " - POST /unemployments/" + year);
+    res.sendStatus(405);
+});
+
+//POST country and year
+app.post(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
+    var country = req.params.country;
+    var year = req.params.year;
+    console.log(Date() + " - POST /unemployments/" + country + "/" + year);
+    res.sendStatus(405);
+});
+
+//PUT 
+app.put(BASE_API_PATH_UNEMPLOYMENTS, (req, res) => {
+    var unemployment = req.body;
+    console.log(Date() + " - PUT /unemployments");
+    res.sendStatus(405);
+});
+
+//PUT country
+app.put(BASE_API_PATH_UNEMPLOYMENTS + "/:country", (req, res) => {
+    var country = req.params.country;
+    var unemployment = req.body;
+    console.log(Date() + " - PUT /unemployments/" + country);
+    res.sendStatus(405);
+});
+
+//PUT year
+app.put(BASE_API_PATH_UNEMPLOYMENTS + "/:year", (req, res) => {
+    var year = req.params.year;
+    var unemployment = req.body;
+    console.log(Date() + " - PUT /unemployments/" + year);
+    res.sendStatus(405);
+});
+
+//PUT ESTE ME FALTA
+app.put(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
+    var country = req.params.country;
+    var year = req.params.year;
+    var unemployment = req.body;
+    console.log(Date() + " - PUT /unemployments/" + country + "/" + year);
+    if (country != unemployment.country) {
+        res.sendStatus(409);
+        console.warn(Date() + " - Hacking attempt!");
+        return 1;
+    }
+    initialsUnemployments = initialsUnemployments.map((c) => {
+        if (c.country == unemployment.country && c.year == unemployment.year)
+            return unemployment;
+        else
+            return c;
+    });
     res.sendStatus(200);
 });
 
