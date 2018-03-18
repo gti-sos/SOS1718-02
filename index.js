@@ -151,17 +151,21 @@ app.get(BASE_API_PATH_EXPENDITURES, (req, res) => {
     });
 });
 
-//Get de una ciudad o fecha en concreto
+//Get for a city or year
 app.get(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
     if (isNaN(country)) {
         dbEx.find({ country: country }, function(err, expenditures) {
+            if (err)
+                res.send(500)
             console.log(Date() + " - GET /expenditures-per-students/" + country);
             res.send(expenditures)
         });
     }
     else {
         dbEx.find({ year: Number(country) }, function(err, expenditures) {
+            if (err)
+                res.send(500)
             console.log("Get de un año en concreto")
             console.log(Date() + " - GET /expenditures-per-students/" + country);
             res.send(expenditures)
@@ -174,6 +178,8 @@ app.get(BASE_API_PATH_EXPENDITURES + "/:country" + "/:year", (req, res) => {
     var country = req.params.country;
     var year = req.params.year;
     dbEx.find({ $and: [{ country: country }, { year: Number(year) }] }, function(err, expenditures) {
+        if (err)
+            res.send(500)
         console.log("Get de una ciudad y año")
         console.log(Date() + " - GET /expenditures-per-students/" + country + "/" + year);
         res.send(expenditures)
@@ -184,6 +190,8 @@ app.get(BASE_API_PATH_EXPENDITURES + "/:country" + "/:year", (req, res) => {
 app.delete(BASE_API_PATH_EXPENDITURES, (req, res) => {
 
     dbEx.remove({}, { multi: true }, function(err, numRemoved) {
+        if (err)
+            res.send(500)
         res.sendStatus(200);
         console.log(Date() + " - DELETE /expenditures-per-students");
         console.log(numRemoved + " elements removed.")
@@ -195,6 +203,8 @@ app.delete(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
     if (isNaN(country)) {
         dbEx.remove({ country: country }, { multi: true }, function(err, numRemoved) {
+            if (err)
+                res.send(500)
             res.sendStatus(200);
             console.log(Date() + " - DELETE /expenditures-per-students/" + country);
             console.log(numRemoved + " countries removed.")
@@ -202,6 +212,8 @@ app.delete(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     }
     else {
         dbEx.remove({ year: Number(country) }, { multi: true }, function(err, numRemoved) {
+            if (err)
+                res.send(500)
             res.sendStatus(200);
             console.log(Date() + " - DELETE /expenditures-per-students/" + country);
             console.log(numRemoved + " countries removed.")
@@ -215,6 +227,8 @@ app.delete(BASE_API_PATH_EXPENDITURES + "/:country/:year", (req, res) => {
     var year = req.params.year;
     //dbEx.remove{ $and: [{ country: country }, { year: Number(year) }],{nulti:true}, function(err, numRemoved) {
     dbEx.remove({ $and: [{ country: country }, { year: Number(year) }] }, { multi: true }, function(err, numRemoved) {
+        if (err)
+            res.send(500)
         res.sendStatus(200);
         console.log(Date() + " - DELETE /expenditures-per-students/" + year);
         console.log(numRemoved + "elements removed.")
@@ -226,6 +240,10 @@ app.post(BASE_API_PATH_EXPENDITURES, (req, res) => {
     console.log(Date() + " - POST /expenditures-per-students");
     var expenditure = req.body;
     initialsExpenditures.push(expenditure);
+    dbEx.insert({ expenditure }, function(err) {
+        if (err)
+            res.sendStatus(500)
+    });
     res.sendStatus(201);
 });
 
@@ -264,19 +282,12 @@ app.put(BASE_API_PATH_EXPENDITURES + "/:country/:year", (req, res) => {
     var country = req.params.country;
     var year = req.params.year;
     var expenditure = req.body;
-    console.log(Date() + " - PUT /expenditures-per-students/" + country + "/" + year);
-    if (country != expenditure.country) {
-        res.sendStatus(409);
-        console.warn(Date() + " - Hacking attempt!");
-        return 1;
-    }
-    initialsExpenditures = initialsExpenditures.map((c) => {
-        if (c.country == expenditure.country && c.year == expenditure.year)
-            return expenditure;
-        else
-            return c;
+    dbEx.update({ country: country }, { year: Number(year) }, {expenditure}, function(err, numReplaced) {
+        if (err)
+            res.sendStatus(500)
+        console.log(Date() + " - PUT /expenditures-per-students/" + country + "/" + year);
+        res.sendStatus(200)
     });
-    res.sendStatus(200);
 });
 
 //Unemployments----------------------------------------------------------------------------------------------------------------------->
