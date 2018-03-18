@@ -89,11 +89,8 @@ app.get(BASE_API_PATH_EXPENDITURES + "/loadInitialData", (req, res) => {
             res.sendStatus(500);
         }
         else if (expenditures.length == 0) {
-            dbEx.insert(initialsExpenditures);
-            //initialsExpenditures.push(initialsExpendituresCopy);
-            for(var i=0;i<initialsExpendituresCopy.length;i++){
-                initialsExpenditures.push(initialsExpendituresCopy[i])
-            }
+            dbEx.insert(initialsExpendituresCopy);
+            initialsExpenditures.push(initialsExpendituresCopy)
             console.log("DB initialized with " + initialsExpenditures.length + " countries.")
             res.sendStatus(200)
         }
@@ -113,10 +110,7 @@ app.get(BASE_API_PATH_EMPLOYMENTS + "/loadInitialData", (req, res) => {
         }
         else if (initialsEmployments.length == 0) {
             dbEm.insert(initialsEmploymentsCopy);
-            //initialsEmployments.push(initialsEmploymentsCopy)
-            for(var i=0;i<initialsEmploymentsCopy.length;i++){
-                initialsEmployments.push(initialsEmploymentsCopy[i])
-            }
+            initialsEmployments.push(initialsEmploymentsCopy)
             console.log("DB initialized with " + initialsEmployments.length + " countries.")
             res.sendStatus(200)
         }
@@ -135,16 +129,8 @@ app.get(BASE_API_PATH_UNEMPLOYMENTS + "/loadInitialData", (req, res) => {
             res.sendStatus(500);
         }
         else if (initialsUnemployments.length == 0) {
-<<<<<<< HEAD
-            dbUn.insert(initialsUnemployments);
-            //initialsUnemployments.push(initialsUnemploymentsCopy);
-            for(var i=0;i<initialsUnemploymentsCopy.length;i++){
-                initialsUnemployments.push(initialsUnemploymentsCopy[i])
-            }
-=======
             dbUn.insert(initialsUnemploymentsCopy);
             initialsUnemployments.push(initialsUnemploymentsCopy);
->>>>>>> 1c9112691cd451e170cdb49a312b938d9f1d7eed
             console.log("DB initialized with " + initialsUnemployments.length + " countries.")
             res.sendStatus(200)
         }
@@ -296,12 +282,18 @@ app.put(BASE_API_PATH_EXPENDITURES + "/:country/:year", (req, res) => {
     var country = req.params.country;
     var year = req.params.year;
     var expenditure = req.body;
-    dbEx.update({ country: country }, { year: Number(year) }, {expenditure}, function(err, numReplaced) {
-        if (err)
-            res.sendStatus(500)
-        console.log(Date() + " - PUT /expenditures-per-students/" + country + "/" + year);
-        res.sendStatus(200)
+    
+    console.log(Date() + " - POST /contacts/" + country + "/" + year);
+    
+    dbEx.update({ $and: [{ country: country }, { year: Number(year) }]}, expenditure, (err, numUpdated)=>{
+        console.log("Updated: " + numUpdated);
     });
+    if (country != expenditure.country) {
+        res.sendStatus(409);
+        console.warn(Date() + " - Hacking attempt!");
+        return 1;
+    }
+    res.sendStatus(200);
 });
 
 //Unemployments----------------------------------------------------------------------------------------------------------------------->
@@ -462,7 +454,6 @@ app.put(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
 
 
 //PARTE ESTATICA UNEMPLOYMENT:
-
 //Get todos los datos
 app.get(BASE_API_PATH_UNEMPLOYMENTS, (req, res) => {
     dbUn.find({}, function(err, unemployment) {
@@ -621,8 +612,12 @@ app.put(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
 //employments-by-status--------------------------------------------------------------------------------------------------------------->
 //GET
 app.get(BASE_API_PATH_EMPLOYMENTS, (req, res) => {
-    console.log(Date() + " - GET /employments-by-status");
-    res.send(initialsEmployments);
+    dbEx.find({}, function(err, employment) {
+        console.log("Get de todos los datos")
+        console.log(Date() + " - GET /expenditures-per-students");
+        //res.send(employment)
+        res.send(initialsEmployments)
+    });
 });
 
 app.get(BASE_API_PATH_EMPLOYMENTS + "/:country", (req, res) => {
