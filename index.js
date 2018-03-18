@@ -22,6 +22,13 @@ var initialsEmployments = [
     { "country": "romania", "year": 2005, "total-self-employed": 21.39999962, "total-salaried-employed": 64.69999695, "total-contributing-family-worker": 13.80000019 }
 ];
 
+var initialsEmploymentsCopy = [
+    { "country": "croatia", "year": 1998, "total-self-employed": 18.5, "total-salaried-employed": 75.30000305, "total-contributing-family-worker": 6.19999980926514 },
+    { "country": "cyprus", "year": 2005, "total-self-employed": 20.5, "total-salaried-employed": 76.80000305, "total-contributing-family-worker": 2.799999952 },
+    { "country": "romania", "year": 1998, "total-self-employed": 22.60000038, "total-salaried-employed": 59.70000076, "total-contributing-family-worker": 17.79999924 },
+    { "country": "romania", "year": 2005, "total-self-employed": 21.39999962, "total-salaried-employed": 64.69999695, "total-contributing-family-worker": 13.80000019 }
+];
+
 var initialsUnemployments = [
     { "country": "austria", "year": 1998, "young-unemployment": 1.600000024, "adult-unemployment": 1.600000024, "old-unemployment": 1.600000024, "long-term-unemployment": 1.600000024 },
     { "country": "belgium", "year": 2003, "young-unemployment": 3.5, "adult-unemployment": 3.5, "old-unemployment": 3.5, "long-term-unemployment": 3.5 },
@@ -29,7 +36,21 @@ var initialsUnemployments = [
     { "country": "croatia", "year": 2003, "young-unemployment": 8, "adult-unemployment": 8, "old-unemployment": 8, "long-term-unemployment": 8 }
 ];
 
+var initialsUnemploymentsCopy = [
+    { "country": "austria", "year": 1998, "young-unemployment": 1.600000024, "adult-unemployment": 1.600000024, "old-unemployment": 1.600000024, "long-term-unemployment": 1.600000024 },
+    { "country": "belgium", "year": 2003, "young-unemployment": 3.5, "adult-unemployment": 3.5, "old-unemployment": 3.5, "long-term-unemployment": 3.5 },
+    { "country": "bulgaria", "year": 1998, "young-unemployment": 8, "adult-unemployment": 8, "old-unemployment": 8, "long-term-unemployment": 8 },
+    { "country": "croatia", "year": 2003, "young-unemployment": 8, "adult-unemployment": 8, "old-unemployment": 8, "long-term-unemployment": 8 }
+];
+
 var initialsExpenditures = [
+    { "country": "austria", "year": 1998, "primary": 27.8599, "secundary": 27.46764, "tertiery": 49.0146 },
+    { "country": "belgium", "year": 2005, "primary": 19.83316, "secundary": 32.84222, "tertiery": 34.572 },
+    { "country": "romania", "year": 1998, "primary": 19.7114, "secundary": 27.59638, "tertiery": 25.89706 },
+    { "country": "portugal", "year": 2005, "primary": 22.47196, "secundary": 33.54664, "tertiery": 26.26249 }
+];
+
+var initialsExpendituresCopy = [
     { "country": "austria", "year": 1998, "primary": 27.8599, "secundary": 27.46764, "tertiery": 49.0146 },
     { "country": "belgium", "year": 2005, "primary": 19.83316, "secundary": 32.84222, "tertiery": 34.572 },
     { "country": "romania", "year": 1998, "primary": 19.7114, "secundary": 27.59638, "tertiery": 25.89706 },
@@ -105,8 +126,9 @@ app.get(BASE_API_PATH_UNEMPLOYMENTS + "/loadInitialData", (req, res) => {
             console.error("Error accesing DB");
             res.sendStatus(500);
         }
-        else if (unemployments.length == 0) {
+        else if (initialsUnemployments.length == 0) {
             dbUn.insert(initialsUnemployments);
+            initialsUnemployments.push(initialsUnemployments2);
             console.log("DB initialized with " + initialsUnemployments.length + " countries.")
             res.sendStatus(200)
         }
@@ -116,21 +138,6 @@ app.get(BASE_API_PATH_UNEMPLOYMENTS + "/loadInitialData", (req, res) => {
         }
     });
 });
-
-/*dbEx.find({}, (err, expenditures) => {
-    if (err) {
-        console.error("Error accesing DB");
-        process.exit(1);
-    }
-    if (expenditures.length == 0) {
-        console.log("Empty DB");
-        dbEx.insert(initialsExpenditures);
-    }
-    else {
-        console.log("DB initialized with " + expenditures.length + " contacts")
-    }
-});
-*/
 
 //EXPENDITURES------------------------------------------------------------------------------------------------------------------------>
 //Get todos los datos
@@ -204,7 +211,7 @@ app.delete(BASE_API_PATH_EXPENDITURES + "/:year", (req, res) => {
 });
 
 //Delete country and year
-app.delete(BASE_API_PATH_EXPENDITURES + "/:year", (req, res) => {
+app.delete(BASE_API_PATH_EXPENDITURES + "/:country/:year", (req, res) => {
     var country = req.params.country;
     var year = req.params.year;
     //dbEx.remove{ $and: [{ country: country }, { year: Number(year) }],{nulti:true}, function(err, numRemoved) {
@@ -256,9 +263,7 @@ app.put(BASE_API_PATH_EXPENDITURES, (req, res) => {
 app.put(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
     var expenditure = req.body;
-
     console.log(Date() + " - PUT /expenditures-per-students/" + country);
-
     res.sendStatus(405);
 });
 
@@ -266,9 +271,7 @@ app.put(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
 app.put(BASE_API_PATH_EXPENDITURES + "/:year", (req, res) => {
     var year = req.params.year;
     var expenditure = req.body;
-
     console.log(Date() + " - PUT /expenditures-per-students/" + year);
-
     res.sendStatus(405);
 });
 
@@ -277,22 +280,18 @@ app.put(BASE_API_PATH_EXPENDITURES + "/:country/:year", (req, res) => {
     var country = req.params.country;
     var year = req.params.year;
     var expenditure = req.body;
-
     console.log(Date() + " - PUT /expenditures-per-students/" + country + "/" + year);
-
     if (country != expenditure.country) {
         res.sendStatus(409);
         console.warn(Date() + " - Hacking attempt!");
         return 1;
     }
-
     initialsExpenditures = initialsExpenditures.map((c) => {
         if (c.country == expenditure.country && c.year == expenditure.year)
             return expenditure;
         else
             return c;
     });
-
     res.sendStatus(200);
 });
 
