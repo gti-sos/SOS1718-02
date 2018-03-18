@@ -90,7 +90,10 @@ app.get(BASE_API_PATH_EXPENDITURES + "/loadInitialData", (req, res) => {
         }
         else if (expenditures.length == 0) {
             dbEx.insert(initialsExpenditures);
-            initialsExpenditures.push(initialsExpendituresCopy);
+            //initialsExpenditures.push(initialsExpendituresCopy);
+            for(var i=0;i<initialsExpendituresCopy.length;i++){
+                initialsExpenditures.push(initialsExpendituresCopy[i])
+            }
             console.log("DB initialized with " + initialsExpenditures.length + " countries.")
             res.sendStatus(200)
         }
@@ -110,7 +113,10 @@ app.get(BASE_API_PATH_EMPLOYMENTS + "/loadInitialData", (req, res) => {
         }
         else if (initialsEmployments.length == 0) {
             dbEm.insert(initialsEmploymentsCopy);
-            initialsEmployments.push(initialsEmploymentsCopy)
+            //initialsEmployments.push(initialsEmploymentsCopy)
+            for(var i=0;i<initialsEmploymentsCopy.length;i++){
+                initialsEmployments.push(initialsEmploymentsCopy[i])
+            }
             console.log("DB initialized with " + initialsEmployments.length + " countries.")
             res.sendStatus(200)
         }
@@ -130,7 +136,10 @@ app.get(BASE_API_PATH_UNEMPLOYMENTS + "/loadInitialData", (req, res) => {
         }
         else if (initialsUnemployments.length == 0) {
             dbUn.insert(initialsUnemployments);
-            initialsUnemployments.push(initialsUnemploymentsCopy);
+            //initialsUnemployments.push(initialsUnemploymentsCopy);
+            for(var i=0;i<initialsUnemploymentsCopy.length;i++){
+                initialsUnemployments.push(initialsUnemploymentsCopy[i])
+            }
             console.log("DB initialized with " + initialsUnemployments.length + " countries.")
             res.sendStatus(200)
         }
