@@ -90,6 +90,7 @@ app.get(BASE_API_PATH_EXPENDITURES + "/loadInitialData", (req, res) => {
         }
         else if (expenditures.length == 0) {
             dbEx.insert(initialsExpenditures);
+            initialsExpenditures.push(initialsExpendituresCopy);
             console.log("DB initialized with " + initialsExpenditures.length + " countries.")
             res.sendStatus(200)
         }
@@ -108,7 +109,8 @@ app.get(BASE_API_PATH_EMPLOYMENTS + "/loadInitialData", (req, res) => {
             res.sendStatus(500);
         }
         else if (employments.length == 0) {
-            dbEm.insert(initialsEmployments);
+            dbEm.insert(initialsEmploymentsCopy);
+            initialsEmployments.push(initialsEmploymentsCopy)
             console.log("DB initialized with " + initialsEmployments.length + " countries.")
             res.sendStatus(200)
         }
@@ -128,7 +130,7 @@ app.get(BASE_API_PATH_UNEMPLOYMENTS + "/loadInitialData", (req, res) => {
         }
         else if (initialsUnemployments.length == 0) {
             dbUn.insert(initialsUnemployments);
-            initialsUnemployments.push(initialsUnemployments2);
+            initialsUnemployments.push(initialsUnemploymentsCopy);
             console.log("DB initialized with " + initialsUnemployments.length + " countries.")
             res.sendStatus(200)
         }
