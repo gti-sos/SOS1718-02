@@ -3,6 +3,7 @@
 {"country":"belgium","year":2005,"primary":19.83316,"secundary":32.84222,"tertiery":34.572,"_id":"P4e46NVizCf4Q6zn"}
 {"$$deleted":true,"_id":"4NbiXuWVOlmz4hUF"}
 {"$$deleted":true,"_id":"DSF6hfWQgI4A0rFH"}
+<<<<<<< HEAD
 {"$$deleted":true,"_id":"P4e46NVizCf4Q6zn"}
 {"country":"austria","year":1998,"primary":27.8599,"secundary":27.46764,"tertiery":49.0146,"_id":"8Ffko0pqY96Ief82"}
 {"country":"belgium","year":2005,"primary":19.83316,"secundary":32.84222,"tertiery":34.572,"_id":"uvd9i9ZWfU8fdn1t"}
@@ -12,3 +13,5 @@
 {"country":"belgium","year":2005,"primary":19.83316,"secundary":32.84222,"tertiery":34.572,"_id":"2wiGOES5rF9t6kpE"}
 {"country":"romania","year":1998,"primary":19.7114,"secundary":27.59638,"tertiery":25.89706,"_id":"NaSfMrVchm5yzYDf"}
 {"country":"portugal","year":2005,"primary":22.47196,"secundary":33.54664,"tertiery":26.26249,"_id":"gZsbyZcYCqg5nooh"}
+=======
+>>>>>>> 1c9112691cd451e170cdb49a312b938d9f1d7eed

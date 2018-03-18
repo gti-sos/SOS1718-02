@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {"country":"romania","year":2005,"total-self-employed":21.39999962,"total-salaried-employed":64.69999695,"total-contributing-family-worker":13.80000019,"_id":"04saTOEEIieSayKC"}
 {"country":"croatia","year":1998,"total-self-employed":18.5,"total-salaried-employed":75.30000305,"total-contributing-family-worker":6.19999980926514,"_id":"12Cj1RRFpOUezQzk"}
 {"country":"romania","year":1998,"total-self-employed":22.60000038,"total-salaried-employed":59.70000076,"total-contributing-family-worker":17.79999924,"_id":"2ef7ybfIFgcS5tHm"}
@@ -9,9 +10,13 @@
 {"country":"cyprus","year":2005,"total-self-employed":20.5,"total-salaried-employed":76.80000305,"total-contributing-family-worker":2.799999952,"_id":"H1hqC9mFxpNpdgns"}
 {"country":"croatia","year":1998,"total-self-employed":18.5,"total-salaried-employed":75.30000305,"total-contributing-family-worker":6.19999980926514,"_id":"H9VIhQqwfJCiiHZG"}
 {"country":"croatia","year":1998,"total-self-employed":18.5,"total-salaried-employed":75.30000305,"total-contributing-family-worker":6.19999980926514,"_id":"IkayI1LhoosgCinP"}
+=======
+{"country":"cyprus","year":2005,"total-self-employed":20.5,"total-salaried-employed":76.80000305,"total-contributing-family-worker":2.799999952,"_id":"6R1WNbhci3GgEJha"}
+>>>>>>> 1c9112691cd451e170cdb49a312b938d9f1d7eed
 {"country":"romania","year":1998,"total-self-employed":22.60000038,"total-salaried-employed":59.70000076,"total-contributing-family-worker":17.79999924,"_id":"J2PSzYINUOsA0kvC"}
 {"country":"romania","year":1998,"total-self-employed":22.60000038,"total-salaried-employed":59.70000076,"total-contributing-family-worker":17.79999924,"_id":"JDy9nMMfGPEBnw9y"}
 {"country":"croatia","year":1998,"total-self-employed":18.5,"total-salaried-employed":75.30000305,"total-contributing-family-worker":6.19999980926514,"_id":"ME09zFgMeu3ZWDBP"}
+<<<<<<< HEAD
 {"country":"romania","year":2005,"total-self-employed":21.39999962,"total-salaried-employed":64.69999695,"total-contributing-family-worker":13.80000019,"_id":"MwELQjfBjB5qLUrB"}
 {"country":"croatia","year":1998,"total-self-employed":18.5,"total-salaried-employed":75.30000305,"total-contributing-family-worker":6.19999980926514,"_id":"O32BfDmQ71dR5W0A"}
 {"country":"romania","year":2005,"total-self-employed":21.39999962,"total-salaried-employed":64.69999695,"total-contributing-family-worker":13.80000019,"_id":"OPWoxRNcoXwFMKwB"}
@@ -37,4 +42,10 @@
 {"country":"romania","year":1998,"total-self-employed":22.60000038,"total-salaried-employed":59.70000076,"total-contributing-family-worker":17.79999924,"_id":"uJNXfXJnz5JfL3bu"}
 {"country":"cyprus","year":2005,"total-self-employed":20.5,"total-salaried-employed":76.80000305,"total-contributing-family-worker":2.799999952,"_id":"uM0mMVzBHBuSWjnc"}
 {"country":"romania","year":1998,"total-self-employed":22.60000038,"total-salaried-employed":59.70000076,"total-contributing-family-worker":17.79999924,"_id":"uhtUuL74t8H4dtMA"}
+=======
+{"country":"croatia","year":1998,"total-self-employed":18.5,"total-salaried-employed":75.30000305,"total-contributing-family-worker":6.19999980926514,"_id":"O32BfDmQ71dR5W0A"}
+{"country":"romania","year":2005,"total-self-employed":21.39999962,"total-salaried-employed":64.69999695,"total-contributing-family-worker":13.80000019,"_id":"OPWoxRNcoXwFMKwB"}
+{"country":"cyprus","year":2005,"total-self-employed":20.5,"total-salaried-employed":76.80000305,"total-contributing-family-worker":2.799999952,"_id":"PjK70iMJpsBIcPvX"}
+{"country":"romania","year":1998,"total-self-employed":22.60000038,"total-salaried-employed":59.70000076,"total-contributing-family-worker":17.79999924,"_id":"ZVolJRP1SLClx26X"}
+>>>>>>> 1c9112691cd451e170cdb49a312b938d9f1d7eed
 {"country":"romania","year":2005,"total-self-employed":21.39999962,"total-salaried-employed":64.69999695,"total-contributing-family-worker":13.80000019,"_id":"xItQbepq8wExoSQx"}
