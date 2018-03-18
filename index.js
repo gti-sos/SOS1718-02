@@ -110,18 +110,14 @@ app.get(BASE_API_PATH_UNEMPLOYMENTS + "/loadInitialData", (req, res) => {
             console.error("Error accesing DB");
             res.sendStatus(500);
         }
-        else {
-            dbUn.remove({}, { multi: true }, function(err, numRemoved) {
-                if (err) {
-                    console.error("Something wrong :(");
-                    res.sendStatus(500);
-                }
-                else {
-                    console.log(Date() + " - DB Deleted " + numRemoved + " removed.");
-                    dbUn.insert(initialsUnemployments);
-                    res.sendStatus(200);
-                }
-            });
+        else if (unemployments.length == 0) {
+            dbUn.insert(initialsUnemployments);
+            console.log("DB initialized with " + initialsUnemployments.length + " countries.")
+            res.sendStatus(200)
+        }
+        else{
+            console.log("DB initialized with " + unemployments.length + " countries.")
+            res.sendStatus(200);
         }
     });
 });
