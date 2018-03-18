@@ -151,24 +151,23 @@ app.get(BASE_API_PATH_EXPENDITURES, (req, res) => {
     });
 });
 
-//Get de una ciudad en concreto
+//Get de una ciudad o fecha en concreto
 app.get(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
-    dbEx.find({ country: country }, function(err, expenditures) {
-        console.log("Get de una ciudad en concreto")
-        console.log(Date() + " - GET /expenditures-per-students/" + country);
-        res.send(expenditures)
-    });
-});
-
-//Get de un año en concreto NO FUNCIONA
-app.get(BASE_API_PATH_EXPENDITURES + "/:year", (req, res) => {
-    var year = req.params.year;
-    dbEx.find({ year: year }, function(err, expenditures) {
-        console.log("Get de un año en concreto")
-        console.log(Date() + " - GET /expenditures-per-students/" + year);
-        res.send(expenditures)
-    });
+    console.log("Esta ciudad: " + req.params.country)
+    if (isNaN(country)) {
+        dbEx.find({ country: country }, function(err, expenditures) {
+            console.log(Date() + " - GET /expenditures-per-students/" + country);
+            res.send(expenditures)
+        });
+    }
+    else {
+        dbEx.find({ year: Number(country) }, function(err, expenditures) {
+            console.log("Get de un año en concreto")
+            console.log(Date() + " - GET /expenditures-per-students/" + country);
+            res.send(expenditures)
+        });
+    }
 });
 
 //Get de una ciudad y año
@@ -198,17 +197,17 @@ app.delete(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     dbEx.remove({ country: country }, { multi: true }, function(err, numRemoved) {
         res.sendStatus(200);
         console.log(Date() + " - DELETE /expenditures-per-students/" + country);
-        console.log(numRemoved + "elements removed.")
+        console.log(numRemoved + " countries removed.")
     });
 });
 
-//Delete year
+//Delete year NO FUNCIONA
 app.delete(BASE_API_PATH_EXPENDITURES + "/:year", (req, res) => {
     var year = req.params.year;
     dbEx.remove({ year: Number(year) }, { multi: true }, function(err, numRemoved) {
         res.sendStatus(200);
         console.log(Date() + " - DELETE /expenditures-per-students/" + year);
-        console.log(numRemoved + "elements removed.")
+        console.log(numRemoved + " years removed.")
     });
 });
 
