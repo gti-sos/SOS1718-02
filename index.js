@@ -67,7 +67,7 @@ app.get(BASE_API_PATH_EXPENDITURES + "/loadInitialData", (req, res) => {
             console.error("Error accesing DB");
             res.sendStatus(500);
         }
-        if (expenditures.length == 0) {
+        else if (expenditures.length == 0) {
             dbEx.insert(initialsExpenditures);
             console.log("DB initialized with " + initialsExpenditures.length + " countries.")
             res.sendStatus(200)
@@ -79,26 +79,21 @@ app.get(BASE_API_PATH_EXPENDITURES + "/loadInitialData", (req, res) => {
     });
 });
 
-
+//DB Employments
 app.get(BASE_API_PATH_EMPLOYMENTS + "/loadInitialData", (req, res) => {
-    //DB employments
     dbEm.find({}, (err, employments) => {
         if (err) {
             console.error("Error accesing DB");
             res.sendStatus(500);
         }
-        else {
-            dbEm.remove({}, { multi: true }, function(err, numRemoved) {
-                if (err) {
-                    console.error("Something wrong :(");
-                    res.sendStatus(500);
-                }
-                else {
-                    console.log(Date() + " - DB Deleted " + numRemoved + " removed.");
-                    dbEm.insert(initialsEmployments);
-                    res.sendStatus(200);
-                }
-            });
+        else if (employments.length == 0) {
+            dbEm.insert(initialsEmployments);
+            console.log("DB initialized with " + initialsEmployments.length + " countries.")
+            res.sendStatus(200)
+        }
+        else{
+            console.log("DB initialized with " + employments.length + " countries.")
+            res.sendStatus(200);
         }
     });
 });
