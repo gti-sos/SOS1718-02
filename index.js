@@ -108,7 +108,7 @@ app.get(BASE_API_PATH_EMPLOYMENTS + "/loadInitialData", (req, res) => {
             console.error("Error accesing DB");
             res.sendStatus(500);
         }
-        else if (employments.length == 0) {
+        else if (initialsEmployments.length == 0) {
             dbEm.insert(initialsEmploymentsCopy);
             initialsEmployments.push(initialsEmploymentsCopy)
             console.log("DB initialized with " + initialsEmployments.length + " countries.")
