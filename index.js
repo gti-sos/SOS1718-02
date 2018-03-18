@@ -94,7 +94,7 @@ app.get(BASE_API_PATH_EXPENDITURES + "/loadInitialData", (req, res) => {
             console.log("DB initialized with " + initialsExpenditures.length + " countries.")
             res.sendStatus(200)
         }
-        else{
+        else {
             console.log("DB initialized with " + expenditures.length + " countries.")
             res.sendStatus(200);
         }
@@ -114,7 +114,7 @@ app.get(BASE_API_PATH_EMPLOYMENTS + "/loadInitialData", (req, res) => {
             console.log("DB initialized with " + initialsEmployments.length + " countries.")
             res.sendStatus(200)
         }
-        else{
+        else {
             console.log("DB initialized with " + employments.length + " countries.")
             res.sendStatus(200);
         }
@@ -129,12 +129,12 @@ app.get(BASE_API_PATH_UNEMPLOYMENTS + "/loadInitialData", (req, res) => {
             res.sendStatus(500);
         }
         else if (initialsUnemployments.length == 0) {
-            dbUn.insert(initialsUnemployments);
+            dbUn.insert(initialsUnemploymentsCopy);
             initialsUnemployments.push(initialsUnemploymentsCopy);
             console.log("DB initialized with " + initialsUnemployments.length + " countries.")
             res.sendStatus(200)
         }
-        else{
+        else {
             console.log("DB initialized with " + unemployments.length + " countries.")
             res.sendStatus(200);
         }
@@ -154,7 +154,6 @@ app.get(BASE_API_PATH_EXPENDITURES, (req, res) => {
 //Get de una ciudad o fecha en concreto
 app.get(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
-    console.log("Esta ciudad: " + req.params.country)
     if (isNaN(country)) {
         dbEx.find({ country: country }, function(err, expenditures) {
             console.log(Date() + " - GET /expenditures-per-students/" + country);
@@ -191,24 +190,23 @@ app.delete(BASE_API_PATH_EXPENDITURES, (req, res) => {
     });
 });
 
-//Delete country
+//Delete country or year
 app.delete(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
-    dbEx.remove({ country: country }, { multi: true }, function(err, numRemoved) {
-        res.sendStatus(200);
-        console.log(Date() + " - DELETE /expenditures-per-students/" + country);
-        console.log(numRemoved + " countries removed.")
-    });
-});
-
-//Delete year NO FUNCIONA
-app.delete(BASE_API_PATH_EXPENDITURES + "/:year", (req, res) => {
-    var year = req.params.year;
-    dbEx.remove({ year: Number(year) }, { multi: true }, function(err, numRemoved) {
-        res.sendStatus(200);
-        console.log(Date() + " - DELETE /expenditures-per-students/" + year);
-        console.log(numRemoved + " years removed.")
-    });
+    if (isNaN(country)) {
+        dbEx.remove({ country: country }, { multi: true }, function(err, numRemoved) {
+            res.sendStatus(200);
+            console.log(Date() + " - DELETE /expenditures-per-students/" + country);
+            console.log(numRemoved + " countries removed.")
+        });
+    }
+    else {
+        dbEx.remove({ year: Number(country) }, { multi: true }, function(err, numRemoved) {
+            res.sendStatus(200);
+            console.log(Date() + " - DELETE /expenditures-per-students/" + country);
+            console.log(numRemoved + " countries removed.")
+        });
+    }
 });
 
 //Delete country and year
@@ -231,17 +229,10 @@ app.post(BASE_API_PATH_EXPENDITURES, (req, res) => {
     res.sendStatus(201);
 });
 
-//POST country
+//POST country or year
 app.post(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
     console.log(Date() + " - POST /expenditures-per-students" + country);
-    res.sendStatus(405);
-});
-
-//POST year
-app.post(BASE_API_PATH_EXPENDITURES + "/:year", (req, res) => {
-    var year = req.params.year;
-    console.log(Date() + " - POST /expenditures-per-students/" + year);
     res.sendStatus(405);
 });
 
@@ -260,19 +251,11 @@ app.put(BASE_API_PATH_EXPENDITURES, (req, res) => {
     res.sendStatus(405);
 });
 
-//PUT country
+//PUT country or year
 app.put(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
     var country = req.params.country;
     var expenditure = req.body;
     console.log(Date() + " - PUT /expenditures-per-students/" + country);
-    res.sendStatus(405);
-});
-
-//PUT year
-app.put(BASE_API_PATH_EXPENDITURES + "/:year", (req, res) => {
-    var year = req.params.year;
-    var expenditure = req.body;
-    console.log(Date() + " - PUT /expenditures-per-students/" + year);
     res.sendStatus(405);
 });
 
