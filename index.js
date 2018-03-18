@@ -67,19 +67,14 @@ app.get(BASE_API_PATH_EXPENDITURES + "/loadInitialData", (req, res) => {
             console.error("Error accesing DB");
             res.sendStatus(500);
         }
-        else {
-            dbEx.remove({}, { multi: true }, function(err, numRemoved) {
-                if (err) {
-                    console.error("Something wrong :(");
-                    res.sendStatus(500);
-                }
-                else {
-                    console.log(Date() + " - DB Deleted " + numRemoved + " removed.");
-                    dbEx.insert(initialsExpenditures);
-                    console.log("DB initialized with " + initialsExpenditures.length + " countries.")
-                    res.sendStatus(200);
-                }
-            });
+        if (expenditures.length == 0) {
+            dbEx.insert(initialsExpenditures);
+            console.log("DB initialized with " + initialsExpenditures.length + " countries.")
+            res.sendStatus(200)
+        }
+        else{
+            console.log("DB initialized with " + expenditures.length + " countries.")
+            res.sendStatus(200);
         }
     });
 });
