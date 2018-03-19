@@ -469,14 +469,14 @@ app.delete(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
 app.post(BASE_API_PATH_UNEMPLOYMENTS, (req, res) => {
     console.log(Date() + " - POST /unemployments");
     var unemployment = req.body;
-    
+
     initialsUnemployments.push(unemployment);
 
     /*dbUn.insert({}, function(err, unemployment) {
         if (err)
             res.sendStatus(500)
     });*/
-    
+
     res.sendStatus(201);
 });
 
@@ -613,7 +613,7 @@ app.get(BASE_API_PATH_EMPLOYMENTS + "/:country/:year", (req, res) => {
 //DELETE all
 app.delete(BASE_API_PATH_EMPLOYMENTS, (req, res) => {
     console.log(Date() + " - DELETE /employments");
-    
+
     initialsEmployments = [];
 
     dbEm.remove({}, { multi: true }, function(err, numRemoved) {
