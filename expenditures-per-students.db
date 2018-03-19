@@ -1,4 +1,1 @@
-{"country":"portugal","year":2005,"primary":22.47196,"secundary":33.54664,"tertiery":26.26249,"_id":"3SbpSYRY68bQPFUh"}
-{"country":"austria","year":1998,"primary":27.8599,"secundary":27.46764,"tertiery":49.0146,"_id":"OjaCZx6g4r0lfFQZ"}
-{"country":"romania","year":1998,"primary":19.7114,"secundary":27.59638,"tertiery":25.89706,"_id":"XhUbq20yZRLmNKi2"}
-{"country":"belgium","year":2005,"primary":19.83316,"secundary":32.84222,"tertiery":34.572,"_id":"jCpMaRSBRvVH3jkz"}
+{"expenditure":{"country":"portugal","year":2005,"primary":22.47196,"secundary":33.54664,"tertiery":26.26249},"_id":"HqxY0U6RVY0lIGW6"}
