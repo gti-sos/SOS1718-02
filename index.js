@@ -474,7 +474,7 @@ app.get(BASE_API_PATH_UNEMPLOYMENTS + "/:country", (req, res) => {
 });
 
 //Get de un año en concreto NO FUNCIONA
-app.get(BASE_API_PATH_UNEMPLOYMENTS + "/:year", (req, res) => {
+app.get(BASE_API_PATH_UNEMPLOYMENTS + "/:/:year", (req, res) => {
     var year = req.params.year;
     dbUn.find({ year: year }, function(err, unemployments) {
         console.log("Get de un año en concreto")
