@@ -1,11 +1,4 @@
-<<<<<<< HEAD
 {"country":"austria","year":1998,"young-unemployment":1.600000024,"adult-unemployment":1.600000024,"old-unemployment":1.600000024,"long-term-unemployment":1.600000024,"_id":"EAdY5sMhf6C0vBS9"}
 {"country":"croatia","year":2003,"young-unemployment":8,"adult-unemployment":8,"old-unemployment":8,"long-term-unemployment":8,"_id":"IuVJxCuX97Y04l60"}
 {"country":"bulgaria","year":1998,"young-unemployment":8,"adult-unemployment":8,"old-unemployment":8,"long-term-unemployment":8,"_id":"hzS1pXOEctibkqyS"}
 {"country":"belgium","year":2003,"young-unemployment":3.5,"adult-unemployment":3.5,"old-unemployment":3.5,"long-term-unemployment":3.5,"_id":"vv4IWmS7jrBX0vwz"}
-=======
-{"country":"bulgaria","year":1998,"young-unemployment":8,"adult-unemployment":8,"old-unemployment":8,"long-term-unemployment":8,"_id":"GN0KdrqlEaqRclVe"}
-{"country":"austria","year":1998,"young-unemployment":0,"adult-unemployment":0,"old-unemployment":0,"long-term-unemployment":0,"_id":"QUXu42s4b0nFpk8d"}
-{"country":"croatia","year":2003,"young-unemployment":1,"adult-unemployment":1,"old-unemployment":1,"long-term-unemployment":1,"_id":"fHxGV0w3CCIx3zS1"}
-{"country":"belgium","year":2003,"young-unemployment":3.5,"adult-unemployment":3.5,"old-unemployment":3.5,"long-term-unemployment":3.5,"_id":"nSxnFplMxtsMxmZH"}
->>>>>>> 608cdf048e0727940d1c30f6683149bd95659458
