@@ -58,6 +58,7 @@ app.get("/hello", (req, res) => {
     res.send("Hello World");
 });
 
+//Reload databases
 app.get(BASE_API_PATH + "/load", (req, res) => {
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
@@ -88,6 +89,7 @@ app.get(BASE_API_PATH + "/load", (req, res) => {
     });
 });
 
+//GET all
 app.get(BASE_API_PATH_EXPENDITURES, (req, res) => {
     console.log(Date() + " - GET /expenditures");
     MongoClient.connect(url, function(err, db) {
@@ -97,11 +99,55 @@ app.get(BASE_API_PATH_EXPENDITURES, (req, res) => {
             if (err) throw err;
             //console.log(result);
             db.close();
-            res.send(result)
+            res.send(result);
         });
     });
 });
 
+//GET a city or year
+app.get(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
+    var country = req.params.country;
+    console.log(Date() + " - GET /expenditures/" + country);
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("sos1718-alc-sandbox");
+        if (isNaN(country)) {
+            dbo.collection("expenditures").find({ country: country }).toArray(function(err, result) {
+                if (err) throw err;
+                console.log(result);
+                res.send(result);
+            });
+        }
+        else {
+            dbo.collection("expenditures").find({ year: Number(country) }).toArray(function(err, result) {
+                if (err) throw err;
+                console.log(result);
+                res.send(result);
+            });
+        }
+        db.close();
+        //res.send(res) 
+    });
+});
+
+//GET a city and year
+app.get(BASE_API_PATH_EXPENDITURES + "/:country/:year", (req, res) => {
+    var country = req.params.country;
+    var year = req.params.year;
+    console.log(Date() + " - GET /expenditures/" + country + "/" + year);
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("sos1718-alc-sandbox");
+        dbo.collection("expenditures").find({ country: country, year: Number(year) }).toArray(function(err, result) {
+            if (err) throw err;
+            //console.log(result);
+            res.send(result);
+            db.close();
+        });
+    });
+});
+
+//POST
 app.post(BASE_API_PATH_EXPENDITURES, (req, res) => {
     var expenditures = req.body;
     console.log(Date() + " - POST /expenditures");
@@ -114,6 +160,24 @@ app.post(BASE_API_PATH_EXPENDITURES, (req, res) => {
             db.close();
         });
         res.sendStatus(201);
+    });
+});
+
+//PUT no funciona
+app.put(BASE_API_PATH_EXPENDITURES + "/:country" + "/:year", (req, res) => {
+    var country = req.params.country;
+    var year = req.params.year;
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("sos1718-alc-sandbox");
+        var myquery = {$and: [{ country: country},{ year: Number(year) }]};
+        var newvalues = { $set: req.body };
+        dbo.collection("expenditures").updateOne(myquery, newvalues, function(err, result) {
+            if (err) throw err;
+            console.log("1 document updated");
+            db.close();
+        });
+        res.sendStatus(200);
     });
 });
 
