@@ -29,8 +29,8 @@ MongoClient.connect(url, function(err, db) {
     dbo.createCollection("unemployments", function(err, res) {
         if (err) throw err;
         console.log("Collection created!");
-        db.close();
     });
+    db.close();
 });
 
 var initialsEmployments = [
@@ -54,96 +54,58 @@ var initialsExpenditures = [
     { "country": "portugal", "year": 2005, "primary": 22.47196, "secundary": 33.54664, "tertiery": 26.26249 }
 ];
 
-app.get("/hello", (req, res) => {
-    res.send("Hello World");
-});
+app.use("/", express.static(__dirname + "/public"));
 
-//Reload databases
-app.get(BASE_API_PATH + "/load", (req, res) => {
+//GET Unificado
+app.get("*", (req, res) => {
+    var pet = req.url;
+    var array = pet.split("/");
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
         var dbo = db.db("sos1718-alc-sandbox");
-        dbo.collection("expenditures").deleteMany(function(err, obj) {
-            if (err) throw err;
-        });
-        dbo.collection("employments").deleteMany(function(err, obj) {
-            if (err) throw err;
-        });
-        dbo.collection("unemployments").deleteMany(function(err, obj) {
-            if (err) throw err;
-        });
-        dbo.collection("expenditures").insertMany(initialsExpenditures, function(err, res) {
-            if (err) throw err;
-            console.log("Number of documents inserted: " + res.insertedCount);
-        });
-        dbo.collection("employments").insertMany(initialsEmployments, function(err, res) {
-            if (err) throw err;
-            console.log("Number of documents inserted: " + res.insertedCount);
-        });
-        dbo.collection("unemployments").insertMany(initialsUnemployments, function(err, res) {
-            if (err) throw err;
-            console.log("Number of documents inserted: " + res.insertedCount);
-        });
-        db.close();
-        res.sendStatus(418);
-    });
-});
-
-//GET all
-app.get(BASE_API_PATH_EXPENDITURES, (req, res) => {
-    console.log(Date() + " - GET /expenditures");
-    MongoClient.connect(url, function(err, db) {
         if (err) throw err;
-        var dbo = db.db("sos1718-alc-sandbox");
-        dbo.collection("expenditures").find({}).toArray(function(err, result) {
-            if (err) throw err;
-            //console.log(result);
-            db.close();
-            res.send(result);
-        });
-    });
-});
-
-//GET a city or year
-app.get(BASE_API_PATH_EXPENDITURES + "/:country", (req, res) => {
-    var country = req.params.country;
-    console.log(Date() + " - GET /expenditures/" + country);
-    MongoClient.connect(url, function(err, db) {
-        if (err) throw err;
-        var dbo = db.db("sos1718-alc-sandbox");
-        if (isNaN(country)) {
-            dbo.collection("expenditures").find({ country: country }).toArray(function(err, result) {
+        if (array.length == 4 && array[3]=="expenditures") {
+            dbo.collection("expenditures").find({}).toArray(function(err, result) {
                 if (err) throw err;
-                console.log(result);
+                db.close();
                 res.send(result);
             });
         }
-        else {
-            dbo.collection("expenditures").find({ year: Number(country) }).toArray(function(err, result) {
+        else if (array.length == 5) {
+            if (isNaN(array[4])) {
+                if (array[4] == "loadInitialData") {
+                    if (dbo.collection("expenditures").find({})) {
+                        dbo.collection("expenditures").insertMany(initialsExpenditures, function(err, res) {
+                            if (err) throw err;
+                            console.log("Number of documents inserted: " + res.insertedCount);
+                        });
+                    }
+                    res.sendStatus(200);
+                }
+                else {
+                    dbo.collection("expenditures").find({ country: array[4] }).toArray(function(err, result) {
+                        if (err) throw err;
+                        res.send(result);
+                    });
+                }
+            }
+            else {
+                dbo.collection("expenditures").find({ year: Number(array[4]) }).toArray(function(err, result) {
+                    if (err) throw err;
+                    res.send(result);
+                });
+            }
+        }
+        else if (array.length == 6) {
+            dbo.collection("expenditures").find({ country: array[4], year: Number((array[5])) }).toArray(function(err, result) {
                 if (err) throw err;
-                console.log(result);
                 res.send(result);
             });
         }
+        else{
+            res.sendStatus(400);
+        }
         db.close();
-        //res.send(res) 
-    });
-});
-
-//GET a city and year
-app.get(BASE_API_PATH_EXPENDITURES + "/:country/:year", (req, res) => {
-    var country = req.params.country;
-    var year = req.params.year;
-    console.log(Date() + " - GET /expenditures/" + country + "/" + year);
-    MongoClient.connect(url, function(err, db) {
-        if (err) throw err;
-        var dbo = db.db("sos1718-alc-sandbox");
-        dbo.collection("expenditures").find({ country: country, year: Number(year) }).toArray(function(err, result) {
-            if (err) throw err;
-            //console.log(result);
-            res.send(result);
-            db.close();
-        });
     });
 });
 
@@ -170,7 +132,7 @@ app.put(BASE_API_PATH_EXPENDITURES + "/:country" + "/:year", (req, res) => {
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
         var dbo = db.db("sos1718-alc-sandbox");
-        var myquery = {$and: [{ country: country},{ year: Number(year) }]};
+        var myquery = { $and: [{ country: country }, { year: Number(year) }] };
         var newvalues = { $set: req.body };
         dbo.collection("expenditures").updateOne(myquery, newvalues, function(err, result) {
             if (err) throw err;
@@ -178,6 +140,33 @@ app.put(BASE_API_PATH_EXPENDITURES + "/:country" + "/:year", (req, res) => {
             db.close();
         });
         res.sendStatus(200);
+    });
+});
+
+app.delete(BASE_API_PATH_EXPENDITURES + "*", (req, res) => {
+    var pet = req.url;
+    var array = pet.split("/");
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("sos1718-alc-sandbox");
+        if (err) throw err;
+        console.log(array[0]);
+        console.log(array[1]);
+        console.log(array[2]);
+        console.log(array[3]);
+        if (array.length == 4) {
+            dbo.collection("expenditures").deleteMany(function(err, obj) {
+                if (err) throw err;
+                res.sendStatus(200);
+            });
+        }
+        else if (array.length == 5) {
+            res.sendStatus(200);
+        }
+        else {
+            res.sendStatus(400);
+        }
+        db.close();
     });
 });
 
