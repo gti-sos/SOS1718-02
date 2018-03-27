@@ -195,7 +195,7 @@ app.delete("*", (req, res) => {
                 });
             }
             else {
-                dbo.collection("expenditures").deleteMany({ year: array[4] }, function(err, obj) {
+                dbo.collection("expenditures").deleteMany({ year: Number(array[4]) }, function(err, obj) {
                     if (err) throw err;
                     res.sendStatus(200);
                 });
