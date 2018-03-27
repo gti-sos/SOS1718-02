@@ -30,11 +30,16 @@ var initialsUnemployments = [
     { "country": "croatia", "year": 2003, "young-unemployment": 8, "adult-unemployment": 8, "old-unemployment": 8, "long-term-unemployment": 8 }
 ];
 
+
 var initialsExpenditures = [
     { "country": "austria", "year": 1998, "primary": 27.8599, "secundary": 27.46764, "tertiery": 49.0146 },
     { "country": "belgium", "year": 2005, "primary": 19.83316, "secundary": 32.84222, "tertiery": 34.572 },
     { "country": "romania", "year": 1998, "primary": 19.7114, "secundary": 27.59638, "tertiery": 25.89706 },
-    { "country": "portugal", "year": 2005, "primary": 22.47196, "secundary": 33.54664, "tertiery": 26.26249 }
+    { "country": "portugal", "year": 2005, "primary": 22.47196, "secundary": 33.54664, "tertiery": 26.26249 },
+    { "country": "croatia", "year": 1998, "primary": 23.11054, "secundary": 22.54006, "tertiery": 19.83316 },
+    { "country": "denmark", "year": 2003, "primary": 25.29723, "secundary": 34.75882, "tertiery": 66.72786 },
+    { "country": "france", "year": 2004, "primary": 18.42795, "secundary": 30.07212, "tertiery": 35.17949 },
+    { "country": "italy", "year": 2001, "primary": 23.71071, "secundary": 30.13383, "tertiery": 24.97742 }
 ];
 
 app.get("/hello", (req, res) => {
@@ -78,16 +83,15 @@ var dbUn = new DataStore({
     autoload: true
 });
 
-
 //
-var apiExpenditures = require("./apiExpenditures/expenditures.js")
-apiExpenditures.register(app,BASE_API_PATH,BASE_API_PATH_EXPENDITURES,dbEx,initialsExpenditures);
+var apiExpenditures = require("./apiExpenditures/expenditures.js");
+apiExpenditures.register(app, BASE_API_PATH, BASE_API_PATH_EXPENDITURES, dbEx, initialsExpenditures);
 
-var apiUnemployments = require("./apiUnemployments/unemployments.js")
-apiUnemployments.register(app,BASE_API_PATH,BASE_API_PATH_UNEMPLOYMENTS,dbUn,initialsUnemployments);
+var apiUnemployments = require("./apiUnemployments/unemployments.js");
+apiUnemployments.register(app, BASE_API_PATH, BASE_API_PATH_UNEMPLOYMENTS, dbUn, initialsUnemployments);
 
-var apiEmployments = require("./apiEmployments/employments.js")
-apiEmployments.register(app,BASE_API_PATH,BASE_API_PATH_EMPLOYMENTS,dbEm,initialsEmployments);
+var apiEmployments = require("./apiEmployments/employments.js");
+apiEmployments.register(app, BASE_API_PATH, BASE_API_PATH_EMPLOYMENTS, dbEm, initialsEmployments);
 //
 
 
