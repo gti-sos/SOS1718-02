@@ -56,7 +56,7 @@ var initialsExpenditures = [
 
 app.use("/", express.static(__dirname + "/public"));
 
-//GET Unificado
+//Super GET Unificado
 app.get("*", (req, res) => {
     var pet = req.url;
     var array = pet.split("/");
@@ -64,7 +64,7 @@ app.get("*", (req, res) => {
         if (err) throw err;
         var dbo = db.db("sos1718-alc-sandbox");
         if (err) throw err;
-        if (array.length == 4 && array[3]=="expenditures") {
+        if (array.length == 4 && array[3] == "expenditures") {
             dbo.collection("expenditures").find({}).toArray(function(err, result) {
                 if (err) throw err;
                 db.close();
@@ -102,7 +102,7 @@ app.get("*", (req, res) => {
                 res.send(result);
             });
         }
-        else{
+        else {
             res.sendStatus(400);
         }
         db.close();
@@ -110,58 +110,84 @@ app.get("*", (req, res) => {
 });
 
 //POST
-app.post(BASE_API_PATH_EXPENDITURES, (req, res) => {
-    var expenditures = req.body;
+app.post("*", (req, res) => {
+    var pet = req.url;
+    var array = pet.split("/");
     console.log(Date() + " - POST /expenditures");
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
-        var dbo = db.db("sos1718-alc-sandbox");
-        dbo.collection("expenditures").insertOne(expenditures, function(err, res) {
-            if (err) throw err;
-            console.log("1 document inserted");
-            db.close();
-        });
-        res.sendStatus(201);
+        if (array[4] != "" && array[5] != "") {
+            var dbo = db.db("sos1718-alc-sandbox");
+            dbo.collection("expenditures").insertOne(req.body, function(err, res) {
+                if (err) throw err;
+                console.log("1 document inserted");
+                db.close();
+                res.sendStatus(201);
+            });
+        }
+        else {
+            res.sendStatus(400);
+        }
     });
 });
 
-//PUT no funciona
-app.put(BASE_API_PATH_EXPENDITURES + "/:country" + "/:year", (req, res) => {
-    var country = req.params.country;
-    var year = req.params.year;
+//PUT
+app.put("*", (req, res) => {
+    var pet = req.url;
+    var array = pet.split("/");
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
         var dbo = db.db("sos1718-alc-sandbox");
-        var myquery = { $and: [{ country: country }, { year: Number(year) }] };
+        var myquery = { $and: [{ country: array[4] }, { year: Number(array[5]) }] };
         var newvalues = { $set: req.body };
-        dbo.collection("expenditures").updateOne(myquery, newvalues, function(err, result) {
-            if (err) throw err;
-            console.log("1 document updated");
-            db.close();
-        });
+        if (array[4] != "" && array[5] != "") {
+            dbo.collection("expenditures").updateOne(myquery, newvalues, function(err, result) {
+                if (err) throw err;
+                console.log("1 document updated");
+                db.close();
+            });
+        }
+        else {
+            res.sendStatus(400);
+        }
         res.sendStatus(200);
     });
 });
 
-app.delete(BASE_API_PATH_EXPENDITURES + "*", (req, res) => {
+//DELETE
+app.delete("*", (req, res) => {
     var pet = req.url;
     var array = pet.split("/");
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
         var dbo = db.db("sos1718-alc-sandbox");
         if (err) throw err;
-        console.log(array[0]);
-        console.log(array[1]);
-        console.log(array[2]);
-        console.log(array[3]);
-        if (array.length == 4) {
+        if (array.length == 4 && array[3] == "expenditures") {
             dbo.collection("expenditures").deleteMany(function(err, obj) {
                 if (err) throw err;
                 res.sendStatus(200);
             });
         }
+        else if (array.length == 6 && array[4] != "" && array[5] != "") {
+            dbo.collection("expenditures").deleteOne({ $and: [{ country: array[4] }, { year: Number(array[5]) }] }, function(err, obj) {
+                if (err) throw err;
+                console.log("1 document deleted");
+                res.sendStatus(200);
+            });
+        }
         else if (array.length == 5) {
-            res.sendStatus(200);
+            if (isNaN(array[4])) {
+                dbo.collection("expenditures").deleteMany({ country: array[4] }, function(err, obj) {
+                    if (err) throw err;
+                    res.sendStatus(200);
+                });
+            }
+            else {
+                dbo.collection("expenditures").deleteMany({ year: array[4] }, function(err, obj) {
+                    if (err) throw err;
+                    res.sendStatus(200);
+                });
+            }
         }
         else {
             res.sendStatus(400);
