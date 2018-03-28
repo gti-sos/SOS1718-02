@@ -32,7 +32,10 @@ apiExpenditures.register = function(app, BASE_API_PATH, BASE_API_PATH_EXPENDITUR
                 dbo.collection("expenditures").find({}).toArray(function(err, result) {
                     if (err) throw err;
                     db.close();
-                    res.send(result);
+                    res.send(result.map((c) => {
+                        delete c._id;
+                        return c;
+                    }));
                 });
             }
             else if (array.length == 5) {
@@ -49,21 +52,30 @@ apiExpenditures.register = function(app, BASE_API_PATH, BASE_API_PATH_EXPENDITUR
                     else {
                         dbo.collection("expenditures").find({ country: array[4] }).toArray(function(err, result) {
                             if (err) throw err;
-                            res.send(result);
+                            res.send(result.map((c) => {
+                                delete c._id;
+                                return c;
+                            }));
                         });
                     }
                 }
                 else {
                     dbo.collection("expenditures").find({ year: Number(array[4]) }).toArray(function(err, result) {
                         if (err) throw err;
-                        res.send(result);
+                        res.send(result.map((c) => {
+                            delete c._id;
+                            return c;
+                        }));
                     });
                 }
             }
             else if (array.length == 6) {
                 dbo.collection("expenditures").find({ country: array[4], year: Number((array[5])) }).toArray(function(err, result) {
                     if (err) throw err;
-                    res.send(result);
+                    res.send(result.map((c) => {
+                        delete c._id;
+                        return c;
+                    }));
                 });
             }
             else {
