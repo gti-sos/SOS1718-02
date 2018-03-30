@@ -84,6 +84,7 @@ var dbUn = new DataStore({
 });
 
 //
+
 var apiExpenditures = require("./apiExpenditures/expenditures.js");
 apiExpenditures.register(app, BASE_API_PATH, BASE_API_PATH_EXPENDITURES, dbEx, initialsExpenditures);
 

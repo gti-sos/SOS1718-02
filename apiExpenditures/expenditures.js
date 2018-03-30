@@ -15,6 +15,7 @@ apiExpenditures.register = function(app, BASE_API_PATH, BASE_API_PATH_EXPENDITUR
         var dbo = db.db("sos1718-alc-sandbox");
         dbo.createCollection("expenditures", function(err, res) {
             if (err) throw err;
+            
             console.log("Collection created!");
         });
         db.close();
@@ -37,6 +38,23 @@ apiExpenditures.register = function(app, BASE_API_PATH, BASE_API_PATH_EXPENDITUR
                         return c;
                     }));
                 });
+            }
+            else if (array.length == 5 && array[3] == "secure" && array[4] == "expenditures") {
+                var email = req.headers.email;
+                var pass = req.headers.pass;
+                if (email == "andres" && pass == "andres")
+                    dbo.collection("expenditures").find({}).toArray(function(err, result) {
+                        if (err) throw err;
+                        db.close();
+                        res.send(result.map((c) => {
+                            delete c._id;
+                            return c;
+                        }));
+                    });
+                else {
+                    res.send("Inautorizado");
+
+                }
             }
             else if (array.length == 5) {
                 if (isNaN(array[4])) {
