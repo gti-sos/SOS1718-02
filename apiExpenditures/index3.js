@@ -54,16 +54,19 @@ app.get(BASE_API_PATH_EXPENDITURES + "*", (req, res) => {
         else if (array.length == 5) {
             if (isNaN(array[4])) {
                 if (array[4] == "loadInitialData") {
-                    if (documents == 0) {
-                        dbo.collection("expenditures").insertMany(initialsExpenditures, function(err, res) {
-                            if (err) throw err;
-                            console.log("Number of documents inserted: " + res.insertedCount);
-                        });
-                    }
-                    else {
-                        console.log("DB has " + documents + " stored.");
-                    }
-                    res.sendStatus(200);
+                    dbo.collection("expenditures").count(function(err, count) {
+                        if (!err && count == 0) {
+                            dbo.collection("expenditures").insertMany(initialsExpenditures, function(err, res) {
+                                if (err) throw err;
+                                console.log("Number of documents inserted: " + res.insertedCount);
+                                res.sendStatus(200);
+                            });
+                        }
+                        else{
+                            console.log("DB already has " + count + " documents inserted.");
+                            res.sendStatus(200);
+                        }
+                    });
                 }
                 else {
                     dbo.collection("expenditures").find({ country: array[4] }).toArray(function(err, result) {
@@ -185,9 +188,8 @@ app.get(BASE_API_PATH_EXPENDITURES + "/country" + "*", (req, res) => {
         if (err) throw err;
         var dbo = db.db("sos1718-alc-sandbox");
         var query = req.query;
-        
+
         if (req.query.year) {
-            console.log("Hola");
             query.year = Number(req.query.year);
         }
 
@@ -200,7 +202,7 @@ app.get(BASE_API_PATH_EXPENDITURES + "/country" + "*", (req, res) => {
         if (req.query.tertiery) {
             query.tertiery = Number(req.query.tertiery);
         }
-        
+
         dbo.collection("expenditures").find(query).toArray(function(err, result) {
             if (err) throw err;
             res.send(result);

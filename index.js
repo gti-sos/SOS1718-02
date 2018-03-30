@@ -27,7 +27,11 @@ var initialsUnemployments = [
     { "country": "austria", "year": 1998, "young-unemployment": 1.600000024, "adult-unemployment": 1.600000024, "old-unemployment": 1.600000024, "long-term-unemployment": 1.600000024 },
     { "country": "belgium", "year": 2003, "young-unemployment": 3.5, "adult-unemployment": 3.5, "old-unemployment": 3.5, "long-term-unemployment": 3.5 },
     { "country": "bulgaria", "year": 1998, "young-unemployment": 8, "adult-unemployment": 8, "old-unemployment": 8, "long-term-unemployment": 8 },
-    { "country": "croatia", "year": 2003, "young-unemployment": 8, "adult-unemployment": 8, "old-unemployment": 8, "long-term-unemployment": 8 }
+    { "country": "croatia", "year": 2003, "young-unemployment": 8, "adult-unemployment": 8, "old-unemployment": 8, "long-term-unemployment": 8 },
+    { "country": "austria", "year": 1999, "young-unemployment": 1.399999976, "adult-unemployment": 1.399999976, "old-unemployment": 1.399999976, "long-term-unemployment": 1.399999976 },
+    { "country": "italy", "year": 2001, "young-unemployment": 6.0, "adult-unemployment": 6.0, "old-unemployment": 6.0, "long-term-unemployment": 6.0 },
+    { "country": "portugal", "year": 2002, "young-unemployment": 11.5, "adult-unemployment": 4.5, "old-unemployment": 2.400000095, "long-term-unemployment": 1.600000024 },
+    { "country": "slovak-republic", "year": 2004, "young-unemployment": 32, "adult-unemployment": 16, "old-unemployment": 15.10000038, "long-term-unemployment": 11 }
 ];
 
 
