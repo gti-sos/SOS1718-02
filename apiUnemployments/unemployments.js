@@ -1,187 +1,288 @@
+var port = (process.env.PORT || 1607);
+var express = require("express");
+var bodyParser = require("body-parser");
+var MongoClient = require('mongodb').MongoClient;
 
-var unemploymentapi = {};
+var app = express();
+var url = "mongodb://nekane:1234567890@ds119049.mlab.com:19049/sos1718-msr-sandbox";
+var BASE_API = "/api/v1";
+var BASE_API_PATH = "/api/v1/unemployments";
 
-module.exports = unemploymentapi;
+app.use(bodyParser.json());
+app.use("/", express.static(__dirname + "/public"));
 
-unemploymentapi.register = function(app,BASE_API_PATH,BASE_API_PATH_UNEMPLOYMENTS,dbUn,initialsUnemployments) {
+var initialsUnemployments = [
+    { "country": "austria", "year": 1998, "young": 1.600000024, "adult": 1.600000024, "old": 1.600000024, "longterm": 1.600000024 },
+    { "country": "belgium", "year": 2003, "young": 3.5, "adult": 3.5, "old": 3.5, "longterm": 3.5 },
+    { "country": "bulgaria", "year": 1998, "young": 8, "adult": 8, "old": 8, "longterm": 8 },
+    { "country": "croatia", "year": 2003, "young": 8, "adult": 8, "old": 8, "longterm": 8 },
+    { "country": "austria", "year": 1998, "young": 1.600000024, "adult": 1.600000024, "old": 1.600000024, "longterm": 1.600000024 },
+    { "country": "belgium", "year": 2003, "young": 3.5, "adult": 3.5, "old": 3.5, "longterm": 3.5 },
+    { "country": "bulgaria", "year": 1998, "young": 8, "adult": 8, "old": 8, "longterm": 8 },
+    { "country": "croatia", "year": 2003, "young": 8, "adult": 8, "old": 8, "longterm": 8 }
+];
 
-//Unemployments----------------------------------------------------------------------------------------------------------------------->
-//GET all DB
-app.get(BASE_API_PATH_UNEMPLOYMENTS, (req, res) => {
-    dbUn.find({}, function(err, unemployment) {
-        if (err) {
-            console.log("Something wrong has happened :(");
-            res.sendStatus(500);
-        }
-        console.log(Date() + " - GET /unemployments");
-        res.send(unemployment);
+app.listen(port, () => {
+    console.log("Server ready on port: " + port + "!");
+}).on("error", (e) => {
+    console.log("Server NOT READY:" + e);
+});
+console.log("Server setting up...");
+
+//loadInitialData
+app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("sos1718-msr-sandbox");
+        dbo.collection("unemployments").count(function(err, count) {
+            if (!err && !count) {
+                dbo.collection("unemployments").insertMany(initialsUnemployments, function(err, resu) {
+                    if (err) throw err;
+                    console.log("Number of documents inserted: " + resu.insertedCount);
+                    res.send("Number of documents inserted: " + resu.insertedCount);
+                    db.close();
+                });
+            }
+            else {
+                console.log("Unemployments has " + count + " documents inserted.");
+                res.send("Unemployments has " + count + " documents inserted.");
+            }
+            db.close();
+        });
     });
 });
 
-//GET for a city or year
-app.get(BASE_API_PATH_UNEMPLOYMENTS + "/:country", (req, res) => {
-    var country = req.params.country;
-    if (isNaN(country)) {
-        dbUn.find({ country: country }, function(err, unemployments) {
-            if (err) {
-                console.log("Something wrong has happened :(");
-                res.sendStatus(500);
-            }
-            console.log(Date() + " - GET /unemployments/" + country);
-            res.send(unemployments);
+//GET all
+app.get(BASE_API_PATH, (req, res) => {
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("sos1718-msr-sandbox");
+        dbo.collection("unemployments").find().toArray(function(err, result) {
+            if (err) throw err;
+            res.send(result);
+			db.close();
         });
+    });
+});
+
+//GET country OR year
+app.get(BASE_API_PATH + "/:obj", (req, res) => {
+    var myquery;
+    if (isNaN(req.params.obj)) {
+        myquery = { country: req.params.obj };
     }
     else {
-        dbUn.find({ year: Number(country) }, function(err, unemployments) {
-            if (err) {
-                console.log("Something wrong has happened :(");
-                res.sendStatus(500);
-            }
-            console.log(Date() + " - GET /unemployments/" + country);
-            res.send(unemployments);
-        });
+        myquery = { year: Number(req.params.obj) };
     }
-});
-
-//GET by country and year
-app.get(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
-    var country = req.params.country;
-    var year = req.params.year;
-    console.log(Date() + " - GET /unemployments/" + country + "/" + year);
-
-    dbUn.find({ $and: [{ country: country }, { year: Number(year) }] }, function(err, unemployments) {
-        if (err) {
-            console.log("Something wrong has happened :(");
-            res.sendStatus(500);
-        }
-        console.log(Date() + " - GET /unemployments/" + country + "/" + year);
-        res.send(unemployments);
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("sos1718-msr-sandbox");
+        dbo.collection("unemployments").find(myquery).toArray(function(err, result) {
+            if (err) throw err;
+            res.send(result);
+			db.close();
+        });
     });
 });
 
-//DELETE all
-app.delete(BASE_API_PATH_UNEMPLOYMENTS, (req, res) => {
-    console.log(Date() + " - DELETE /unemployments");
-    dbUn.remove({}, { multi: true }, function(err, numRemoved) {
-        if (err) {
-            console.log("Something wrong has happened :(");
-            res.sendStatus(500);
-        }
-        console.log(Date() + " - DELETE /unemployments");
-        console.log(numRemoved + " elements removed.");
-    });
-    res.sendStatus(200);
-});
-
-//DELETE by country or year
-app.delete(BASE_API_PATH_UNEMPLOYMENTS + "/:country", (req, res) => {
-    var country = req.params.country;
-
-    if (isNaN(country)) {
-        dbUn.remove({ country: country }, { multi: true }, function(err, numRemoved) {
-            if (err) {
-                console.log("Something wrong has happened :(");
-                res.sendStatus(500);
-            }
-            res.sendStatus(200);
-            console.log(Date() + " - DELETE /unemployments/" + country);
-            console.log(numRemoved + " countries removed.");
+//GET country & year
+app.get(BASE_API_PATH + "/:country/:year", (req, res) => {
+    var myquery = { country: req.params.country, year: Number(req.params.year) }
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("sos1718-msr-sandbox");
+        dbo.collection("unemployments").find(myquery).toArray(function(err, result) {
+            if (err) throw err;
+            res.send(result);
+			db.close();
         });
-    }
-    else {
-        dbUn.remove({ year: Number(country) }, { multi: true }, function(err, numRemoved) {
-            if (err) {
-                console.log("Something wrong has happened :(");
-                res.sendStatus(500);
-            }
-            res.sendStatus(200);
-            console.log(Date() + " - DELETE /unemployments/" + country);
-            console.log(numRemoved + " countries removed.");
-        });
-    }
-    res.sendStatus(200);
-});
-
-//DELETE by country and year
-app.delete(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
-    var country = req.params.country;
-    var year = req.params.year;
-    console.log(Date() + " - DELETE /unemployments/" + country + "/" + year);
-    dbUn.remove({ $and: [{ country: country }, { year: Number(year) }] }, { multi: true }, function(err, numRemoved) {
-        if (err)
-            res.sendStatus(500);
-        res.sendStatus(200);
-        console.log(Date() + " - DELETE /unemployments/" + year);
-        console.log(numRemoved + "elements removed.");
     });
-    res.sendStatus(200);
 });
 
 //POST
-app.post(BASE_API_PATH_UNEMPLOYMENTS, (req, res) => {
-    console.log(Date() + " - POST /unemployments");
-    var unemployment = req.body;
-    dbUn.insert({ unemployment }, function(err, unemployment) {
-        if (err) {
-            res.sendStatus(500);
-        }
-    });
-    res.sendStatus(201);
-});
-
-app.post(BASE_API_PATH_UNEMPLOYMENTS + "/:country", (req, res) => {
-    var country = req.params.country;
-    console.log(Date() + " - POST /unemployments/" + country);
-    res.sendStatus(405);
-});
-
-app.post(BASE_API_PATH_UNEMPLOYMENTS + "/:year", (req, res) => {
-    var year = req.params.year;
-    console.log(Date() + " - POST /unemployments/" + year);
-    res.sendStatus(405);
-});
-
-app.post(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
-    var country = req.params.country;
-    var year = req.params.year;
-    console.log(Date() + " - POST /unemployments/" + country + "/" + year);
-    res.sendStatus(405);
+app.post(BASE_API_PATH, (req, res) => {
+    var myquery = { country: req.body.country, year: Number(req.body.year) };
+    if (!isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.young) || isNaN(req.body.adult) || isNaN(req.body.old)|| isNaN(req.body.longterm)) {
+        res.sendStatus(400);
+        console.log("Bad request");
+    }
+    else {
+        MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("sos1718-msr-sandbox");
+            dbo.collection("unemployments").count(myquery, function(err, count) {
+                console.log(count);
+                if (!err && !count) {
+                    dbo.collection("unemployments").insertOne(req.body, function(err, result) {
+                        if (err) throw err;
+                        console.log("1 document inserted");
+                        res.sendStatus(201);
+                        db.close();
+                    });
+                }
+                else {
+                    res.sendStatus(409);
+                }
+                db.close();
+            });
+        });
+    }
 });
 
 //PUT
-app.put(BASE_API_PATH_UNEMPLOYMENTS, (req, res) => {
-    console.log(Date() + " - PUT /unemployments");
-    res.sendStatus(405);
-});
-
-app.put(BASE_API_PATH_UNEMPLOYMENTS + "/:country", (req, res) => {
-    var country = req.params.country;
-    console.log(Date() + " - PUT /unemployments/" + country);
-    res.sendStatus(405);
-});
-
-app.put(BASE_API_PATH_UNEMPLOYMENTS + "/:year", (req, res) => {
-    var year = req.params.year;
-    console.log(Date() + " - PUT /unemployments/" + year);
-    res.sendStatus(405);
-});
-
-app.put(BASE_API_PATH_UNEMPLOYMENTS + "/:country/:year", (req, res) => {
-    var country = req.params.country;
-    var year = req.params.year;
-    var unemployment = req.body;
-    console.log(Date() + " - PUT /unemployments/" + country + "/" + year);
-    if (country != unemployment.country) {
-        res.sendStatus(409);
-        console.warn(Date() + " - Hacking attempt!");
-        return 1;
+app.put(BASE_API_PATH + "/:country/:year", (req, res) => {
+    if (!isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.young) || isNaN(req.body.adult) || isNaN(req.body.old)|| isNaN(req.body.longterm)) {
+        res.sendStatus(400);
+        console.log("Bad request");
     }
-    dbUn.update({ $and: [{ country: country }, { year: Number(year) }] }, unemployment, (err, numUpdated) => {
-        console.log("Updated: " + numUpdated);
-        if (err) {
-            console.log("Something wrong has happened :(");
-            res.sendStatus(500);
-        }
+    else {
+        MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("sos1718-msr-sandbox");
+            var myquery = { country: req.params.country, year: Number(req.params.year) };
+            var newvalues = { $set: req.body };
+            dbo.collection("unemployments").count(myquery, function(err, count) {
+                if (err) throw err;
+                if (!err && count) {
+                    dbo.collection("unemployments").updateOne(myquery, newvalues, function(err, result) {
+                        if (err) throw err;
+                        console.log("1 document updated.");
+                        res.sendStatus(201);
+                        db.close();
+                    });
+                }
+                else {
+                    console.log("Not found");
+                    res.sendStatus(404);
+                }
+                db.close();
+            });
+        });
+    }
+});
+
+//DELETE all
+app.delete(BASE_API_PATH, (req, res) => {
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("sos1718-msr-sandbox");
+        dbo.collection("unemployments").deleteMany(function(err, obj) {
+            if (err) throw err;
+            res.sendStatus(200);
+        });
+        db.close();
     });
-    res.sendStatus(200);
-});}
+});
+
+//DELETE country or year
+app.delete(BASE_API_PATH + "/:obj", (req, res) => {
+    var myquery;
+    if (isNaN(req.params.obj)) {
+        myquery = { country: req.params.obj };
+    }
+    else {
+        myquery = { year: Number(req.params.obj) };
+    }
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("sos1718-msr-sandbox");
+        dbo.collection("unemployments").count(myquery, function(err, count) {
+            if (err) throw err;
+            if (count) {
+                dbo.collection("unemployments").deleteMany(myquery, function(err, obj) {
+                    if (err) throw err;
+                    console.log("Ok");
+                    res.sendStatus(200);
+                    db.close();
+                });
+            }
+            else {
+                console.log("Not found");
+                res.sendStatus(404);
+            }
+            db.close();
+        });
+    });
+});
+
+//DELETE country & year
+app.delete(BASE_API_PATH + "/:country/:year", (req, res) => {
+    var myquery = { country: req.params.country, year: Number(req.params.year) };
+    console.log(myquery);
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("sos1718-msr-sandbox");
+        dbo.collection("unemployments").count(myquery, function(err, count) {
+            if (err) throw err;
+            if (count) {
+                dbo.collection("unemployments").deleteOne(myquery, function(err, obj) {
+                    if (err) throw err;
+                    console.log("Ok");
+                    res.sendStatus(200);
+					db.close();
+                });
+            }
+            else {
+                console.log("Not found");
+                res.sendStatus(404);
+            }
+			db.close();
+        });
+    });
+});
+
+//Methods not allowed
+//GET to BASE_API
+app.get(BASE_API, (req, res) => {
+    res.sendStatus(405);
+    console.log("Method not allowed");
+});
+//POST with arguments.
+app.post(BASE_API_PATH + "/*", (req, res) => {
+    res.sendStatus(405);
+    console.log("Method not allowed");
+});
+//PUT without arguments.
+app.put(BASE_API_PATH, (req, res) => {
+    res.sendStatus(405);
+    console.log("Method not allowed");
+});
+//PUT with 1 argument.
+app.put(BASE_API_PATH + "/:obj", (req, res) => {
+    res.sendStatus(405);
+    console.log("Method not allowed");
+});
+//PUT with more than 2 arguments.
+app.put(BASE_API_PATH + "/:obj1/:obj2" + "/*", (req, res) => {
+    res.sendStatus(405);
+    console.log("Method not allowed");
+});
+
+//urlQuery
+app.get(BASE_API_PATH + "/country?" + "*", (req, res) => {
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("sos1718-alc-sandbox");
+        var query = req.query;
+        if (req.query.year) {
+            query.year = Number(req.query.year);
+        }
+        if (req.query.young) {
+            query.young = Number(req.query.young);
+        }
+        if (req.query.adult) {
+            query.adult = Number(req.query.adult);
+        }
+        if (req.query.old) {
+            query.old = Number(req.query.old);
+        }
+        if (req.query.longterm) {
+            query.longterm = Number(req.query.longterm);
+        }
+        dbo.collection("unemployments").find(query).toArray(function(err, result) {
+            if (err) throw err;
+            res.send(result);
+            db.close();
+        });
+    });
+});
