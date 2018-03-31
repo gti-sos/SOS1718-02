@@ -55,14 +55,18 @@ app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
 
 //GET all
 app.get(BASE_API_PATH, (req, res) => {
-    var myquery = { country: req.body.country, year: Number(req.body.year) };
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
         var dbo = db.db("sos1718-alc-sandbox");
-        dbo.collection("expenditures").count(myquery, function(err, count) {
-            if (err) throw err;
-            console.log(count);
-            res.sendStatus(200);
+        dbo.collection("expenditures").find().toArray(function(err, result) {
+            if (!err && !result.length) {
+                console.log("Not found");
+                res.sendStatus(404);
+            }
+            else {
+                res.send(result);
+            }
+            db.close();
         });
     });
 });
@@ -80,8 +84,13 @@ app.get(BASE_API_PATH + "/:obj", (req, res) => {
         if (err) throw err;
         var dbo = db.db("sos1718-alc-sandbox");
         dbo.collection("expenditures").find(myquery).toArray(function(err, result) {
-            if (err) throw err;
-            res.send(result);
+            if (!err && !result.length) {
+                console.log("Not found");
+                res.sendStatus(404);
+            }
+            else {
+                res.send(result);
+            }
             db.close();
         });
     });
@@ -89,14 +98,19 @@ app.get(BASE_API_PATH + "/:obj", (req, res) => {
 
 //GET country & year
 app.get(BASE_API_PATH + "/:country/:year", (req, res) => {
-    var myquery = { country: req.body.country, year: Number(req.body.year) };
+    var myquery = { country: req.params.country, year: Number(req.params.year) }
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
         var dbo = db.db("sos1718-alc-sandbox");
-        dbo.collection("expenditures").count(myquery, function(err, count) {
-            if (err) throw err;
-            console.log(count);
-            res.sendStatus(200);
+        dbo.collection("expenditures").find(myquery).toArray(function(err, result) {
+            if (!err && !result.length) {
+                console.log("Not found");
+                res.sendStatus(404);
+            }
+            else {
+                res.send(result);
+            }
+            db.close();
         });
     });
 });

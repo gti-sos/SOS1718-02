@@ -16,11 +16,11 @@ var initialsUnemployments = [
     { "country": "belgium", "year": 2003, "young": 3.5, "adult": 3.5, "old": 3.5, "longterm": 3.5 },
     { "country": "bulgaria", "year": 1998, "young": 8, "adult": 8, "old": 8, "longterm": 8 },
     { "country": "croatia", "year": 2003, "young": 8, "adult": 8, "old": 8, "longterm": 8 },
-    { "country": "austria", "year": 1998, "young": 1.600000024, "adult": 1.600000024, "old": 1.600000024, "longterm": 1.600000024 },
-    { "country": "belgium", "year": 2003, "young": 3.5, "adult": 3.5, "old": 3.5, "longterm": 3.5 },
-    { "country": "bulgaria", "year": 1998, "young": 8, "adult": 8, "old": 8, "longterm": 8 },
-    { "country": "croatia", "year": 2003, "young": 8, "adult": 8, "old": 8, "longterm": 8 }
-];
+    { "country": "austria", "year": 1999, "young": 1.399999976, "adult": 1.399999976, "old": 1.399999976, "longterm": 1.399999976 },
+    { "country": "italy", "year": 2001, "young": 6.0, "adult": 6.0, "old": 6.0, "longterm": 6.0 },
+    { "country": "portugal", "year": 2002, "young": 11.5, "adult": 4.5, "old": 2.400000095, "longterm": 1.600000024 },
+    { "country": "slovak-republic", "year": 2004, "young": 32, "adult": 16, "old": 15.10000038, "longterm": 11 }
+]
 
 app.listen(port, () => {
     console.log("Server ready on port: " + port + "!");
@@ -58,9 +58,14 @@ app.get(BASE_API_PATH, (req, res) => {
         if (err) throw err;
         var dbo = db.db("sos1718-msr-sandbox");
         dbo.collection("unemployments").find().toArray(function(err, result) {
-            if (err) throw err;
-            res.send(result);
-			db.close();
+            if (!err && !result.length) {
+                console.log("Not found");
+                res.sendStatus(404);
+            }
+            else {
+                res.send(result);
+            }
+            db.close();
         });
     });
 });
@@ -78,9 +83,14 @@ app.get(BASE_API_PATH + "/:obj", (req, res) => {
         if (err) throw err;
         var dbo = db.db("sos1718-msr-sandbox");
         dbo.collection("unemployments").find(myquery).toArray(function(err, result) {
-            if (err) throw err;
-            res.send(result);
-			db.close();
+            if (!err && !result.length) {
+                console.log("Not found");
+                res.sendStatus(404);
+            }
+            else {
+                res.send(result);
+            }
+            db.close();
         });
     });
 });
@@ -92,9 +102,14 @@ app.get(BASE_API_PATH + "/:country/:year", (req, res) => {
         if (err) throw err;
         var dbo = db.db("sos1718-msr-sandbox");
         dbo.collection("unemployments").find(myquery).toArray(function(err, result) {
-            if (err) throw err;
-            res.send(result);
-			db.close();
+            if (!err && !result.length) {
+                console.log("Not found");
+                res.sendStatus(404);
+            }
+            else {
+                res.send(result);
+            }
+            db.close();
         });
     });
 });
@@ -102,7 +117,7 @@ app.get(BASE_API_PATH + "/:country/:year", (req, res) => {
 //POST
 app.post(BASE_API_PATH, (req, res) => {
     var myquery = { country: req.body.country, year: Number(req.body.year) };
-    if (!isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.young) || isNaN(req.body.adult) || isNaN(req.body.old)|| isNaN(req.body.longterm)) {
+    if (!isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.young) || isNaN(req.body.adult) || isNaN(req.body.old) || isNaN(req.body.longterm)) {
         res.sendStatus(400);
         console.log("Bad request");
     }
@@ -131,7 +146,7 @@ app.post(BASE_API_PATH, (req, res) => {
 
 //PUT
 app.put(BASE_API_PATH + "/:country/:year", (req, res) => {
-    if (!isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.young) || isNaN(req.body.adult) || isNaN(req.body.old)|| isNaN(req.body.longterm)) {
+    if (!isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.young) || isNaN(req.body.adult) || isNaN(req.body.old) || isNaN(req.body.longterm)) {
         res.sendStatus(400);
         console.log("Bad request");
     }
@@ -219,14 +234,14 @@ app.delete(BASE_API_PATH + "/:country/:year", (req, res) => {
                     if (err) throw err;
                     console.log("Ok");
                     res.sendStatus(200);
-					db.close();
+                    db.close();
                 });
             }
             else {
                 console.log("Not found");
                 res.sendStatus(404);
             }
-			db.close();
+            db.close();
         });
     });
 });
