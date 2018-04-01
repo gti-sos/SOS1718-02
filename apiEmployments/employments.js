@@ -103,7 +103,6 @@ apiEmployments.register = function(app) {
 
     //GET all SECURED
     app.get(BASE_API_PATH + "/secure/employments", (req, res) => {
-        console.log("GET all");
         var email = req.headers.email;
         var pass = req.headers.pass;
         if (email == "joseangel" && pass == "joseangel") {
@@ -133,7 +132,6 @@ apiEmployments.register = function(app) {
 
     //GET country OR year
     app.get(BASE_API_PATH + "/:obj", (req, res) => {
-        console.log("Country or year");
         var myquery;
         if (isNaN(req.params.obj)) {
             myquery = { country: req.params.obj };
@@ -162,7 +160,6 @@ apiEmployments.register = function(app) {
 
     //GET country & year
     app.get(BASE_API_PATH + "/:country/:year", (req, res) => {
-        console.log("country and year");
         var myquery = { country: req.params.country, year: Number(req.params.year) };
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
@@ -195,7 +192,6 @@ apiEmployments.register = function(app) {
                 if (err) throw err;
                 var dbo = db.db("sos1718-jmm-sandbox");
                 dbo.collection("employments").count(myquery, function(err, count) {
-                    console.log(count);
                     if (!err && !count) {
                         dbo.collection("employments").insertOne(req.body, function(err, result) {
                             if (err) throw err;
@@ -226,12 +222,11 @@ apiEmployments.register = function(app) {
                 var myquery = { country: req.params.country, year: Number(req.params.year) };
                 var newvalues = { $set: req.body };
                 dbo.collection("employments").count(myquery, function(err, count) {
-                    if (err) throw err;
                     if (!err && count) {
                         dbo.collection("employments").updateOne(myquery, newvalues, function(err, result) {
                             if (err) throw err;
                             console.log("1 document updated.");
-                            res.sendStatus(201);
+                            res.sendStatus(200);
                             db.close();
                         });
                     }
@@ -281,8 +276,7 @@ apiEmployments.register = function(app) {
             if (err) throw err;
             var dbo = db.db("sos1718-jmm-sandbox");
             dbo.collection("employments").count(myquery, function(err, count) {
-                if (err) throw err;
-                if (count) {
+                if (!err && count) {
                     dbo.collection("employments").deleteMany(myquery, function(err, obj) {
                         if (err) throw err;
                         console.log("Ok");
@@ -302,13 +296,11 @@ apiEmployments.register = function(app) {
     //DELETE country & year
     app.delete(BASE_API_PATH + "/:country/:year", (req, res) => {
         var myquery = { country: req.params.country, year: Number(req.params.year) };
-        console.log(myquery);
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-jmm-sandbox");
             dbo.collection("employments").count(myquery, function(err, count) {
-                if (err) throw err;
-                if (count) {
+                if (!err && count) {
                     dbo.collection("employments").deleteOne(myquery, function(err, obj) {
                         if (err) throw err;
                         console.log("Ok");

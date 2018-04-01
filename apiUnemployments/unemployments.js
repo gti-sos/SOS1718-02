@@ -44,7 +44,10 @@ apiUnemployments.register = function(app) {
                     res.sendStatus(404);
                 }
                 else {
-                    res.send(result);
+                    res.send(result.map((c) => {
+                        delete c._id;
+                        return c;
+                    }));
                 }
                 db.close();
             });
@@ -75,7 +78,7 @@ apiUnemployments.register = function(app) {
 
     //Postman help
     app.get(BASE_API_PATH + "/docs", (req, res) => {
-        //res.redirect("https://documenter.getpostman.com/view/3881259/sos1718-02/RVu1Gqf2");
+        res.redirect("https://documenter.getpostman.com/view/3901859/sos1718-02-unemployments/RVu1HAku");
     });
 
     //loadInitialData
@@ -192,12 +195,11 @@ apiUnemployments.register = function(app) {
                 if (err) throw err;
                 var dbo = db.db("sos1718-msr-sandbox");
                 dbo.collection("unemployments").count(myquery, function(err, count) {
-                    console.log(count);
                     if (!err && !count) {
                         dbo.collection("unemployments").insertOne(req.body, function(err, result) {
                             if (err) throw err;
                             console.log("1 document inserted");
-                            res.sendStatus(200);
+                            res.sendStatus(201);
                             db.close();
                         });
                     }
@@ -223,7 +225,6 @@ apiUnemployments.register = function(app) {
                 var myquery = { country: req.params.country, year: Number(req.params.year) };
                 var newvalues = { $set: req.body };
                 dbo.collection("unemployments").count(myquery, function(err, count) {
-                    if (err) throw err;
                     if (!err && count) {
                         dbo.collection("unemployments").updateOne(myquery, newvalues, function(err, result) {
                             if (err) throw err;
@@ -278,8 +279,7 @@ apiUnemployments.register = function(app) {
             if (err) throw err;
             var dbo = db.db("sos1718-msr-sandbox");
             dbo.collection("unemployments").count(myquery, function(err, count) {
-                if (err) throw err;
-                if (count) {
+                if (!err && count) {
                     dbo.collection("unemployments").deleteMany(myquery, function(err, obj) {
                         if (err) throw err;
                         console.log("Ok");
@@ -299,13 +299,11 @@ apiUnemployments.register = function(app) {
     //DELETE country & year
     app.delete(BASE_API_PATH + "/:country/:year", (req, res) => {
         var myquery = { country: req.params.country, year: Number(req.params.year) };
-        console.log(myquery);
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-msr-sandbox");
             dbo.collection("unemployments").count(myquery, function(err, count) {
-                if (err) throw err;
-                if (count) {
+                if (!err && count) {
                     dbo.collection("unemployments").deleteOne(myquery, function(err, obj) {
                         if (err) throw err;
                         console.log("Ok");
