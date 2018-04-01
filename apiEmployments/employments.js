@@ -17,6 +17,27 @@ var initialsEmployments = [
 ];
 
 apiEmployments.register = function(app) {
+    
+    app.get(BASE_API_PATH, (req, res) => {
+        MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("sos1718-jmm-sandbox");
+            if (err) throw err;
+
+            dbo.collection("employments").find({}).toArray(function(err, result) {
+                if (err) throw err;
+                  db.close();
+                res.send(result.map((c) => {
+                    delete c._id;
+                    return c;
+                }));
+            });
+        })
+
+    })
+    app.get(BASE_API_PATH+"/docs", (req, res) => {
+       res.redirect("https://documenter.getpostman.com/view/3881259/sos1718-02/RVu1Gqf2");
+    })
     //loadInitialData
     app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
         MongoClient.connect(url, function(err, db) {
@@ -158,7 +179,7 @@ apiEmployments.register = function(app) {
     //POST
     app.post(BASE_API_PATH, (req, res) => {
         var myquery = { country: req.body.country, year: Number(req.body.year) };
-        if (req.body._id != undefined || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.young) || isNaN(req.body.adult) || isNaN(req.body.old) || isNaN(req.body.longterm)) {
+        if (req.body._id != undefined || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.totalself) || isNaN(req.body.totalsalaried) || isNaN(req.body.totalcontributingfamilyworker) ) {
             res.sendStatus(400);
             console.log("Bad request");
         }
@@ -187,7 +208,7 @@ apiEmployments.register = function(app) {
 
     //PUT
     app.put(BASE_API_PATH + "/:country/:year", (req, res) => {
-        if (req.body._id != undefined || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.young) || isNaN(req.body.adult) || isNaN(req.body.old) || isNaN(req.body.longterm)) {
+        if (req.body._id != undefined || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.totalself) || isNaN(req.body.totalsalaried) || isNaN(req.body.totalcontributingfamilyworker) ) {
             res.sendStatus(400);
             console.log("Bad request");
         }
