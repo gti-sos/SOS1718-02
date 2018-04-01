@@ -105,7 +105,7 @@ apiUnemployments.register = function(app) {
     });
 
     //GET all SECURED
-    app.get(BASE_API_PATH + "/secure/unemployments", (req, res) => {
+    app.get(BASE_API + "/secure/unemployments", (req, res) => {
         var email = req.headers.email;
         var pass = req.headers.pass;
         if (email == "lolasanchez" && pass == "lolasanchez") {

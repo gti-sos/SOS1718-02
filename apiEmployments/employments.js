@@ -102,7 +102,7 @@ apiEmployments.register = function(app) {
     });
 
     //GET all SECURED
-    app.get(BASE_API_PATH + "/secure/employments", (req, res) => {
+    app.get(BASE_API + "/secure/employments", (req, res) => {
         var email = req.headers.email;
         var pass = req.headers.pass;
         if (email == "joseangel" && pass == "joseangel") {

@@ -102,7 +102,7 @@ apiExpenditures.register = function(app) {
     });
 
     //GET all SECURED
-    app.get(BASE_API_PATH + "/secure/expenditures", (req, res) => {
+    app.get(BASE_API + "/secure/expenditures", (req, res) => {
         var email = req.headers.email;
         var pass = req.headers.pass;
         if (email == "andreslorenzo" && pass == "andreslorenzo") {
