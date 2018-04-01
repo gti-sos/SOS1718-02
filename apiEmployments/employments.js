@@ -6,7 +6,7 @@ var apiEmployments = {};
 module.exports = apiEmployments;
 
 var initialsEmployments = [
-    { "country": "croatia", "year": 1998, "totalselfemployed": 18.5, "totalsalariedemployed": 75.30000305, "totalcontributingfamilyworker": 6.19999980926514 },
+    { "country": "croatia", "year": 1998, "totalself": 18.5, "totalsalaried": 75.30000305, "totalcontributingfamilyworker": 6.19999980926514 },
     { "country": "cyprus", "year": 2005, "totalself": 20.5, "totalsalaried": 76.80000305, "totalcontributingfamilyworker": 2.799999952 },
     { "country": "romania", "year": 1998, "totalself": 22.60000038, "totalsalaried": 59.70000076, "totalcontributingfamilyworker": 17.79999924 },
     { "country": "spain", "year": 2005, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
@@ -42,35 +42,71 @@ apiEmployments.register = function(app) {
 
     //GET all
     app.get(BASE_API_PATH + "/secure/employments", (req, res) => {
+        console.log("GET all");
         var email = req.headers.email;
         var pass = req.headers.pass;
         if (email == "joseangel" && pass == "joseangel") {
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-jmm-sandbox");
-            dbo.collection("employments").find().toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                }
-                db.close();
+            MongoClient.connect(url, function(err, db) {
+                if (err) throw err;
+                var dbo = db.db("sos1718-jmm-sandbox");
+                dbo.collection("employments").find().toArray(function(err, result) {
+                    if (!err && !result.length) {
+                        console.log("Not found");
+                        res.sendStatus(404);
+                    }
+                    else {
+                        res.send(result.map((c) => {
+                            delete c._id;
+                            return c;
+                        }));
+                    }
+                    db.close();
+                });
             });
-        });
         }
-        else{
+        else {
             console.log("Unauthorized");
             res.sendStatus(401);
         }
     });
 
+    //urlQuery
+    app.get(BASE_API_PATH + "/country?" + "*", (req, res) => {
+        console.log("urlQuery");
+        MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("sos1718-alc-sandbox");
+            var query = req.query;
+            console.log(query);
+            if (req.query.year) {
+                query.year = Number(req.query.year);
+            }
+            if (req.query.totalself) {
+                query.totalself = Number(req.query.totalself);
+            }
+            if (req.query.totalsalaried) {
+                query.totalsalaried = Number(req.query.totalsalaried);
+            }
+            if (req.query.totalcontributingfamilyworker) {
+                query.totalcontributingfamilyworker = Number(req.query.totalcontributingfamilyworker);
+            }
+            console.log(query);
+            dbo.collection("employments").find(query).toArray(function(err, result) {
+                if (!err && !result.length) {
+                    console.log("Not found");
+                    res.sendStatus(404);
+                }
+                else {
+                    res.send(result);
+                }
+                db.close();
+            });
+        });
+    });
+
     //GET country OR year
     app.get(BASE_API_PATH + "/:obj", (req, res) => {
+        console.log("Country or year");
         var myquery;
         if (isNaN(req.params.obj)) {
             myquery = { country: req.params.obj };
@@ -99,6 +135,7 @@ apiEmployments.register = function(app) {
 
     //GET country & year
     app.get(BASE_API_PATH + "/:country/:year", (req, res) => {
+        console.log("country and year");
         var myquery = { country: req.params.country, year: Number(req.params.year) };
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
@@ -276,39 +313,5 @@ apiEmployments.register = function(app) {
     app.put(BASE_API_PATH + "/:obj1/:obj2" + "/*", (req, res) => {
         res.sendStatus(405);
         console.log("Method not allowed");
-    });
-
-    //urlQuery
-    app.get(BASE_API_PATH + "/country?" + "*", (req, res) => {
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-alc-sandbox");
-            var query = req.query;
-            if (req.query.year) {
-                query.year = Number(req.query.year);
-            }
-            if (req.query.totalself) {
-                query.totalself = Number(req.query.totalself);
-            }
-            if (req.query.totalsalaried) {
-                query.totalsalaried = Number(req.query.totalsalaried);
-            }
-            if (req.query.totalcontributingfamilyworker) {
-                query.totalcontributingfamilyworker = Number(req.query.totalcontributingfamilyworker);
-            }
-            dbo.collection("employments").find(query).toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                }
-                db.close();
-            });
-        });
     });
 };

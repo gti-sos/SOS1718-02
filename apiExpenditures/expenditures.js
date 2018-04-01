@@ -68,9 +68,44 @@ apiExpenditures.register = function(app) {
             res.sendStatus(401);
         }
     });
-
+    
+    //urlQuery
+    app.get(BASE_API_PATH + "/country?" + "*", (req, res) => {
+        MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("sos1718-alc-sandbox");
+            var query = req.query;
+            console.log(query);
+            if (req.query.year) {
+                query.year = Number(req.query.year);
+            }
+            if (req.query.primary) {
+                query.primary = Number(req.query.primary);
+            }
+            if (req.query.secundary) {
+                query.secundary = Number(req.query.secundary);
+            }
+            if (req.query.tertiery) {
+                query.tertiery = Number(req.query.tertiery);
+            }
+            dbo.collection("expenditures").find(query).toArray(function(err, result) {
+                if (!err && !result.length) {
+                    console.log("Not found");
+                    res.sendStatus(404);
+                }
+                else {
+                    res.send(result.map((c) => {
+                        delete c._id;
+                        return c;
+                    }));
+                }
+                db.close();
+            });
+        });
+    });
+    
     //GET country OR year
-    app.get(BASE_API_PATH + "/:obj", (req, res) => {
+    app.get(BASE_API_PATH + "/:obj" + "", (req, res) => {
         var myquery;
         if (isNaN(req.params.obj)) {
             myquery = { country: req.params.obj };
@@ -277,39 +312,5 @@ apiExpenditures.register = function(app) {
     app.put(BASE_API_PATH + "/:obj1/:obj2" + "/*", (req, res) => {
         res.sendStatus(405);
         console.log("Method not allowed");
-    });
-
-    //urlQuery
-    app.get(BASE_API_PATH + "/country?" + "*", (req, res) => {
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-alc-sandbox");
-            var query = req.query;
-            if (req.query.year) {
-                query.year = Number(req.query.year);
-            }
-            if (req.query.primary) {
-                query.primary = Number(req.query.primary);
-            }
-            if (req.query.secundary) {
-                query.secundary = Number(req.query.secundary);
-            }
-            if (req.query.tertiery) {
-                query.tertiery = Number(req.query.tertiery);
-            }
-            dbo.collection("expenditures").find(query).toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                }
-                db.close();
-            });
-        });
     });
 };

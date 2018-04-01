@@ -69,6 +69,43 @@ apiUnemployments.register = function(app) {
         }
     });
 
+    //urlQuery
+    app.get(BASE_API_PATH + "/country?" + "*", (req, res) => {
+        MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("sos1718-alc-sandbox");
+            var query = req.query;
+            if (req.query.year) {
+                query.year = Number(req.query.year);
+            }
+            if (req.query.young) {
+                query.young = Number(req.query.young);
+            }
+            if (req.query.adult) {
+                query.adult = Number(req.query.adult);
+            }
+            if (req.query.old) {
+                query.old = Number(req.query.old);
+            }
+            if (req.query.longterm) {
+                query.longterm = Number(req.query.longterm);
+            }
+            dbo.collection("unemployments").find(query).toArray(function(err, result) {
+                if (!err && !result.length) {
+                    console.log("Not found");
+                    res.sendStatus(404);
+                }
+                else {
+                    res.send(result.map((c) => {
+                        delete c._id;
+                        return c;
+                    }));
+                }
+                db.close();
+            });
+        });
+    });
+
     //GET country OR year
     app.get(BASE_API_PATH + "/:obj", (req, res) => {
         var myquery;
@@ -276,42 +313,5 @@ apiUnemployments.register = function(app) {
     app.put(BASE_API_PATH + "/:obj1/:obj2" + "/*", (req, res) => {
         res.sendStatus(405);
         console.log("Method not allowed");
-    });
-
-    //urlQuery
-    app.get(BASE_API_PATH + "/country?" + "*", (req, res) => {
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-alc-sandbox");
-            var query = req.query;
-            if (req.query.year) {
-                query.year = Number(req.query.year);
-            }
-            if (req.query.young) {
-                query.young = Number(req.query.young);
-            }
-            if (req.query.adult) {
-                query.adult = Number(req.query.adult);
-            }
-            if (req.query.old) {
-                query.old = Number(req.query.old);
-            }
-            if (req.query.longterm) {
-                query.longterm = Number(req.query.longterm);
-            }
-            dbo.collection("unemployments").find(query).toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                }
-                db.close();
-            });
-        });
     });
 };
