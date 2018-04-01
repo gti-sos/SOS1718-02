@@ -18,6 +18,39 @@ var initialsEmployments = [
 
 apiEmployments.register = function(app) {
     
+    app.get(BASE_API_PATH + "/country?" , (req, res) => {
+        var query = req.query;
+        if (req.query.year) {
+            query.year = Number(req.query.year);
+        }
+        if (req.query.totalself) {
+            query.totalself = Number(req.query.totalself);
+        }
+        if (req.query.totalsalaried) {
+            query.totalsalaried = Number(req.query.totalsalaried);
+        }
+        if (req.query.totalcontributingfamilyworker) {
+            query.totalcontributingfamilyworker = Number(req.query.totalcontributingfamilyworker);
+        }
+        MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("sos1718-jmm-sandbox");
+            dbo.collection("employments").find(req.query).toArray(function(err, result) {
+                if (!err && !result.length) {
+                    console.log("Not found");
+                    res.sendStatus(404);
+                }
+                else {
+                    res.send(result.map((c) => {
+                        delete c._id;
+                        return c;
+                    }));
+                }
+                db.close();
+            });
+        });
+    });
+    
     app.get(BASE_API_PATH, (req, res) => {
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
