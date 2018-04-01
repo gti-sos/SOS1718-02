@@ -72,7 +72,6 @@ apiEmployments.register = function(app) {
 
     //urlQuery
     app.get(BASE_API_PATH + "/country?" + "*", (req, res) => {
-        console.log("urlQuery");
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-alc-sandbox");
