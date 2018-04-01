@@ -3,9 +3,9 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var app = express();
 
-var expendituresApi = require("./apiExpenditures/expenditures");
-var employmentsApi = require("./apiEmployments/employments");
-var unemploymentsApi = require("./apiUnemployments/unemployments");
+var expendituresApi = require("./apiExpenditures/expenditures.js");
+var employmentsApi = require("./apiEmployments/employments.js");
+var unemploymentsApi = require("./apiUnemployments/unemployments.js");
 
 app.use(bodyParser.json());
 app.use("/", express.static(__dirname + "/public"));

@@ -17,6 +17,23 @@ var initialsExpenditures = [
 ];
 
 apiExpenditures.register = function(app) {
+    app.get(BASE_API_PATH, (req, res) => {
+        MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("sos1718-alc-sandbox");
+            if (err) throw err;
+
+            dbo.collection("expenditures").find({}).toArray(function(err, result) {
+                if (err) throw err;
+                  db.close();
+                res.send(result.map((c) => {
+                    delete c._id;
+                    return c;
+                }));
+            });
+        })
+
+    })
     //loadInitialData
     app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
         MongoClient.connect(url, function(err, db) {
