@@ -123,7 +123,7 @@ apiEmployments.register = function(app) {
             res.sendStatus(401);
         }
     });
-
+/*
     //urlQuery
     app.get(BASE_API_PATH + "/country?" + "*", (req, res) => {
         MongoClient.connect(url, function(err, db) {
@@ -156,7 +156,7 @@ apiEmployments.register = function(app) {
             });
         });
     });
-
+*/
     //GET country OR year
     app.get(BASE_API_PATH + "/:obj", (req, res) => {
         console.log("Country or year");
