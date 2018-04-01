@@ -140,7 +140,7 @@ apiEmployments.register = function(app) {
     //POST
     app.post(BASE_API_PATH, (req, res) => {
         var myquery = { country: req.body.country, year: Number(req.body.year) };
-        if (req.body._id != undefined || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.young) || isNaN(req.body.adult) || isNaN(req.body.old) || isNaN(req.body.longterm)) {
+        if (req.body._id != undefined || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.totalself) || isNaN(req.body.totalsalaried) || isNaN(req.body.totalcontributingfamilyworker) ) {
             res.sendStatus(400);
             console.log("Bad request");
         }
