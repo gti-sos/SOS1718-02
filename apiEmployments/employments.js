@@ -32,12 +32,13 @@ apiEmployments.register = function(app) {
                     return c;
                 }));
             });
-        })
-
-    })
+        });
+    });
+    
     app.get(BASE_API_PATH+"/docs", (req, res) => {
        res.redirect("https://documenter.getpostman.com/view/3881259/sos1718-02/RVu1Gqf2");
-    })
+    });
+    
     //loadInitialData
     app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
         MongoClient.connect(url, function(err, db) {
@@ -92,7 +93,7 @@ apiEmployments.register = function(app) {
     });
 
     //urlQuery
-    app.get(BASE_API_PATH + "/country?" + "*", (req, res) => {
+    app.get(BASE_API_PATH + "/country?", (req, res) => {
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-alc-sandbox");

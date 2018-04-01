@@ -92,7 +92,6 @@ apiExpenditures.register = function(app) {
             if (err) throw err;
             var dbo = db.db("sos1718-alc-sandbox");
             var query = req.query;
-            console.log(query);
             if (req.query.year) {
                 query.year = Number(req.query.year);
             }
@@ -105,6 +104,7 @@ apiExpenditures.register = function(app) {
             if (req.query.tertiery) {
                 query.tertiery = Number(req.query.tertiery);
             }
+            console.log(query);
             dbo.collection("expenditures").find(query).toArray(function(err, result) {
                 if (!err && !result.length) {
                     console.log("Not found");

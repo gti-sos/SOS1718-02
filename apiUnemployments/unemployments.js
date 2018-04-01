@@ -108,16 +108,14 @@ apiUnemployments.register = function(app) {
             if (req.query.longterm) {
                 query.longterm = Number(req.query.longterm);
             }
+            console.log(query);
             dbo.collection("unemployments").find(query).toArray(function(err, result) {
                 if (!err && !result.length) {
                     console.log("Not found");
                     res.sendStatus(404);
                 }
                 else {
-                    res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
+                    res.send(result);
                 }
                 db.close();
             });
