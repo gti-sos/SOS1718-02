@@ -41,21 +41,32 @@ apiExpenditures.register = function(app) {
     });
 
     //GET all
-    app.get(BASE_API_PATH, (req, res) => {
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-alc-sandbox");
-            dbo.collection("expenditures").find().toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result);
-                }
-                db.close();
+    app.get(BASE_API_PATH + "/secure/expenditures", (req, res) => {
+        var email = req.headers.email;
+        var pass = req.headers.pass;
+        if (email == "andreslorenzo" && pass == "andreslorenzo") {
+            MongoClient.connect(url, function(err, db) {
+                if (err) throw err;
+                var dbo = db.db("sos1718-alc-sandbox");
+                dbo.collection("expenditures").find().toArray(function(err, result) {
+                    if (!err && !result.length) {
+                        console.log("Not found");
+                        res.sendStatus(404);
+                    }
+                    else {
+                        res.send(result.map((c) => {
+                            delete c._id;
+                            return c;
+                        }));
+                    }
+                    db.close();
+                });
             });
-        });
+        }
+        else {
+            console.log("Unauthorized");
+            res.sendStatus(401);
+        }
     });
 
     //GET country OR year
@@ -76,7 +87,10 @@ apiExpenditures.register = function(app) {
                     res.sendStatus(404);
                 }
                 else {
-                    res.send(result);
+                    res.send(result.map((c) => {
+                        delete c._id;
+                        return c;
+                    }));
                 }
                 db.close();
             });
@@ -95,7 +109,10 @@ apiExpenditures.register = function(app) {
                     res.sendStatus(404);
                 }
                 else {
-                    res.send(result);
+                    res.send(result.map((c) => {
+                        delete c._id;
+                        return c;
+                    }));
                 }
                 db.close();
             });
@@ -105,7 +122,8 @@ apiExpenditures.register = function(app) {
     //POST
     app.post(BASE_API_PATH, (req, res) => {
         var myquery = { country: req.body.country, year: Number(req.body.year) };
-        if (!isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.primary) || isNaN(req.body.secundary) || isNaN(req.body.tertiery)) {
+        console.log(req.body._id);
+        if (req.body._id != undefined || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.primary) || isNaN(req.body.secundary) || isNaN(req.body.tertiery)) {
             res.sendStatus(400);
             console.log("Bad request");
         }
@@ -134,7 +152,7 @@ apiExpenditures.register = function(app) {
 
     //PUT
     app.put(BASE_API_PATH + "/:country/:year", (req, res) => {
-        if (!isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.primary) || isNaN(req.body.secundary) || isNaN(req.body.tertiery)) {
+        if (req.body._id != undefined || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.primary) || isNaN(req.body.secundary) || isNaN(req.body.tertiery)) {
             res.sendStatus(400);
             console.log("Bad request");
         }
@@ -285,24 +303,13 @@ apiExpenditures.register = function(app) {
                     res.sendStatus(404);
                 }
                 else {
-                    res.send(result);
+                    res.send(result.map((c) => {
+                        delete c._id;
+                        return c;
+                    }));
                 }
                 db.close();
             });
         });
-    });
-
-    //Authentication
-    app.post(BASE_API + "/secure/expenditures", (req, res) => {
-        var email = req.body.email;
-        var pass = req.body.pass;
-        if (email == "andreslorenzo" && pass == "andreslorenzo") {
-            console.log("Accepted");
-            res.sendStatus(202);
-        }
-        else {
-            console.log("Accepted");
-            res.sendStatus(401);
-        }
     });
 };
