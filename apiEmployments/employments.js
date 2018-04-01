@@ -75,7 +75,7 @@ apiEmployments.register = function(app) {
 
     //Postman help
     app.get(BASE_API_PATH + "/docs", (req, res) => {
-        res.redirect("https://documenter.getpostman.com/view/3881259/sos1718-02/RVu1Gqf2");
+        res.redirect("https://documenter.getpostman.com/view/3901859/sos1718-02-employments/RVu1HAqN");
     });
 
     //loadInitialData
