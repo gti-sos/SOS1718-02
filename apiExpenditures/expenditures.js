@@ -17,23 +17,67 @@ var initialsExpenditures = [
 ];
 
 apiExpenditures.register = function(app) {
+    //urlQuery
+    app.get(BASE_API_PATH + "/country?" + "*", (req, res) => {
+        MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("sos1718-alc-sandbox");
+            var query = req.query;
+            if (req.query.year) {
+                query.year = Number(req.query.year);
+            }
+            if (req.query.primary) {
+                query.primary = Number(req.query.primary);
+            }
+            if (req.query.secundary) {
+                query.secundary = Number(req.query.secundary);
+            }
+            if (req.query.tertiery) {
+                query.tertiery = Number(req.query.tertiery);
+            }
+            dbo.collection("expenditures").find(query).toArray(function(err, result) {
+                if (!err && !result.length) {
+                    console.log("Not found");
+                    res.sendStatus(404);
+                }
+                else {
+                    res.send(result.map((c) => {
+                        delete c._id;
+                        return c;
+                    }));
+                }
+                db.close();
+            });
+        });
+    });
+
+    //GET all
     app.get(BASE_API_PATH, (req, res) => {
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-alc-sandbox");
             if (err) throw err;
-
             dbo.collection("expenditures").find({}).toArray(function(err, result) {
-                if (err) throw err;
-                  db.close();
-                res.send(result.map((c) => {
-                    delete c._id;
-                    return c;
-                }));
+                if (!err && !result.length) {
+                    console.log("Not found");
+                    res.sendStatus(404);
+                }
+                else {
+                    res.send(result.map((c) => {
+                        delete c._id;
+                        return c;
+                    }));
+                }
+                db.close();
             });
-        })
+        });
+    });
 
-    })
+    //Postman help
+    app.get(BASE_API_PATH + "/docs", (req, res) => {
+        //res.redirect("https://documenter.getpostman.com/view/3881259/sos1718-02/RVu1Gqf2");
+    });
+
     //loadInitialData
     app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
         MongoClient.connect(url, function(err, db) {
@@ -57,7 +101,7 @@ apiExpenditures.register = function(app) {
         });
     });
 
-    //GET all
+    //GET all SECURED
     app.get(BASE_API_PATH + "/secure/expenditures", (req, res) => {
         var email = req.headers.email;
         var pass = req.headers.pass;
@@ -85,42 +129,7 @@ apiExpenditures.register = function(app) {
             res.sendStatus(401);
         }
     });
-    
-    //urlQuery
-    app.get(BASE_API_PATH + "/country?" + "*", (req, res) => {
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-alc-sandbox");
-            var query = req.query;
-            if (req.query.year) {
-                query.year = Number(req.query.year);
-            }
-            if (req.query.primary) {
-                query.primary = Number(req.query.primary);
-            }
-            if (req.query.secundary) {
-                query.secundary = Number(req.query.secundary);
-            }
-            if (req.query.tertiery) {
-                query.tertiery = Number(req.query.tertiery);
-            }
-            console.log(query);
-            dbo.collection("expenditures").find(query).toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                }
-                db.close();
-            });
-        });
-    });
-    
+
     //GET country OR year
     app.get(BASE_API_PATH + "/:obj" + "", (req, res) => {
         var myquery;
@@ -204,7 +213,7 @@ apiExpenditures.register = function(app) {
 
     //PUT
     app.put(BASE_API_PATH + "/:country/:year", (req, res) => {
-        if (req.body._id != undefined || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.primary) || isNaN(req.body.secundary) || isNaN(req.body.tertiery)) {
+        if (req.body._id != undefined || req.body.country != req.params.country || req.body.year != req.params.year || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.primary) || isNaN(req.body.secundary) || isNaN(req.body.tertiery)) {
             res.sendStatus(400);
             console.log("Bad request");
         }
@@ -220,7 +229,7 @@ apiExpenditures.register = function(app) {
                         dbo.collection("expenditures").updateOne(myquery, newvalues, function(err, result) {
                             if (err) throw err;
                             console.log("1 document updated.");
-                            res.sendStatus(201);
+                            res.sendStatus(200);
                             db.close();
                         });
                     }
@@ -239,11 +248,21 @@ apiExpenditures.register = function(app) {
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-alc-sandbox");
-            dbo.collection("expenditures").deleteMany(function(err, obj) {
-                if (err) throw err;
-                res.sendStatus(200);
+            dbo.collection("expenditures").count(function(err, count) {
+                if (!err && count) {
+                    dbo.collection("expenditures").deleteMany(function(err, obj) {
+                        if (err) throw err;
+                        console.log(count + " registers deleted.");
+                        res.sendStatus(200);
+                        db.close();
+                    });
+                }
+                else {
+                    console.log("Not found");
+                    res.sendStatus(404);
+                }
+                db.close();
             });
-            db.close();
         });
     });
 

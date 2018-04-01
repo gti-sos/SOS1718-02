@@ -17,8 +17,8 @@ var initialsEmployments = [
 ];
 
 apiEmployments.register = function(app) {
-    
-    app.get(BASE_API_PATH + "/country?" , (req, res) => {
+    //urlQuery
+    app.get(BASE_API_PATH + "/country?", (req, res) => {
         var query = req.query;
         if (req.query.year) {
             query.year = Number(req.query.year);
@@ -50,28 +50,34 @@ apiEmployments.register = function(app) {
             });
         });
     });
-    
+
+    //GET all
     app.get(BASE_API_PATH, (req, res) => {
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-jmm-sandbox");
             if (err) throw err;
-
             dbo.collection("employments").find({}).toArray(function(err, result) {
-                if (err) throw err;
-                  db.close();
-                res.send(result.map((c) => {
-                    delete c._id;
-                    return c;
-                }));
+                if (!err && !result.length) {
+                    console.log("Not found");
+                    res.sendStatus(404);
+                }
+                else {
+                    res.send(result.map((c) => {
+                        delete c._id;
+                        return c;
+                    }));
+                }
+                db.close();
             });
         });
     });
-    
-    app.get(BASE_API_PATH+"/docs", (req, res) => {
-       res.redirect("https://documenter.getpostman.com/view/3881259/sos1718-02/RVu1Gqf2");
+
+    //Postman help
+    app.get(BASE_API_PATH + "/docs", (req, res) => {
+        res.redirect("https://documenter.getpostman.com/view/3881259/sos1718-02/RVu1Gqf2");
     });
-    
+
     //loadInitialData
     app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
         MongoClient.connect(url, function(err, db) {
@@ -95,7 +101,7 @@ apiEmployments.register = function(app) {
         });
     });
 
-    //GET all
+    //GET all SECURED
     app.get(BASE_API_PATH + "/secure/employments", (req, res) => {
         console.log("GET all");
         var email = req.headers.email;
@@ -123,39 +129,6 @@ apiEmployments.register = function(app) {
             console.log("Unauthorized");
             res.sendStatus(401);
         }
-    });
-
-    //urlQuery
-    app.get(BASE_API_PATH + "/country?", (req, res) => {
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-alc-sandbox");
-            var query = req.query;
-            console.log(query);
-            if (req.query.year) {
-                query.year = Number(req.query.year);
-            }
-            if (req.query.totalself) {
-                query.totalself = Number(req.query.totalself);
-            }
-            if (req.query.totalsalaried) {
-                query.totalsalaried = Number(req.query.totalsalaried);
-            }
-            if (req.query.totalcontributingfamilyworker) {
-                query.totalcontributingfamilyworker = Number(req.query.totalcontributingfamilyworker);
-            }
-            console.log(query);
-            dbo.collection("employments").find(query).toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result);
-                }
-                db.close();
-            });
-        });
     });
 
     //GET country OR year
@@ -213,7 +186,7 @@ apiEmployments.register = function(app) {
     //POST
     app.post(BASE_API_PATH, (req, res) => {
         var myquery = { country: req.body.country, year: Number(req.body.year) };
-        if (req.body._id != undefined || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.totalself) || isNaN(req.body.totalsalaried) || isNaN(req.body.totalcontributingfamilyworker) ) {
+        if (req.body._id != undefined || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.totalself) || isNaN(req.body.totalsalaried) || isNaN(req.body.totalcontributingfamilyworker)) {
             res.sendStatus(400);
             console.log("Bad request");
         }
@@ -242,7 +215,7 @@ apiEmployments.register = function(app) {
 
     //PUT
     app.put(BASE_API_PATH + "/:country/:year", (req, res) => {
-        if (req.body._id != undefined || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.totalself) || isNaN(req.body.totalsalaried) || isNaN(req.body.totalcontributingfamilyworker) ) {
+        if (req.body._id != undefined || req.body.country != req.params.country || req.body.year != req.params.year || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.totalself) || isNaN(req.body.totalsalaried) || isNaN(req.body.totalcontributingfamilyworker)) {
             res.sendStatus(400);
             console.log("Bad request");
         }
@@ -277,11 +250,21 @@ apiEmployments.register = function(app) {
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-jmm-sandbox");
-            dbo.collection("employments").deleteMany(function(err, obj) {
-                if (err) throw err;
-                res.sendStatus(200);
+            dbo.collection("employments").count(function(err, count) {
+                if (!err && count) {
+                    dbo.collection("employments").deleteMany(function(err, obj) {
+                        if (err) throw err;
+                        console.log(count + " registers deleted.");
+                        res.sendStatus(200);
+                        db.close();
+                    });
+                }
+                else {
+                    console.log("Not found");
+                    res.sendStatus(404);
+                }
+                db.close();
             });
-            db.close();
         });
     });
 

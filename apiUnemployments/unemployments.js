@@ -17,24 +17,67 @@ var initialsUnemployments = [
 ];
 
 apiUnemployments.register = function(app) {
-    
+    //urlQuery
+    app.get(BASE_API_PATH + "/country?", (req, res) => {
+        MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("sos1718-msr-sandbox");
+            var query = req.query;
+            if (req.query.year) {
+                query.year = Number(req.query.year);
+            }
+            if (req.query.young) {
+                query.young = Number(req.query.young);
+            }
+            if (req.query.adult) {
+                query.adult = Number(req.query.adult);
+            }
+            if (req.query.old) {
+                query.old = Number(req.query.old);
+            }
+            if (req.query.longterm) {
+                query.longterm = Number(req.query.longterm);
+            }
+            dbo.collection("unemployments").find(query).toArray(function(err, result) {
+                if (!err && !result.length) {
+                    console.log("Not found");
+                    res.sendStatus(404);
+                }
+                else {
+                    res.send(result);
+                }
+                db.close();
+            });
+        });
+    });
+
+    //GET all
     app.get(BASE_API_PATH, (req, res) => {
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-msr-sandbox");
             if (err) throw err;
-
             dbo.collection("unemployments").find({}).toArray(function(err, result) {
-                if (err) throw err;
-                  db.close();
-                res.send(result.map((c) => {
-                    delete c._id;
-                    return c;
-                }));
+                if (!err && !result.length) {
+                    console.log("Not found");
+                    res.sendStatus(404);
+                }
+                else {
+                    res.send(result.map((c) => {
+                        delete c._id;
+                        return c;
+                    }));
+                }
+                db.close();
             });
-        })
+        });
+    });
 
-    })
+    //Postman help
+    app.get(BASE_API_PATH + "/docs", (req, res) => {
+        //res.redirect("https://documenter.getpostman.com/view/3881259/sos1718-02/RVu1Gqf2");
+    });
+
     //loadInitialData
     app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
         MongoClient.connect(url, function(err, db) {
@@ -58,7 +101,7 @@ apiUnemployments.register = function(app) {
         });
     });
 
-    //GET all
+    //GET all SECURED
     app.get(BASE_API_PATH + "/secure/unemployments", (req, res) => {
         var email = req.headers.email;
         var pass = req.headers.pass;
@@ -85,41 +128,6 @@ apiUnemployments.register = function(app) {
             console.log("Unauthorized");
             res.sendStatus(401);
         }
-    });
-
-    //urlQuery
-    app.get(BASE_API_PATH + "/country?" + "*", (req, res) => {
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-alc-sandbox");
-            var query = req.query;
-            if (req.query.year) {
-                query.year = Number(req.query.year);
-            }
-            if (req.query.young) {
-                query.young = Number(req.query.young);
-            }
-            if (req.query.adult) {
-                query.adult = Number(req.query.adult);
-            }
-            if (req.query.old) {
-                query.old = Number(req.query.old);
-            }
-            if (req.query.longterm) {
-                query.longterm = Number(req.query.longterm);
-            }
-            console.log(query);
-            dbo.collection("unemployments").find(query).toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result);
-                }
-                db.close();
-            });
-        });
     });
 
     //GET country OR year
@@ -189,7 +197,7 @@ apiUnemployments.register = function(app) {
                         dbo.collection("unemployments").insertOne(req.body, function(err, result) {
                             if (err) throw err;
                             console.log("1 document inserted");
-                            res.sendStatus(201);
+                            res.sendStatus(200);
                             db.close();
                         });
                     }
@@ -204,7 +212,7 @@ apiUnemployments.register = function(app) {
 
     //PUT
     app.put(BASE_API_PATH + "/:country/:year", (req, res) => {
-        if (req.body._id != undefined || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.young) || isNaN(req.body.adult) || isNaN(req.body.old) || isNaN(req.body.longterm)) {
+        if (req.body._id != undefined || req.body.country != req.params.country || req.body.year != req.params.year || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.young) || isNaN(req.body.adult) || isNaN(req.body.old) || isNaN(req.body.longterm)) {
             res.sendStatus(400);
             console.log("Bad request");
         }
@@ -220,7 +228,7 @@ apiUnemployments.register = function(app) {
                         dbo.collection("unemployments").updateOne(myquery, newvalues, function(err, result) {
                             if (err) throw err;
                             console.log("1 document updated.");
-                            res.sendStatus(201);
+                            res.sendStatus(200);
                             db.close();
                         });
                     }
@@ -239,11 +247,21 @@ apiUnemployments.register = function(app) {
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-msr-sandbox");
-            dbo.collection("unemployments").deleteMany(function(err, obj) {
-                if (err) throw err;
-                res.sendStatus(200);
+            dbo.collection("unemployments").count(function(err, count) {
+                if (!err && count) {
+                    dbo.collection("unemployments").deleteMany(function(err, obj) {
+                        if (err) throw err;
+                        console.log(count + " registers deleted.");
+                        res.sendStatus(200);
+                        db.close();
+                    });
+                }
+                else {
+                    console.log("Not found");
+                    res.sendStatus(404);
+                }
+                db.close();
             });
-            db.close();
         });
     });
 
