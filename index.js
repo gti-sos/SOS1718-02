@@ -1,12 +1,10 @@
-var port = (process.env.PORT || 1607);
+var port = (process.env.PORT || 1600);
 var express = require("express");
-var bodyParser = require("body-parser");
 var app = express();
-
+var bodyParser = require("body-parser");
 var expendituresApi = require("./apiExpenditures/expenditures.js");
 var employmentsApi = require("./apiEmployments/employments.js");
 var unemploymentsApi = require("./apiUnemployments/unemployments.js");
-
 app.use(bodyParser.json());
 app.use("/", express.static(__dirname + "/public"));
 
