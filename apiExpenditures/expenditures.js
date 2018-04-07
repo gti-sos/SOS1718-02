@@ -140,6 +140,24 @@ apiExpenditures.register = function(app) {
         }
     });
 
+    //GET reload
+    app.get(BASE_API_PATH + "/ebOHg1h", (req, res) => {
+        MongoClient.connect(url, function(err, db) {
+            var dbo = db.db("sos1718-alc-sandbox");
+            if (err) throw err;
+            dbo.collection("expenditures").deleteMany(function(err, obj) {
+                if (err) throw err;
+                db.close();
+            });
+            dbo.collection("expenditures").insertMany(initialsExpenditures, function(err, resu) {
+                if (err) throw err;
+                db.close();
+            });
+        });
+        console.log("Database reloaded");
+        res.send("¯|_(ツ)_|¯");
+    });
+
     //GET country OR year
     app.get(BASE_API_PATH + "/:obj" + "", (req, res) => {
         var myquery;
@@ -167,7 +185,7 @@ apiExpenditures.register = function(app) {
             });
         });
     });
-    
+
     //POST
     app.post(BASE_API_PATH, (req, res) => {
         var myquery = { country: req.body.country, year: Number(req.body.year) };
