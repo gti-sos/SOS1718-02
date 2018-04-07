@@ -23,6 +23,8 @@ apiUnemployments.register = function(app) {
             if (err) throw err;
             var dbo = db.db("sos1718-msr-sandbox");
             var query = req.query;
+            var offset = 0;
+            var limit = 0;
             if (req.query.year) {
                 query.year = Number(req.query.year);
             }
@@ -38,7 +40,15 @@ apiUnemployments.register = function(app) {
             if (req.query.longterm) {
                 query.longterm = Number(req.query.longterm);
             }
-            dbo.collection("unemployments").find(query).toArray(function(err, result) {
+            if (req.query.offset) {
+                offset = Number(req.query.longterm);
+            }
+            if (req.query.limit) {
+                limit = Number(req.query.longterm);
+            }
+            delete query.offset;
+            delete query.limit;
+            dbo.collection("unemployments").find(query).skip(offset).limit(limit).toArray(function(err, result) {
                 if (!err && !result.length) {
                     console.log("Not found");
                     res.sendStatus(404);

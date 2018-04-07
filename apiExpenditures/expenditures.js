@@ -23,6 +23,8 @@ apiExpenditures.register = function(app) {
             if (err) throw err;
             var dbo = db.db("sos1718-alc-sandbox");
             var query = req.query;
+            var limit = 0;
+            var offset = 0;
             if (req.query.year) {
                 query.year = Number(req.query.year);
             }
@@ -35,7 +37,15 @@ apiExpenditures.register = function(app) {
             if (req.query.tertiery) {
                 query.tertiery = Number(req.query.tertiery);
             }
-            dbo.collection("expenditures").find(query).toArray(function(err, result) {
+            if (req.query.offset) {
+                offset = Number(req.query.offset);
+            }
+            if (req.query.limit) {
+                limit = Number(req.query.limit);
+            }
+            delete query.offset;
+            delete query.limit;
+            dbo.collection("expenditures").find(query).skip(offset).limit(limit).toArray(function(err, result) {
                 if (!err && !result.length) {
                     console.log("Not found");
                     res.sendStatus(404);
@@ -156,191 +166,5 @@ apiExpenditures.register = function(app) {
                 db.close();
             });
         });
-    });
-
-    //GET country & year
-    app.get(BASE_API_PATH + "/:country/:year", (req, res) => {
-        var myquery = { country: req.params.country, year: Number(req.params.year) };
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-alc-sandbox");
-            dbo.collection("expenditures").find(myquery).toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                }
-                db.close();
-            });
-        });
-    });
-
-    //POST
-    app.post(BASE_API_PATH, (req, res) => {
-        var myquery = { country: req.body.country, year: Number(req.body.year) };
-        if (req.body._id != undefined || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.primary) || isNaN(req.body.secundary) || isNaN(req.body.tertiery)) {
-            res.sendStatus(400);
-            console.log("Bad request");
-        }
-        else {
-            MongoClient.connect(url, function(err, db) {
-                if (err) throw err;
-                var dbo = db.db("sos1718-alc-sandbox");
-                dbo.collection("expenditures").count(myquery, function(err, count) {
-                    if (!err && !count) {
-                        dbo.collection("expenditures").insertOne(req.body, function(err, result) {
-                            if (err) throw err;
-                            console.log("1 document inserted");
-                            res.sendStatus(201);
-                            db.close();
-                        });
-                    }
-                    else {
-                        res.sendStatus(409);
-                    }
-                    db.close();
-                });
-            });
-        }
-    });
-
-    //PUT
-    app.put(BASE_API_PATH + "/:country/:year", (req, res) => {
-        if (req.body._id != undefined || req.body.country != req.params.country || req.body.year != req.params.year || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.primary) || isNaN(req.body.secundary) || isNaN(req.body.tertiery)) {
-            res.sendStatus(400);
-            console.log("Bad request");
-        }
-        else {
-            MongoClient.connect(url, function(err, db) {
-                if (err) throw err;
-                var dbo = db.db("sos1718-alc-sandbox");
-                var myquery = { country: req.params.country, year: Number(req.params.year) };
-                var newvalues = { $set: req.body };
-                dbo.collection("expenditures").count(myquery, function(err, count) {
-                    if (!err && count) {
-                        dbo.collection("expenditures").updateOne(myquery, newvalues, function(err, result) {
-                            if (err) throw err;
-                            console.log("1 document updated.");
-                            res.sendStatus(200);
-                            db.close();
-                        });
-                    }
-                    else {
-                        console.log("Not found");
-                        res.sendStatus(404);
-                    }
-                    db.close();
-                });
-            });
-        }
-    });
-
-    //DELETE all
-    app.delete(BASE_API_PATH, (req, res) => {
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-alc-sandbox");
-            dbo.collection("expenditures").count(function(err, count) {
-                if (!err && count) {
-                    dbo.collection("expenditures").deleteMany(function(err, obj) {
-                        if (err) throw err;
-                        console.log(count + " registers deleted.");
-                        res.sendStatus(200);
-                        db.close();
-                    });
-                }
-                else {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                db.close();
-            });
-        });
-    });
-
-    //DELETE country or year
-    app.delete(BASE_API_PATH + "/:obj", (req, res) => {
-        var myquery;
-        if (isNaN(req.params.obj)) {
-            myquery = { country: req.params.obj };
-        }
-        else {
-            myquery = { year: Number(req.params.obj) };
-        }
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-alc-sandbox");
-            dbo.collection("expenditures").count(myquery, function(err, count) {
-                if (!err && count) {
-                    dbo.collection("expenditures").deleteMany(myquery, function(err, obj) {
-                        if (err) throw err;
-                        console.log("Ok");
-                        res.sendStatus(200);
-                        db.close();
-                    });
-                }
-                else {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                db.close();
-            });
-        });
-    });
-
-    //DELETE country & year
-    app.delete(BASE_API_PATH + "/:country/:year", (req, res) => {
-        var myquery = { country: req.params.country, year: Number(req.params.year) };
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-alc-sandbox");
-            dbo.collection("expenditures").count(myquery, function(err, count) {
-                if (!err && count) {
-                    dbo.collection("expenditures").deleteOne(myquery, function(err, obj) {
-                        if (err) throw err;
-                        console.log("Ok");
-                        res.sendStatus(200);
-                        db.close();
-                    });
-                }
-                else {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                db.close();
-            });
-        });
-    });
-
-    //Methods not allowed
-    //GET to BASE_API
-    app.get(BASE_API, (req, res) => {
-        res.sendStatus(405);
-        console.log("Method not allowed");
-    });
-    //POST with arguments.
-    app.post(BASE_API_PATH + "/*", (req, res) => {
-        res.sendStatus(405);
-        console.log("Method not allowed");
-    });
-    //PUT without arguments.
-    app.put(BASE_API_PATH, (req, res) => {
-        res.sendStatus(405);
-        console.log("Method not allowed");
-    });
-    //PUT with 1 argument.
-    app.put(BASE_API_PATH + "/:obj", (req, res) => {
-        res.sendStatus(405);
-        console.log("Method not allowed");
-    });
-    //PUT with more than 2 arguments.
-    app.put(BASE_API_PATH + "/:obj1/:obj2" + "/*", (req, res) => {
-        res.sendStatus(405);
-        console.log("Method not allowed");
     });
 };
