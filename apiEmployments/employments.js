@@ -17,13 +17,13 @@ var initialsEmployments = [
 ];
 
 apiEmployments.register = function(app) {
-  
+
     //urlQuery
     app.get(BASE_API_PATH + "/country?", (req, res) => {
         var limit = Number(req.query.limit);
         var offset = Number(req.query.offset);
-        
-        
+
+
         var query = req.query;
         if (req.query.year) {
             query.year = Number(req.query.year);
@@ -37,42 +37,43 @@ apiEmployments.register = function(app) {
         if (req.query.totalcontributingfamilyworker) {
             query.totalcontributingfamilyworker = Number(req.query.totalcontributingfamilyworker);
         }
-        if(limit>0&offset>0){
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-jmm-sandbox");
-            dbo.collection("employments").find(req.query).skip(offset).limit(limit).toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                }
-                db.close();
-            });
-        });
-        }else{
+        if (limit > 0 & offset > 0) {
             MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-jmm-sandbox");
-            dbo.collection("employments").find(req.query).toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                }
-                db.close();
+                if (err) throw err;
+                var dbo = db.db("sos1718-jmm-sandbox");
+                dbo.collection("employments").find(req.query).skip(offset).limit(limit).toArray(function(err, result) {
+                    if (!err && !result.length) {
+                        console.log("Not found");
+                        res.sendStatus(404);
+                    }
+                    else {
+                        res.send(result.map((c) => {
+                            delete c._id;
+                            return c;
+                        }));
+                    }
+                    db.close();
+                });
             });
-        });
+        }
+        else {
+            MongoClient.connect(url, function(err, db) {
+                if (err) throw err;
+                var dbo = db.db("sos1718-jmm-sandbox");
+                dbo.collection("employments").find(req.query).toArray(function(err, result) {
+                    if (!err && !result.length) {
+                        console.log("Not found");
+                        res.sendStatus(404);
+                    }
+                    else {
+                        res.send(result.map((c) => {
+                            delete c._id;
+                            return c;
+                        }));
+                    }
+                    db.close();
+                });
+            });
         }
     });
 
@@ -80,50 +81,52 @@ apiEmployments.register = function(app) {
     app.get(BASE_API_PATH, (req, res) => {
         var limit = Number(req.query.limit);
         var offset = Number(req.query.offset);
-        if(limit>0&offset>0){
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-jmm-sandbox");
-            if (err) throw err;
-            dbo.collection("employments").find({}).skip(offset).limit(limit).toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                }
-                db.close();
-            });
-        });
-        }else{
+        if (limit > 0 & offset > 0) {
             MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-jmm-sandbox");
-            if (err) throw err;
-            dbo.collection("employments").find({}).toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                }
-                db.close();
+                if (err) throw err;
+                var dbo = db.db("sos1718-jmm-sandbox");
+                if (err) throw err;
+                dbo.collection("employments").find({}).skip(offset).limit(limit).toArray(function(err, result) {
+                    if (!err && !result.length) {
+                        console.log("Not found");
+                        res.sendStatus(404);
+                    }
+                    else {
+                        res.send(result.map((c) => {
+                            delete c._id;
+                            return c;
+                        }));
+                    }
+                    db.close();
+                });
             });
-        });
+        }
+        else {
+            MongoClient.connect(url, function(err, db) {
+                if (err) throw err;
+                var dbo = db.db("sos1718-jmm-sandbox");
+                if (err) throw err;
+                dbo.collection("employments").find({}).toArray(function(err, result) {
+                    if (!err && !result.length) {
+                        console.log("Not found");
+                        res.sendStatus(404);
+                    }
+                    else {
+                        res.send(result.map((c) => {
+                            delete c._id;
+                            return c;
+                        }));
+                    }
+                    db.close();
+                });
+            });
         }
     });
 
     //Postman help
     app.get(BASE_API_PATH + "/docs", (req, res) => {
-        res.redirect("https://documenter.getpostman.com/view/3901859/sos1718-02-employments/RVu1HAqN");
+        //res.redirect("https://documenter.getpostman.com/view/3901859/sos1718-02-employments/RVu1HAqN");
+         res.redirect("https://documenter.getpostman.com/view/3881259/sos1718-02-employments/RVu5i8A3");
     });
 
     //loadInitialData
@@ -176,33 +179,34 @@ apiEmployments.register = function(app) {
             console.log("Unauthorized");
             res.sendStatus(401);
         }
-    });/*
-    //PAGINACIÓN
-    app.get(BASE_API_PATH +"?", (req, res) => {
-        
-        var limit = Number(req.query.limit);
-        var offset = Number(req.query.offset);
-      
-        
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-jmm-sandbox");
-            dbo.collection("employments").find().skip(offset).limit(limit).toArray(function(err, result) {
-                
-                    res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                
-                 db.close();
+    });
+    /*
+        //PAGINACIÓN
+        app.get(BASE_API_PATH +"?", (req, res) => {
+            
+            var limit = Number(req.query.limit);
+            var offset = Number(req.query.offset);
+          
+            
+            MongoClient.connect(url, function(err, db) {
+                if (err) throw err;
+                var dbo = db.db("sos1718-jmm-sandbox");
+                dbo.collection("employments").find().skip(offset).limit(limit).toArray(function(err, result) {
+                    
+                        res.send(result.map((c) => {
+                            delete c._id;
+                            return c;
+                        }));
+                    
+                     db.close();
+                });
             });
-        });
-    });*/
+        });*/
     //GET country OR year
     app.get(BASE_API_PATH + "/:obj", (req, res) => {
         var limit = Number(req.query.limit);
         var offset = Number(req.query.offset);
-        
+
         var myquery;
         if (isNaN(req.params.obj)) {
             myquery = { country: req.params.obj };
@@ -210,43 +214,44 @@ apiEmployments.register = function(app) {
         else {
             myquery = { year: Number(req.params.obj) };
         }
-        if(limit>0&offset>0){
-        
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-jmm-sandbox");
-            dbo.collection("employments").find(myquery).skip(offset).limit(limit).toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                }
-                db.close();
-            });
-        });
-        }else{
+        if (limit > 0 & offset > 0) {
+
             MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-jmm-sandbox");
-            dbo.collection("employments").find(myquery).toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                }
-                db.close();
+                if (err) throw err;
+                var dbo = db.db("sos1718-jmm-sandbox");
+                dbo.collection("employments").find(myquery).skip(offset).limit(limit).toArray(function(err, result) {
+                    if (!err && !result.length) {
+                        console.log("Not found");
+                        res.sendStatus(404);
+                    }
+                    else {
+                        res.send(result.map((c) => {
+                            delete c._id;
+                            return c;
+                        }));
+                    }
+                    db.close();
+                });
             });
-        });
+        }
+        else {
+            MongoClient.connect(url, function(err, db) {
+                if (err) throw err;
+                var dbo = db.db("sos1718-jmm-sandbox");
+                dbo.collection("employments").find(myquery).toArray(function(err, result) {
+                    if (!err && !result.length) {
+                        console.log("Not found");
+                        res.sendStatus(404);
+                    }
+                    else {
+                        res.send(result.map((c) => {
+                            delete c._id;
+                            return c;
+                        }));
+                    }
+                    db.close();
+                });
+            });
         }
     });
 
@@ -254,45 +259,46 @@ apiEmployments.register = function(app) {
     app.get(BASE_API_PATH + "/:country/:year", (req, res) => {
         var limit = Number(req.query.limit);
         var offset = Number(req.query.offset);
-        if(limit>0&offset>0){
-       
-        var myquery = { country: req.params.country, year: Number(req.params.year) };
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-jmm-sandbox");
-            dbo.collection("employments").find(myquery).skip(offset).limit(limit).toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                }
-                db.close();
-            });
-        });
-        }else{
+        if (limit > 0 & offset > 0) {
+
             var myquery = { country: req.params.country, year: Number(req.params.year) };
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-jmm-sandbox");
-            dbo.collection("employments").find(myquery).toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                }
-                db.close();
+            MongoClient.connect(url, function(err, db) {
+                if (err) throw err;
+                var dbo = db.db("sos1718-jmm-sandbox");
+                dbo.collection("employments").find(myquery).skip(offset).limit(limit).toArray(function(err, result) {
+                    if (!err && !result.length) {
+                        console.log("Not found");
+                        res.sendStatus(404);
+                    }
+                    else {
+                        res.send(result.map((c) => {
+                            delete c._id;
+                            return c;
+                        }));
+                    }
+                    db.close();
+                });
             });
-        });
+        }
+        else {
+            var myquery = { country: req.params.country, year: Number(req.params.year) };
+            MongoClient.connect(url, function(err, db) {
+                if (err) throw err;
+                var dbo = db.db("sos1718-jmm-sandbox");
+                dbo.collection("employments").find(myquery).toArray(function(err, result) {
+                    if (!err && !result.length) {
+                        console.log("Not found");
+                        res.sendStatus(404);
+                    }
+                    else {
+                        res.send(result.map((c) => {
+                            delete c._id;
+                            return c;
+                        }));
+                    }
+                    db.close();
+                });
+            });
         }
     });
 
