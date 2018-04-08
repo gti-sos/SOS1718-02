@@ -17,8 +17,13 @@ var initialsEmployments = [
 ];
 
 apiEmployments.register = function(app) {
+  
     //urlQuery
     app.get(BASE_API_PATH + "/country?", (req, res) => {
+        var limit = Number(req.query.limit);
+        var offset = Number(req.query.offset);
+        
+        
         var query = req.query;
         if (req.query.year) {
             query.year = Number(req.query.year);
@@ -32,7 +37,26 @@ apiEmployments.register = function(app) {
         if (req.query.totalcontributingfamilyworker) {
             query.totalcontributingfamilyworker = Number(req.query.totalcontributingfamilyworker);
         }
+        if(limit>0&offset>0){
         MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("sos1718-jmm-sandbox");
+            dbo.collection("employments").find(req.query).skip(offset).limit(limit).toArray(function(err, result) {
+                if (!err && !result.length) {
+                    console.log("Not found");
+                    res.sendStatus(404);
+                }
+                else {
+                    res.send(result.map((c) => {
+                        delete c._id;
+                        return c;
+                    }));
+                }
+                db.close();
+            });
+        });
+        }else{
+            MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-jmm-sandbox");
             dbo.collection("employments").find(req.query).toArray(function(err, result) {
@@ -49,6 +73,7 @@ apiEmployments.register = function(app) {
                 db.close();
             });
         });
+        }
     });
 
     //GET all
@@ -227,7 +252,30 @@ apiEmployments.register = function(app) {
 
     //GET country & year
     app.get(BASE_API_PATH + "/:country/:year", (req, res) => {
+        var limit = Number(req.query.limit);
+        var offset = Number(req.query.offset);
+        if(limit>0&offset>0){
+       
         var myquery = { country: req.params.country, year: Number(req.params.year) };
+        MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("sos1718-jmm-sandbox");
+            dbo.collection("employments").find(myquery).skip(offset).limit(limit).toArray(function(err, result) {
+                if (!err && !result.length) {
+                    console.log("Not found");
+                    res.sendStatus(404);
+                }
+                else {
+                    res.send(result.map((c) => {
+                        delete c._id;
+                        return c;
+                    }));
+                }
+                db.close();
+            });
+        });
+        }else{
+            var myquery = { country: req.params.country, year: Number(req.params.year) };
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-jmm-sandbox");
@@ -245,6 +293,7 @@ apiEmployments.register = function(app) {
                 db.close();
             });
         });
+        }
     });
 
     //POST
