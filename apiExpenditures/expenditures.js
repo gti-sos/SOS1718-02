@@ -18,7 +18,7 @@ var initialsExpenditures = [
 
 apiExpenditures.register = function(app) {
     //urlQuery
-    app.get(BASE_API_PATH + "/country?" + "*", (req, res) => {
+    app.get(BASE_API_PATH + "?" + "*", (req, res) => {
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-alc-sandbox");
@@ -260,7 +260,7 @@ apiExpenditures.register = function(app) {
                     }
                     else {
                         console.log("Not found");
-                        res.sendStatus(404);
+                        res.sendStatus(405);
                     }
                     db.close();
                 });
