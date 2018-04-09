@@ -41,10 +41,10 @@ apiUnemployments.register = function(app) {
                 query.longterm = Number(req.query.longterm);
             }
             if (req.query.offset) {
-                offset = Number(req.query.longterm);
+                offset = Number(req.query.offset);
             }
             if (req.query.limit) {
-                limit = Number(req.query.longterm);
+                limit = Number(req.query.limit);
             }
             delete query.offset;
             delete query.limit;
