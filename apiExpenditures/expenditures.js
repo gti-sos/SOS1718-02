@@ -186,6 +186,28 @@ apiExpenditures.register = function(app) {
         });
     });
 
+    //GET country & year
+    app.get(BASE_API_PATH + "/:country/:year", (req, res) => {
+        var myquery = { country: req.params.country, year: Number(req.params.year) };
+        MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("sos1718-alc-sandbox");
+            dbo.collection("expenditures").find(myquery).toArray(function(err, result) {
+                if (!err && !result.length) {
+                    console.log("Not found");
+                    res.sendStatus(404);
+                }
+                else {
+                    res.send(result.map((c) => {
+                        delete c._id;
+                        return c;
+                    }));
+                }
+                db.close();
+            });
+        });
+    });
+
     //POST
     app.post(BASE_API_PATH, (req, res) => {
         var myquery = { country: req.body.country, year: Number(req.body.year) };
