@@ -17,8 +17,39 @@ var initialsExpenditures = [
 ];
 
 apiExpenditures.register = function(app) {
+    //Postman Docs
+    app.get(BASE_API_PATH + "/docs", (req, res) => {
+        console.log("Postman Docs");
+        res.redirect("https://documenter.getpostman.com/view/3901859/sos1718-02-expenditures/RVu1HAko");
+    });
+    
+    //loadInitialData
+    app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
+        console.log("loadInitialData");
+        MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("sos1718-alc-sandbox");
+            dbo.collection("expenditures").count(function(err, count) {
+                if (!err && !count) {
+                    dbo.collection("expenditures").insertMany(initialsExpenditures, function(err, resu) {
+                        if (err) throw err;
+                        console.log("Number of documents inserted: " + resu.insertedCount);
+                        res.send("Number of documents inserted: " + resu.insertedCount);
+                        db.close();
+                    });
+                }
+                else {
+                    console.log("Expenditures has " + count + " documents inserted.");
+                    res.send("Expenditures has " + count + " documents inserted.");
+                }
+                db.close();
+            });
+        });
+    });
+
     //urlQuery
-    app.get(BASE_API_PATH + "?" + "*", (req, res) => {
+    app.get(BASE_API_PATH, (req, res) => {
+        console.log("urlQuery");
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-alc-sandbox");
@@ -52,59 +83,9 @@ apiExpenditures.register = function(app) {
                 }
                 else {
                     res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                }
-                db.close();
-            });
-        });
-    });
-
-    //GET all
-    app.get(BASE_API_PATH, (req, res) => {
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-alc-sandbox");
-            if (err) throw err;
-            dbo.collection("expenditures").find({}).toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                }
-                db.close();
-            });
-        });
-    });
-
-    //Postman docs
-    app.get(BASE_API_PATH + "/docs", (req, res) => {
-        res.redirect("https://documenter.getpostman.com/view/3901859/sos1718-02-expenditures/RVu1HAko");
-    });
-
-    //loadInitialData
-    app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-alc-sandbox");
-            dbo.collection("expenditures").count(function(err, count) {
-                if (!err && !count) {
-                    dbo.collection("expenditures").insertMany(initialsExpenditures, function(err, resu) {
-                        if (err) throw err;
-                        console.log("Number of documents inserted: " + resu.insertedCount);
-                        res.send("Number of documents inserted: " + resu.insertedCount);
-                        db.close();
-                    });
-                }
-                else {
-                    console.log("Expenditures has " + count + " documents inserted.");
-                    res.send("Expenditures has " + count + " documents inserted.");
+                            delete c._id;
+                            return c;
+                        }));
                 }
                 db.close();
             });
@@ -113,6 +94,7 @@ apiExpenditures.register = function(app) {
 
     //GET all SECURED
     app.get(BASE_API + "/secure/expenditures", (req, res) => {
+        console.log("Get all secured");
         var email = req.headers.email;
         var pass = req.headers.pass;
         if (email == "andreslorenzo" && pass == "andreslorenzo") {
@@ -140,26 +122,9 @@ apiExpenditures.register = function(app) {
         }
     });
 
-    //GET reload
-    app.get(BASE_API_PATH + "/ebOHg1h", (req, res) => {
-        MongoClient.connect(url, function(err, db) {
-            var dbo = db.db("sos1718-alc-sandbox");
-            if (err) throw err;
-            dbo.collection("expenditures").deleteMany(function(err, obj) {
-                if (err) throw err;
-                db.close();
-            });
-            dbo.collection("expenditures").insertMany(initialsExpenditures, function(err, resu) {
-                if (err) throw err;
-                db.close();
-            });
-        });
-        console.log("Database reloaded");
-        res.send("¯|_(ツ)_|¯");
-    });
-
     //GET country OR year
     app.get(BASE_API_PATH + "/:obj" + "", (req, res) => {
+        console.log("GET country OR year");
         var myquery;
         if (isNaN(req.params.obj)) {
             myquery = { country: req.params.obj };
@@ -188,6 +153,7 @@ apiExpenditures.register = function(app) {
 
     //GET country & year
     app.get(BASE_API_PATH + "/:country/:year", (req, res) => {
+        console.log("Get country & year");
         var myquery = { country: req.params.country, year: Number(req.params.year) };
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
@@ -208,10 +174,17 @@ apiExpenditures.register = function(app) {
         });
     });
 
-    //POST
+    //POST Create a document
     app.post(BASE_API_PATH, (req, res) => {
-        var myquery = { country: req.body.country, year: Number(req.body.year) };
-        if (req.body._id != undefined || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.primary) || isNaN(req.body.secundary) || isNaN(req.body.tertiery)) {
+        console.log("Post");
+        var myquery = {
+            country: req.body.country,
+            year: Number(req.body.year),
+            primary: Number(req.body.primary),
+            secundary: Number(req.body.secundary),
+            tertiery: Number(req.body.tertiery)
+        };
+        if (req.body.id || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.primary) || isNaN(req.body.secundary) || isNaN(req.body.tertiery)) {
             res.sendStatus(400);
             console.log("Bad request");
         }
@@ -221,7 +194,7 @@ apiExpenditures.register = function(app) {
                 var dbo = db.db("sos1718-alc-sandbox");
                 dbo.collection("expenditures").count(myquery, function(err, count) {
                     if (!err && !count) {
-                        dbo.collection("expenditures").insertOne(req.body, function(err, result) {
+                        dbo.collection("expenditures").insertOne(myquery, function(err, result) {
                             if (err) throw err;
                             console.log("1 document inserted");
                             res.sendStatus(201);
@@ -230,6 +203,7 @@ apiExpenditures.register = function(app) {
                     }
                     else {
                         res.sendStatus(409);
+                        console.log("Conflict");
                     }
                     db.close();
                 });
@@ -239,6 +213,7 @@ apiExpenditures.register = function(app) {
 
     //PUT
     app.put(BASE_API_PATH + "/:country/:year", (req, res) => {
+        console.log("Put");
         if (req.body._id != undefined || req.body.country != req.params.country || req.body.year != req.params.year || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.primary) || isNaN(req.body.secundary) || isNaN(req.body.tertiery)) {
             res.sendStatus(400);
             console.log("Bad request");
@@ -248,10 +223,18 @@ apiExpenditures.register = function(app) {
                 if (err) throw err;
                 var dbo = db.db("sos1718-alc-sandbox");
                 var myquery = { country: req.params.country, year: Number(req.params.year) };
-                var newvalues = { $set: req.body };
+                var newValues = {
+                    $set: {
+                        country: req.body.country,
+                        year: Number(req.body.year),
+                        primary: Number(req.body.primary),
+                        secundary: Number(req.body.secundary),
+                        tertiery: Number(req.body.tertiery)
+                    }
+                };
                 dbo.collection("expenditures").count(myquery, function(err, count) {
                     if (!err && count) {
-                        dbo.collection("expenditures").updateOne(myquery, newvalues, function(err, result) {
+                        dbo.collection("expenditures").updateOne(myquery, newValues, function(err, result) {
                             if (err) throw err;
                             console.log("1 document updated.");
                             res.sendStatus(200);
@@ -260,7 +243,7 @@ apiExpenditures.register = function(app) {
                     }
                     else {
                         console.log("Not found");
-                        res.sendStatus(405);
+                        res.sendStatus(404);
                     }
                     db.close();
                 });
@@ -271,6 +254,7 @@ apiExpenditures.register = function(app) {
     //DELETE all
     app.delete(BASE_API_PATH, (req, res) => {
         MongoClient.connect(url, function(err, db) {
+            console.log("Delete all");
             if (err) throw err;
             var dbo = db.db("sos1718-alc-sandbox");
             dbo.collection("expenditures").count(function(err, count) {
@@ -293,6 +277,7 @@ apiExpenditures.register = function(app) {
 
     //DELETE country or year
     app.delete(BASE_API_PATH + "/:obj", (req, res) => {
+        console.log("Delete country or year");
         var myquery;
         if (isNaN(req.params.obj)) {
             myquery = { country: req.params.obj };
@@ -323,6 +308,7 @@ apiExpenditures.register = function(app) {
 
     //DELETE country & year
     app.delete(BASE_API_PATH + "/:country/:year", (req, res) => {
+        console.log("Delete country & year");
         var myquery = { country: req.params.country, year: Number(req.params.year) };
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
