@@ -10,7 +10,7 @@ angular.module("ExpendituresApp").controller("EditCtrl", ["$scope", "$http", "$r
 
     $scope.updateExpenditure = function() {
         $http.put(BASE_API_PATH, $scope.data).then(function(response) {
-            $scope.status = "Status: " + response.status;
+            console.log($httpParamSerializer($scope.data));
             $location.path("/");
         });
     };
