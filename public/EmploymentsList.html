@@ -1,0 +1,38 @@
+<h1>Employments List</h1>
+ <table class="table">
+     <thead>
+     <tr>
+         <th>Country</th>
+         <th>Year</th>
+         <th>Total Self</th>
+         <th>Total Salaried</th>
+         <th>Total Contributing Family Worker </th>
+         
+         <th>Actions</th>
+     </tr>
+     </thead>
+     <tbody>
+         <tr>
+             <td><input class="form-control" ng-model="newEmployment.country" /></td>
+             <td><input  type="number"class="form-control" ng-model="newEmployment.year" /></td>
+             <td><input type="number" class="form-control" ng-model="newEmployment.totalself" /></td>
+             <td><input  type="number"class="form-control" ng-model="newEmployment.totalsalaried" /></td>
+             <td><input  type="number"class="form-control" ng-model="newEmployment.totalcontributingfamilyworker" /></td>
+             <td><button  class="button btn-primary" ng-click="addEmployment()">Add</button></td>
+         </tr>
+         <tr ng-repeat="employment in employments">
+             <td><a href="/EmploymentsApp.html#!/employments/{{employment.country}}/{{employment.year}}">{{employment.country}}</a></td>
+             <td>{{employment.year}}</td>
+             <td>{{employment.totalself}}</td>
+             <td>{{employment.totalsalaried}}</td>
+             <td>{{employment.totalcontributingfamilyworker}}</td>
+             
+             <td><button class="button btn-danger" ng-click="deleteEmployment(employment.country,employment.year)">Delete</button></td>
+         </tr>
+     </tbody>
+ </table>
+ <td><button class="button btn-danger" ng-click="deleteAllEmployment()">Delete</button></td>
+ 
+            <td><button class="button btn-secondary" ng-click="getLoad()" text>Load Initial Data</button></td>
+ <hr/>
+ <h8><i>{{status}}</i></h8>
