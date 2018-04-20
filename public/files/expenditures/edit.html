@@ -1,0 +1,24 @@
+<h1>Edit Expenditure</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Country</th>
+            <th>Year</th>
+            <th>Primary</th>
+            <th>Secundary</th>
+            <th>Tertiery</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{updatedExpenditure.country}}</td>
+            <td>{{updatedExpenditure.year}}</td>
+            <td><input class="form-control" ng-model="updatedExpenditure.primary" /></td>
+            <td><input class="form-control" ng-model="updatedExpenditure.secundary" /></td>
+            <td><input class="form-control" ng-model="updatedExpenditure.tertiery" /></td>
+            <td><button class="button btn-primary" ng-click="updateExpenditure()" text>Update</button></td>
+        </tr>
+    </tbody>
+</table>
+<div>{{status}}</div>
