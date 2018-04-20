@@ -35,7 +35,7 @@
             $http.get(api).then(function(response) {
              $scope.employments = response.data;
             });
-           };
+           }
            getEmployments();
          
           }]);
