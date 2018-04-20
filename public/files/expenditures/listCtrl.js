@@ -12,7 +12,8 @@ angular.module("ExpendituresApp").controller("ListCtrl", ["$scope", "$http", fun
     };
 
     $scope.deleteExpenditure = function(country, year) {
-        $http.delete(BASE_API_PATH + "/" + country + "/" + year, $scope.newExpenditure).then(function(response) {
+        $http.delete(BASE_API_PATH + "/" + country + "/" + year, $scope.newExpenditure)
+        .then(function(response) {
             $scope.status = country + " deleted. " + response.status;
             getExpenditures();
         });
@@ -33,6 +34,7 @@ angular.module("ExpendituresApp").controller("ListCtrl", ["$scope", "$http", fun
 
     function getExpenditures() {
         $http.get(BASE_API_PATH).then(function(response) {
+            console.log(response.data);
             $scope.expenditures = response.data;
         });
     }

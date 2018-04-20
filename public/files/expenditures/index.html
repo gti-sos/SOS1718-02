@@ -1,18 +1,19 @@
-<html ng-app="ExpendituresApp">
+<html >
 
 <head>
     <title>Expenditures</title>
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+</head>
+
+<body ng-app="ExpendituresApp">
+    <div ng-view>
+    </div>
+    
     <script type="text/javascript" src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../bower_components/angular/angular.min.js"></script>
     <script type="text/javascript" src="../bower_components/angular-route/angular-route.min.js"></script>
     <script src="expendituresApp.js"></script>
     <script src="listCtrl.js"></script>
     <script src="editCtrl.js"></script>
-</head>
-
-<body>
-    <div ng-view>
-    </div>
 </body>
 </html>

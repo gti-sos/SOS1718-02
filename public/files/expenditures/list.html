@@ -20,7 +20,7 @@
             <td><button class="button btn-primary" ng-click="addExpenditure()" text>Add</button></td>
         </tr>
         <tr ng-repeat="expenditures in expenditures">
-            <td>{{expenditures.country}}</td>
+            <td><a href= "/files/expenditures/#!/{{expenditures.country}}/{{expenditures.year}}">{{expenditures.country}}</a></td>
             <td>{{expenditures.year}}</td>
             <td>{{expenditures.primary}}</td>
             <td>{{expenditures.secundary}}</td>
