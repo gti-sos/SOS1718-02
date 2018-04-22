@@ -1,0 +1,24 @@
+<h1>Edit Employment</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Country</th>
+            <th>Year</th>
+            <th>Total Self</th>
+            <th>Total Salaried</th>
+            <th>Total Contributing Family Worker </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{data.country}}</td>
+            <td>{{data.year}}</td>
+            <td><input class="form-control" ng-model="data.totalself" /></td>
+            <td><input class="form-control" ng-model="data.totalsalaried" /></td>
+            <td><input class="form-control" ng-model="data.totalcontributingfamilyworker" /></td>
+            <td><button class="button btn-primary" ng-click="updateEmployment()" text>Update</button></td>
+        </tr>
+    </tbody>
+</table>
+<div>{{status}}</div>
