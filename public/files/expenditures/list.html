@@ -31,15 +31,12 @@
         </tr>
     </tbody>
 </table>
-<nav aria-label="Page navigation example">
-    <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" ng-click="prueba()">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-    </ul>
-</nav>
+<div id="numberPagination" disabled=true>
+    <table>
+        <td><button class="btn btn-info" ng-click="getPage(-3)">Prev</button></td>
+        <td><button class="btn btn-info" ng-click="getPage(3)">Next</button></td>
+    </table>
+</div>
 <table class="table">
     <tbody>
         <tr>
@@ -61,7 +58,7 @@
         </tr>
         <tr>
             <td>Contraseña: </td>
-            <td><input class="form-control" ng-model="pass" /></td>
+            <td><input type="password"class="form-control" ng-model="pass" /></td>
             </td>
         </tr>
     </tbody>

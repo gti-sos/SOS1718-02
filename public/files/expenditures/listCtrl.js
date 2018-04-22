@@ -4,7 +4,7 @@ angular.module("ExpendituresApp").controller("ListCtrl", ["$scope", "$http", "$h
     console.log("List Ctrl initialized!");
     var BASE_API = "/api/v2";
     var BASE_API_PATH = "/api/v2/expenditures";
-
+    var offsetP = 0;
     $scope.addExpenditure = function() {
         $http.post(BASE_API_PATH, $scope.newExpenditure).then(function(response) {
             $scope.status = "Status: " + response.status;
@@ -45,8 +45,11 @@ angular.module("ExpendituresApp").controller("ListCtrl", ["$scope", "$http", "$h
         }
         var query = $httpParamSerializer($scope.newExpenditure);
         console.log(query);
-        $http.get(BASE_API_PATH + "/?" + query + "&offset=0&limit=0").then(function(response) {
+        $http.get(BASE_API_PATH + "/?" + query + "&offset=0&limit=10").then(function(response) {
             $scope.expenditures = response.data;
+        }, function errorCallback(response) {
+            console.log("Empty");
+            $scope.expenditures = [];
         });
     };
 
@@ -60,6 +63,10 @@ angular.module("ExpendituresApp").controller("ListCtrl", ["$scope", "$http", "$h
     function getExpenditures() {
         $http.get(BASE_API_PATH).then(function(response) {
             $scope.expenditures = response.data;
+        }, function errorCallback(response) {
+            console.log("Empty");
+            $scope.expenditures = [];
+            $scope.status = response.data;
         });
     }
 
@@ -82,16 +89,46 @@ angular.module("ExpendituresApp").controller("ListCtrl", ["$scope", "$http", "$h
         var query = $httpParamSerializer($scope.newExpenditure);
         $http.get(BASE_API_PATH + "/?" + query + "&offset=0&limit=0").then(function(response) {
             $scope.count = response.data.length;
+        }, function errorCallback(response) {
+            console.log("Empty");
+            $scope.expenditures = [];
+            $scope.status = response.data;
         });
     };
 
     $scope.getExpendituresSecured = function() {
-            $http.get(BASE_API + "/secure/expenditures", {
+        $http.get(BASE_API + "/secure/expenditures", {
             headers: { "user": $scope.user, "pass": $scope.pass }
         }).then(function(response) {
             $scope.expenditures = response.data;
+            $scope.status = "Authorized";
+        }, function errorCallback(response) {
+            console.log("Empty");
+            $scope.expenditures = [];
+            $scope.status = response.data;
         });
     };
-    
+
+    $scope.getPage = function(Number (p)) {
+        var offsetP = offsetP + p;
+        console.log(offsetP);
+        if (offsetP < 0) {
+            $http.get(BASE_API_PATH + "/?" + "&offset=0&limit=10").then(function(response) {
+                $scope.expenditures = response.data;
+            }, function errorCallback(response) {
+                console.log("Empty");
+                $scope.expenditures = [];
+            });
+        }
+        else {
+            $http.get(BASE_API_PATH + "/?" + "&offset=" + offsetP + "&limit=10").then(function(response) {
+                $scope.expenditures = response.data;
+            }, function errorCallback(response) {
+                console.log("Empty");
+                $scope.expenditures = [];
+            });
+        }
+    };
+
     getExpenditures();
 }]);
