@@ -1,4 +1,35 @@
 <h1>Expenditures</h1>
+<table align="center">
+    <tr>
+        <td>
+            <table align="left">
+                <tr>
+                    <td>
+                        <button class="button btn-danger" ng-click="deleteAll()" text>Delete ALL</button>
+                        <button class="button btn-secondary" ng-click="getLoad()" text>Load Initial Data</button>
+                        <button class="button btn-primary" ng-click="getSearch()" text>Search...</button>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table align="right">
+                <tr>
+                    <td>Usuario: </td>
+                    <td><input class="form-control" ng-model="user" /></td>
+                </tr>
+                <tr>
+                    <td>Contraseña: </td>
+                    <td><input type="password" class="form-control" ng-model="pass"></td>
+        </td>
+        </tr>
+        <tr>
+            <td><button class="button btn-warning" ng-click="getExpendituresSecured()" text>Login</button></td>
+        </tr>
+        </table>
+        </td>
+    </tr>
+</table>
 <table class="table table-hover table-dark">
     <thead class="thead-dark">
         <tr>
@@ -32,35 +63,9 @@
     </tbody>
 </table>
 <div id="numberPagination" disabled=true>
-    <table>
-        <td><button class="btn btn-info" ng-click="getPage(-3)">Prev</button></td>
-        <td><button class="btn btn-info" ng-click="getPage(3)">Next</button></td>
+    <table align="center">
+        <td><button class="btn btn-info" ng-click="getPage(-10)">Prev</button></td>
+        <td><button class="btn btn-info" ng-click="getPage(10)">Next</button></td>
     </table>
 </div>
-<table class="table">
-    <tbody>
-        <tr>
-            <td>
-                <button class="button btn-danger" ng-click="deleteAll()" text>Delete ALL</button>
-                <button class="button btn-secondary" ng-click="getLoad()" text>Load Initial Data</button>
-                <button class="button btn-primary" ng-click="getSearch()" text>Search...</button>
-                <button class="button btn-primary" ng-click="getCount()" text>Pruebas</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<table>
-    <tbody>
-        <tr>
-            <td>Usuario: </td>
-            <td><input class="form-control" ng-model="user" /></td>
-            <td rowspan=2><button class="button btn-warning" ng-click="getExpendituresSecured()" text>Login</button></td>
-        </tr>
-        <tr>
-            <td>Contraseña: </td>
-            <td><input type="password"class="form-control" ng-model="pass" /></td>
-            </td>
-        </tr>
-    </tbody>
-</table>
 <div>{{status}}</div>
