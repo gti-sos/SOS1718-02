@@ -1,0 +1,26 @@
+<h1>Edit Unemployment</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Country</th>
+            <th>Year</th>
+            <th>Young</th>
+            <th>Adult</th>
+            <th>Old</th>
+            <th>Longterm</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{data.country}}</td>
+            <td>{{data.year}}</td>
+            <td><input class="form-control" ng-model="data.young" /></td>
+            <td><input class="form-control" ng-model="data.adult" /></td>
+            <td><input class="form-control" ng-model="data.old" /></td>
+            <td><input class="form-control" ng-model="data.longterm" /></td>
+            <td><button class="button btn-primary" ng-click="updateUnemployment()" text>Update</button></td>
+        </tr>
+    </tbody>
+</table>
+<div>{{status}}</div>

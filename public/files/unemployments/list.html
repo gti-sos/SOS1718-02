@@ -1,31 +1,34 @@
-<h1>Expenditures</h1>
+<h1>Unemployments</h1>
 <table class="table">
     <thead>
         <tr>
             <th>Country</th>
             <th>Year</th>
-            <th>Primary</th>
-            <th>Secundary</th>
-            <th>Tertiery</th>
+            <th>Young</th>
+            <th>Adult</th>
+            <th>Old</th>
+            <th>Longterm</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td><input class="form-control" ng-model="newExpenditure.country" /></td>
-            <td><input class="form-control" ng-model="newExpenditure.year" /></td>
-            <td><input class="form-control" ng-model="newExpenditure.primary" /></td>
-            <td><input class="form-control" ng-model="newExpenditure.secundary" /></td>
-            <td><input class="form-control" ng-model="newExpenditure.tertiery" /></td>
-            <td><button class="button btn-primary" ng-click="addExpenditure()" text>Add</button></td>
+            <td><input class="form-control" ng-model="newUnemployment.country" /></td>
+            <td><input class="form-control" ng-model="newUnemployment.year" /></td>
+            <td><input class="form-control" ng-model="newUnemployment.young" /></td>
+            <td><input class="form-control" ng-model="newUnemployment.adult" /></td>
+            <td><input class="form-control" ng-model="newUnemployment.old" /></td>
+            <td><input class="form-control" ng-model="newUnemployment.longterm" /></td>
+            <td><button class="button btn-primary" ng-click="addUnemployment()" text>Add</button></td>
         </tr>
-        <tr ng-repeat="expenditures in expenditures">
-            <td><a href="/files/expenditures/#!/{{expenditures.country}}/{{expenditures.year}}">{{expenditures.country}}</a></td>
-            <td>{{expenditures.year}}</td>
-            <td>{{expenditures.primary}}</td>
-            <td>{{expenditures.secundary}}</td>
-            <td>{{expenditures.tertiery}}</td>
-            <td><button class="button btn-danger" ng-click="deleteExpenditure(expenditures.country, expenditures.year)" text>Delete</button></td>
+        <tr ng-repeat="unemployments in unemployments">
+            <td><a href="/files/unemployments/#!/{{unemployments.country}}/{{unemployments.year}}">{{unemployments.country}}</a></td>
+            <td>{{unemployments.year}}</td>
+            <td>{{unemployments.young}}</td>
+            <td>{{unemployments.adult}}</td>
+            <td>{{unemployments.old}}</td>
+            <td>{{unemployments.longterm}}</td>
+            <td><button class="button btn-danger" ng-click="deleteUnemployment(unemployments.country, unemployments.year)" text>Delete</button></td>
         </tr>
         <tr>
         </tr>

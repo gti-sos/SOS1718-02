@@ -61,6 +61,10 @@ angular.module("ExpendituresApp").controller("ListCtrl", ["$scope", "$http", "$h
             $scope.expenditures = response.data;
         });
     }
+    
+    function prueba(){
+        console.log("Pulsado el raton");
+    }
 
     $scope.getCount = function() {
         if (!$scope.newExpenditure.country) {
@@ -81,6 +85,7 @@ angular.module("ExpendituresApp").controller("ListCtrl", ["$scope", "$http", "$h
         var query = $httpParamSerializer($scope.newExpenditure);
         $http.get(BASE_API_PATH + "/?" + query + "&offset=0&limit=0").then(function(response) {
             $scope.count=response.data.length;
+
         });
     };
     getExpenditures();

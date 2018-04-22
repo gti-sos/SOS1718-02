@@ -17,36 +17,6 @@ var initialsExpenditures = [
 ];
 
 apiExpenditures.register = function(app) {
-    //Postman Docs
-    app.get(BASE_API_PATH + "/docs", (req, res) => {
-        console.log("Postman Docs");
-        res.redirect("https://documenter.getpostman.com/view/3901859/sos1718-02-expenditures/RVu1HAko");
-    });
-
-    //loadInitialData
-    app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
-        console.log("loadInitialData");
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-alc-sandbox");
-            dbo.collection("expenditures").count(function(err, count) {
-                if (!err && !count) {
-                    dbo.collection("expenditures").insertMany(initialsExpenditures, function(err, resu) {
-                        if (err) throw err;
-                        console.log("Number of documents inserted: " + resu.insertedCount);
-                        res.send("Number of documents inserted: " + resu.insertedCount);
-                        db.close();
-                    });
-                }
-                else {
-                    console.log("Expenditures has " + count + " documents inserted.");
-                    res.send("Expenditures has " + count + " documents inserted.");
-                }
-                db.close();
-            });
-        });
-    });
-
     //urlQuery
     app.get(BASE_API_PATH, (req, res) => {
         console.log("urlQuery");
@@ -87,6 +57,36 @@ apiExpenditures.register = function(app) {
                         delete c._id;
                         return c;
                     }));
+                }
+                db.close();
+            });
+        });
+    });
+
+    //Postman Docs
+    app.get(BASE_API_PATH + "/docs", (req, res) => {
+        console.log("Postman Docs");
+        res.redirect("https://documenter.getpostman.com/view/3901859/sos1718-02-expenditures/RVu1HAko");
+    });
+
+    //loadInitialData
+    app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
+        console.log("loadInitialData");
+        MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("sos1718-alc-sandbox");
+            dbo.collection("expenditures").count(function(err, count) {
+                if (!err && !count) {
+                    dbo.collection("expenditures").insertMany(initialsExpenditures, function(err, resu) {
+                        if (err) throw err;
+                        console.log("Number of documents inserted: " + resu.insertedCount);
+                        res.send("Number of documents inserted: " + resu.insertedCount);
+                        db.close();
+                    });
+                }
+                else {
+                    console.log("Expenditures has " + count + " documents inserted.");
+                    res.send("Expenditures has " + count + " documents inserted.");
                 }
                 db.close();
             });

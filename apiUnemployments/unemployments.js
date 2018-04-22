@@ -17,6 +17,34 @@ var initialsUnemployments = [
 ];
 
 apiUnemployments.register = function(app) {
+    //Postman help
+    app.get(BASE_API_PATH + "/docs", (req, res) => {
+        res.redirect("https://documenter.getpostman.com/view/3901859/sos1718-02-unemployments/RVu1HAku");
+    });
+    
+    //loadInitialData
+    app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
+        MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("sos1718-msr-sandbox");
+            dbo.collection("unemployments").count(function(err, count) {
+                if (!err && !count) {
+                    dbo.collection("unemployments").insertMany(initialsUnemployments, function(err, resu) {
+                        if (err) throw err;
+                        console.log("Number of documents inserted: " + resu.insertedCount);
+                        res.send("Number of documents inserted: " + resu.insertedCount);
+                        db.close();
+                    });
+                }
+                else {
+                    console.log("Unemployments has " + count + " documents inserted.");
+                    res.send("Unemployments has " + count + " documents inserted.");
+                }
+                db.close();
+            });
+        });
+    });
+
     //urlQuery
     app.get(BASE_API_PATH + "?", (req, res) => {
         MongoClient.connect(url, function(err, db) {
@@ -63,57 +91,7 @@ apiUnemployments.register = function(app) {
             });
         });
     });
-
-    //GET all
-    app.get(BASE_API_PATH, (req, res) => {
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-msr-sandbox");
-            if (err) throw err;
-            dbo.collection("unemployments").find({}).toArray(function(err, result) {
-                if (!err && !result.length) {
-                    console.log("Not found");
-                    res.sendStatus(404);
-                }
-                else {
-                    res.send(result.map((c) => {
-                        delete c._id;
-                        return c;
-                    }));
-                }
-                db.close();
-            });
-        });
-    });
-
-    //Postman help
-    app.get(BASE_API_PATH + "/docs", (req, res) => {
-        res.redirect("https://documenter.getpostman.com/view/3901859/sos1718-02-unemployments/RVu1HAku");
-    });
-
-    //loadInitialData
-    app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-msr-sandbox");
-            dbo.collection("unemployments").count(function(err, count) {
-                if (!err && !count) {
-                    dbo.collection("unemployments").insertMany(initialsUnemployments, function(err, resu) {
-                        if (err) throw err;
-                        console.log("Number of documents inserted: " + resu.insertedCount);
-                        res.send("Number of documents inserted: " + resu.insertedCount);
-                        db.close();
-                    });
-                }
-                else {
-                    console.log("Unemployments has " + count + " documents inserted.");
-                    res.send("Unemployments has " + count + " documents inserted.");
-                }
-                db.close();
-            });
-        });
-    });
-
+    
     //GET all SECURED
     app.get(BASE_API + "/secure/unemployments", (req, res) => {
         var email = req.headers.email;
@@ -186,7 +164,7 @@ apiUnemployments.register = function(app) {
                     res.send(result.map((c) => {
                         delete c._id;
                         return c;
-                    }));
+                    })[0]);
                 }
                 db.close();
             });
