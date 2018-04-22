@@ -50,7 +50,7 @@ apiExpenditures.register = function(app) {
     //urlQuery
     app.get(BASE_API_PATH, (req, res) => {
         console.log("urlQuery");
-        console.log(req.query);
+        console.log(req.url);
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-alc-sandbox");
@@ -75,8 +75,12 @@ apiExpenditures.register = function(app) {
             if (req.query.limit) {
                 limit = Number(req.query.limit);
             }
+            console.log(query);
+            console.log(query.apikey);
             delete query.offset;
             delete query.limit;
+            //console.log(query);
+            
             dbo.collection("expenditures").find(query).skip(offset).limit(limit).toArray(function(err, result) {
                 if (!err && !result.length) {
                     console.log("Not found");
@@ -343,26 +347,26 @@ apiExpenditures.register = function(app) {
     //GET to BASE_API
     app.get(BASE_API, (req, res) => {
         res.sendStatus(405);
-        console.log("Method not allowed");
+        console.log("Method not allowed 1");
     });
     //POST with arguments.
     app.post(BASE_API_PATH + "/*", (req, res) => {
         res.sendStatus(405);
-        console.log("Method not allowed");
+        console.log("Post not allowed 1");
     });
     //PUT without arguments.
     app.put(BASE_API_PATH, (req, res) => {
         res.sendStatus(405);
-        console.log("Method not allowed");
+        console.log("Put not allowed 1");
     });
     //PUT with 1 argument.
     app.put(BASE_API_PATH + "/:obj", (req, res) => {
         res.sendStatus(405);
-        console.log("Method not allowed");
+        console.log("Put not allowed 2");
     });
     //PUT with more than 2 arguments.
     app.put(BASE_API_PATH + "/:obj1/:obj2" + "/*", (req, res) => {
         res.sendStatus(405);
-        console.log("Method not allowed");
+        console.log("Put not allowed 3");
     });
 };

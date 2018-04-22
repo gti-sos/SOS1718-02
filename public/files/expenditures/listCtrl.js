@@ -2,6 +2,7 @@
 
 angular.module("ExpendituresApp").controller("ListCtrl", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
     console.log("List Ctrl initialized!");
+    var BASE_API = "/api/v2";
     var BASE_API_PATH = "/api/v2/expenditures";
 
     $scope.addExpenditure = function() {
@@ -61,10 +62,6 @@ angular.module("ExpendituresApp").controller("ListCtrl", ["$scope", "$http", "$h
             $scope.expenditures = response.data;
         });
     }
-    
-    function prueba(){
-        console.log("Pulsado el raton");
-    }
 
     $scope.getCount = function() {
         if (!$scope.newExpenditure.country) {
@@ -84,9 +81,17 @@ angular.module("ExpendituresApp").controller("ListCtrl", ["$scope", "$http", "$h
         }
         var query = $httpParamSerializer($scope.newExpenditure);
         $http.get(BASE_API_PATH + "/?" + query + "&offset=0&limit=0").then(function(response) {
-            $scope.count=response.data.length;
-
+            $scope.count = response.data.length;
         });
     };
+
+    $scope.getExpendituresSecured = function() {
+            $http.get(BASE_API + "/secure/expenditures", {
+            headers: { "user": $scope.user, "pass": $scope.pass }
+        }).then(function(response) {
+            $scope.expenditures = response.data;
+        });
+    };
+    
     getExpenditures();
 }]);

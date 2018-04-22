@@ -96,9 +96,11 @@ apiExpenditures.register = function(app) {
     //GET all SECURED
     app.get(BASE_API + "/secure/expenditures", (req, res) => {
         console.log("Get all secured");
-        var email = req.headers.email;
+        var user = req.headers.user;
         var pass = req.headers.pass;
-        if (email == "andreslorenzo" && pass == "andreslorenzo") {
+        console.log(req.headers.user);
+        console.log(req.headers.pass);
+        if (user == "andres" && pass == "andres") {
             MongoClient.connect(url, function(err, db) {
                 if (err) throw err;
                 var dbo = db.db("sos1718-alc-sandbox");
