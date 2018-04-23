@@ -17,34 +17,6 @@ var initialsUnemployments = [
 ];
 
 apiUnemployments.register = function(app) {
-    //Postman help
-    app.get(BASE_API_PATH + "/docs", (req, res) => {
-        res.redirect("https://documenter.getpostman.com/view/3901859/sos1718-02-unemployments/RVu1HAku");
-    });
-    
-    //loadInitialData
-    app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-msr-sandbox");
-            dbo.collection("unemployments").count(function(err, count) {
-                if (!err && !count) {
-                    dbo.collection("unemployments").insertMany(initialsUnemployments, function(err, resu) {
-                        if (err) throw err;
-                        console.log("Number of documents inserted: " + resu.insertedCount);
-                        res.send("Number of documents inserted: " + resu.insertedCount);
-                        db.close();
-                    });
-                }
-                else {
-                    console.log("Unemployments has " + count + " documents inserted.");
-                    res.send("Unemployments has " + count + " documents inserted.");
-                }
-                db.close();
-            });
-        });
-    });
-
     //urlQuery
     app.get(BASE_API_PATH + "?", (req, res) => {
         MongoClient.connect(url, function(err, db) {
@@ -92,11 +64,41 @@ apiUnemployments.register = function(app) {
         });
     });
     
+    //Postman docs
+    app.get(BASE_API_PATH + "/docs", (req, res) => {
+        res.redirect("https://documenter.getpostman.com/view/3901859/sos1718-02-unemployments/RVu1HAku");
+    });
+    
+    //loadInitialData
+    app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
+        MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("sos1718-msr-sandbox");
+            dbo.collection("unemployments").count(function(err, count) {
+                if (!err && !count) {
+                    dbo.collection("unemployments").insertMany(initialsUnemployments, function(err, resu) {
+                        if (err) throw err;
+                        console.log("Number of documents inserted: " + resu.insertedCount);
+                        res.send("Number of documents inserted: " + resu.insertedCount);
+                        db.close();
+                    });
+                }
+                else {
+                    console.log("Unemployments has " + count + " documents inserted.");
+                    res.send("Unemployments has " + count + " documents inserted.");
+                }
+                db.close();
+            });
+        });
+    });
+
+    
+    
     //GET all SECURED
     app.get(BASE_API + "/secure/unemployments", (req, res) => {
-        var email = req.headers.email;
+        var user = req.headers.user;
         var pass = req.headers.pass;
-        if (email == "lolasanchez" && pass == "lolasanchez") {
+        if (user == "lolasanchez" && pass == "lolasanchez") {
             MongoClient.connect(url, function(err, db) {
                 if (err) throw err;
                 var dbo = db.db("sos1718-msr-sandbox");
@@ -174,17 +176,25 @@ apiUnemployments.register = function(app) {
     //POST
     app.post(BASE_API_PATH, (req, res) => {
         var myquery = { country: req.body.country, year: Number(req.body.year) };
-        if (req.body._id != undefined || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.young) || isNaN(req.body.adult) || isNaN(req.body.old) || isNaN(req.body.longterm)) {
+        if (req.body._id || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.young) || isNaN(req.body.adult) || isNaN(req.body.old) || isNaN(req.body.longterm)) {
             res.sendStatus(400);
             console.log("Bad request");
         }
         else {
+            var newValues= {
+                country: req.body.country,
+                year: Number(req.body.year),
+                young: Number(req.body.young),
+                adult: Number(req.body.adult),
+                old: Number (req.body.old),
+                longterm: Number (req.body.longterm)
+            };
             MongoClient.connect(url, function(err, db) {
                 if (err) throw err;
                 var dbo = db.db("sos1718-msr-sandbox");
                 dbo.collection("unemployments").count(myquery, function(err, count) {
                     if (!err && !count) {
-                        dbo.collection("unemployments").insertOne(req.body, function(err, result) {
+                        dbo.collection("unemployments").insertOne(newValues, function(err, result) {
                             if (err) throw err;
                             console.log("1 document inserted");
                             res.sendStatus(201);

@@ -30,6 +30,12 @@
         </td>
     </tr>
 </table>
+<div id="numberPagination" disabled=true>
+    <table align="left">
+        <td><button class="btn btn-info" ng-class="{disabled: offsetP <= 0}" ng-click="getPage(-10)">Prev</button></td>
+        <td><button class="btn btn-info" ng-class="{disabled: !hasNextPage}" ng-click="getPage(10)">Next</button></td>
+    </table>
+</div>
 <table class="table table-hover table-dark">
     <thead class="thead-dark">
         <tr>
@@ -62,10 +68,4 @@
         </tr>
     </tbody>
 </table>
-<div id="numberPagination" disabled=true>
-    <table align="center">
-        <td><button class="btn btn-info" ng-click="getPage(-10)">Prev</button></td>
-        <td><button class="btn btn-info" ng-click="getPage(10)">Next</button></td>
-    </table>
-</div>
 <div>{{status}}</div>

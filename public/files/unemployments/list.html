@@ -1,4 +1,41 @@
 <h1>Unemployments</h1>
+<table align="center">
+    <tr>
+        <td>
+            <table align="left">
+                <tr>
+                    <td>
+                        <button class="button btn-danger" ng-click="deleteAll()" text>Delete ALL</button>
+                        <button class="button btn-secondary" ng-click="getLoad()" text>Load Initial Data</button>
+                        <button class="button btn-primary" ng-click="getSearch()" text>Search...</button>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table align="right">
+                <tr>
+                    <td>Usuario: </td>
+                    <td><input class="form-control" ng-model="user" /></td>
+                </tr>
+                <tr>
+                    <td>Contraseña: </td>
+                    <td><input type="password" class="form-control" ng-model="pass"></td>
+        </td>
+        </tr>
+        <tr>
+            <td><button class="button btn-warning" ng-click="getUnemploymentsSecured()" text>Login</button></td>
+        </tr>
+        </table>
+        </td>
+    </tr>
+</table>
+<div id="numberPagination" disabled=true>
+    <table align="left">
+        <td><button class="btn btn-info" ng-class="{disabled: offsetP <= 0}" ng-click="getPage(-10)">Prev</button></td>
+        <td><button class="btn btn-info" ng-class="{disabled: !hasNextPage}" ng-click="getPage(10)">Next</button></td>
+    </table>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -34,27 +71,4 @@
         </tr>
     </tbody>
 </table>
-<nav aria-label="Page navigation example">
-    <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" ng-click="prueba()">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-    </ul>
-</nav>
-<button class="button btn-danger" ng-click="deleteAll()" text>Delete ALL</button>
-<button class="button btn-secondary" ng-click="getLoad()" text>Load Initial Data</button>
-<button class="button btn-primary" ng-click="getSearch()" text>Search...</button>
-<button class="button btn-primary" ng-click="getCount()" text>Pruebas</button>
-<div class="form-group">
-    <label for="limit">Limit</label>
-    <select class="form-control" id="limit">
-      <option>5</option>
-      <option>6</option>
-      <option>7</option>
-      <option>8</option>
-      <option>9</option>
-    </select>
-</div>
 <div>{{status}}</div>

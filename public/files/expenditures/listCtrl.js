@@ -1,12 +1,13 @@
 /* global angular */
-
 angular.module("ExpendituresApp").controller("ListCtrl", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
     console.log("List Ctrl initialized!");
     var BASE_API = "/api/v2";
     var BASE_API_PATH = "/api/v2/expenditures";
     var BASE_API_PATH_LIMIT = "/api/v2/expenditures?&limit=10";
-    var offsetP = 0;
     var dataCount = 0;
+
+    $scope.offsetP = 0;
+    $scope.hasNextPage = true;
 
     $scope.addExpenditure = function() {
         $http.post(BASE_API_PATH, $scope.newExpenditure).then(function(response) {
@@ -68,7 +69,7 @@ angular.module("ExpendituresApp").controller("ListCtrl", ["$scope", "$http", "$h
     function getExpenditures() {
         $http.get(BASE_API_PATH_LIMIT + "&offset=0").then(function(response) {
             $scope.expenditures = response.data;
-            dataCount = response.data.length();
+            dataCount = response.data.length;
         }, function errorCallback(response) {
             console.log("Empty");
             $scope.expenditures = [];
@@ -90,32 +91,15 @@ angular.module("ExpendituresApp").controller("ListCtrl", ["$scope", "$http", "$h
     };
 
     $scope.getPage = function(p) {
-        offsetP = offsetP + p;
-        console.log(offsetP);
-        if (offsetP < 0) {
-            $http.get(BASE_API_PATH_LIMIT + "&offset=0").then(function(response) {
-                $scope.expenditures = response.data;
-            }, function errorCallback(response) {
-                console.log("Empty");
-                $scope.expenditures = [];
-            });
-        }
-        else if (false) {
-            $http.get(BASE_API_PATH_LIMIT + "&offset=0").then(function(response) {
-                $scope.expenditures = response.data;
-            }, function errorCallback(response) {
-                console.log("Empty");
-                $scope.expenditures = [];
-            });
-        }
-        else {
-            $http.get(BASE_API_PATH_LIMIT + "&offset=" + offsetP).then(function(response) {
-                $scope.expenditures = response.data;
-            }, function errorCallback(response) {
-                console.log("Empty");
-                $scope.expenditures = [];
-            });
-        }
+        $scope.offsetP = $scope.offsetP + p;
+        console.log($scope.offsetP);
+        $http.get(BASE_API_PATH_LIMIT + "&offset=" + $scope.offsetP).then(function(response) {
+            $scope.expenditures = response.data;
+            $scope.hasNextPage = response.data.length >= p;
+        }, function errorCallback(response) {
+            console.log("Empty");
+            $scope.expenditures = [];
+        });
     };
     getExpenditures();
 }]);

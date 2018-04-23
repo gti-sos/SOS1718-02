@@ -122,8 +122,6 @@ apiExpenditures.register = function(app) {
         console.log("Get all secured");
         var user = req.headers.user;
         var pass = req.headers.pass;
-        console.log(req.headers.user);
-        console.log(req.headers.pass);
         if (user == "andres" && pass == "andres") {
             MongoClient.connect(url, function(err, db) {
                 if (err) throw err;
@@ -257,15 +255,7 @@ apiExpenditures.register = function(app) {
                 if (err) throw err;
                 var dbo = db.db("sos1718-alc-sandbox");
                 var myquery = { country: req.params.country, year: Number(req.params.year) };
-                var newValues = {
-                    $set: {
-                        country: req.body.country,
-                        year: Number(req.body.year),
-                        primary: Number(req.body.primary),
-                        secundary: Number(req.body.secundary),
-                        tertiery: Number(req.body.tertiery)
-                    }
-                };
+                var newValues = { $set: req.body };
                 dbo.collection("expenditures").count(myquery, function(err, count) {
                     if (!err && count) {
                         dbo.collection("expenditures").updateOne(myquery, newValues, function(err, result) {
