@@ -1,7 +1,6 @@
 /* global angular */
 
-angular.module("EmploymentsApp").
-controller("EditCtrl", ["$scope", "$http", "$routeParams", "$location", function($scope, $http, $routeParams, $location) {
+angular.module("EmploymentsApp").controller("EditCtrl", ["$scope", "$http", "$routeParams", "$location", function($scope, $http, $routeParams, $location) {
     console.log("Edit Ctrl initialized!");
     var BASE_API_PATH = "/api/v2/employments/" + $routeParams.country + "/" + $routeParams.year;
     //var app = angular.module('ExpendituresApp', ['bw.paging'])
@@ -11,6 +10,7 @@ controller("EditCtrl", ["$scope", "$http", "$routeParams", "$location", function
     });
     $scope.updateEmployment = function() {
         $http.put(BASE_API_PATH, $scope.data).then(function(response) {
+            
             $location.path("/");
         });
     };
