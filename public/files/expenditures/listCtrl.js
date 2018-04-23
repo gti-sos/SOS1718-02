@@ -27,6 +27,7 @@ angular.module("ExpendituresApp").controller("ListCtrl", ["$scope", "$http", "$h
     $scope.deleteAll = function() {
         $http.delete(BASE_API_PATH).then(function(response) {
             $scope.status = response.data;
+            window.alert("all delete!");
             getExpenditures();
         });
     };
