@@ -1,6 +1,43 @@
 <h1>API</h1>
-<table class="table">
-    <thead>
+<table align="center">
+    <tr>
+        <td>
+            <table align="left">
+                <tr>
+                    <td>
+                        <button class="button btn-danger" ng-click="deleteAll()" text>Delete ALL</button>
+                        <button class="button btn-secondary" ng-click="getLoad()" text>Load Initial Data</button>
+                        <button class="button btn-primary" ng-click="getSearch()" text>Search...</button>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table align="right">
+                <tr>
+                    <td>Usuario: </td>
+                    <td><input class="form-control" ng-model="user" /></td>
+                </tr>
+                <tr>
+                    <td>Contraseña: </td>
+                    <td><input type="password" class="form-control" ng-model="pass"></td>
+        </td>
+        </tr>
+        <tr>
+            <td><button class="button btn-warning" ng-click="getExpendituresSecured()" text>Login</button></td>
+        </tr>
+        </table>
+        </td>
+    </tr>
+</table>
+<div id="numberPagination" disabled=true>
+    <table align="left">
+        <td><button class="btn btn-info" ng-class="{disabled: offsetP <= 0}" ng-click="getPage(-10)">Prev</button></td>
+        <td><button class="btn btn-info" ng-class="{disabled: !hasNextPage}" ng-click="getPage(10)">Next</button></td>
+    </table>
+</div>
+<table class="table table-hover table-dark">
+    <thead class="thead-dark">
         <tr>
             <th>Country</th>
             <th>Year</th>
@@ -31,9 +68,6 @@
         </tr>
     </tbody>
 </table>
-
-<button class="button btn-danger" ng-click="deleteAll()" text>Delete ALL</button>
-<button class="button btn-secondary" ng-click="getLoad()" text>Load Initial Data</button>
 
 
 
@@ -66,8 +100,8 @@
             <td>{{employment.totalcontributingfamilyworker}}</td>
 
             <td><button class="button btn-danger" ng-click="deleteEmployment(employment.country,employment.year)">Delete</button></td>
-        </tr> 
-       </tbody>
+        </tr>
+    </tbody>
 </table>
 <td><button class="button btn-danger" ng-click="deleteAllEmployment()">Delete All</button></td>
 <td><button class="button btn-secondary" ng-click="getLoad()" text>Load Initial Data</button></td>
@@ -76,10 +110,47 @@
 
 
 
+<table align="center">
+    <tr>
+        <td>
+            <table align="left">
+                <tr>
+                    <td>
+                        <button class="button btn-danger" ng-click="deleteAll()" text>Delete ALL</button>
+                        <button class="button btn-secondary" ng-click="getLoad()" text>Load Initial Data</button>
+                        <button class="button btn-primary" ng-click="getSearch()" text>Search...</button>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table align="right">
+                <tr>
+                    <td>Usuario: </td>
+                    <td><input class="form-control" ng-model="user" /></td>
+                </tr>
+                <tr>
+                    <td>Contraseña: </td>
+                    <td><input type="password" class="form-control" ng-model="pass"></td>
+        </td>
+        </tr>
+        <tr>
+            <td><button class="button btn-warning" ng-click="getUnemploymentsSecured()" text>Login</button></td>
+        </tr>
+        </table>
+        </td>
+    </tr>
+</table>
+<div id="numberPagination" disabled=true>
+    <table align="left">
+        <td><button class="btn btn-info" ng-class="{disabled: offsetP <= 0}" ng-click="getPage(-10)">Prev</button></td>
+        <td><button class="btn btn-info" ng-class="{disabled: !hasNextPage}" ng-click="getPage(10)">Next</button></td>
+    </table>
+</div>
 <table class="table">
     <thead>
         <tr>
-           <th>Country</th>
+            <th>Country</th>
             <th>Year</th>
             <th>Young</th>
             <th>Adult</th>
@@ -90,7 +161,7 @@
     </thead>
     <tbody>
         <tr>
-           <td><input class="form-control" ng-model="newUnemployment.country" /></td>
+            <td><input class="form-control" ng-model="newUnemployment.country" /></td>
             <td><input class="form-control" ng-model="newUnemployment.year" /></td>
             <td><input class="form-control" ng-model="newUnemployment.young" /></td>
             <td><input class="form-control" ng-model="newUnemployment.adult" /></td>
@@ -98,18 +169,19 @@
             <td><input class="form-control" ng-model="newUnemployment.longterm" /></td>
             <td><button class="button btn-primary" ng-click="addUnemployment()" text>Add</button></td>
         </tr>
-       <tr ng-repeat="unemployments in unemployments">
-            <td><a href="/files/unemployments/#!/{{unemployments.country}}/{{unemployments.year}}">{{unemployments.country}}</a></td>
+        <tr ng-repeat="unemployments in unemployments">
+            <td><a href="/opcional/#!/{{unemployments.country}}/{{unemployments.year}}">{{unemployments.country}}</a></td>
             <td>{{unemployments.year}}</td>
             <td>{{unemployments.young}}</td>
             <td>{{unemployments.adult}}</td>
             <td>{{unemployments.old}}</td>
             <td>{{unemployments.longterm}}</td>
-            <td><button class="button btn-danger" ng-click="deleteUnemployment(unemployments.country, unemployments.year)" text>Delete</button></td></tr> 
-       </tbody>
+            <td><button class="button btn-danger" ng-click="deleteUnemployment(unemployments.country, unemployments.year)" text>Delete</button></td>
+        </tr>
+        <tr>
+        </tr>
+    </tbody>
 </table>
-<td><button class="button btn-danger" ng-click="deleteAllUnemployment()">Delete All</button></td>
-<td><button class="button btn-secondary" ng-click="getLoad()" text>Load Initial Data</button></td>
 
 
 <hr/>
