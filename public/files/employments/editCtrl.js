@@ -10,7 +10,7 @@ angular.module("EmploymentsApp").controller("EditCtrl", ["$scope", "$http", "$ro
     });
     $scope.updateEmployment = function() {
         $http.put(BASE_API_PATH, $scope.data).then(function(response) {
-            
+            window.alert("update!!!");
             $location.path("/");
         });
     };
