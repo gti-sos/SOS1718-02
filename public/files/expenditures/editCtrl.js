@@ -9,8 +9,7 @@ controller("EditCtrl", ["$scope", "$http", "$routeParams", "$location", function
 
     $scope.updateExpenditure = function() {
         $http.put(BASE_API_PATH, $scope.data).then(function(response) {
-                        window.alert("update!!!");
-
+            window.alert("Updated!");
             $location.path("/");
         });
     };
