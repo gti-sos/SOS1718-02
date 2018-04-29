@@ -1,0 +1,74 @@
+<h1>Unemployments</h1>
+<table align="center">
+    <tr>
+        <td>
+            <table align="left">
+                <tr>
+                    <td>
+                        <button class="button btn-danger" ng-click="deleteAll()" text>Delete ALL</button>
+                        <button class="button btn-secondary" ng-click="getLoad()" text>Load Initial Data</button>
+                        <button class="button btn-primary" ng-click="getSearch()" text>Search...</button>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table align="right">
+                <tr>
+                    <td>Usuario: </td>
+                    <td><input class="form-control" ng-model="user" /></td>
+                </tr>
+                <tr>
+                    <td>Contraseña: </td>
+                    <td><input type="password" class="form-control" ng-model="pass"></td>
+        </td>
+        </tr>
+        <tr>
+            <td><button class="button btn-warning" ng-click="getUnemploymentsSecured()" text>Login</button></td>
+        </tr>
+        </table>
+        </td>
+    </tr>
+</table>
+<div id="numberPagination" disabled=true>
+    <table align="left">
+        <td><button class="btn btn-info" ng-class="{disabled: offsetP <= 0}" ng-click="getPage(-10)">Prev</button></td>
+        <td><button class="btn btn-info" ng-class="{disabled: !hasNextPage}" ng-click="getPage(10)">Next</button></td>
+    </table>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Country</th>
+            <th>Year</th>
+            <th>Young</th>
+            <th>Adult</th>
+            <th>Old</th>
+            <th>Longterm</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><input class="form-control" ng-model="newUnemployment.country" /></td>
+            <td><input class="form-control" ng-model="newUnemployment.year" /></td>
+            <td><input class="form-control" ng-model="newUnemployment.young" /></td>
+            <td><input class="form-control" ng-model="newUnemployment.adult" /></td>
+            <td><input class="form-control" ng-model="newUnemployment.old" /></td>
+            <td><input class="form-control" ng-model="newUnemployment.longterm" /></td>
+            <td><button class="button btn-primary" ng-click="addUnemployment()" text>Add</button></td>
+        </tr>
+        <tr ng-repeat="unemployments in unemployments">
+            <td><a href="/#!/unemployments/{{unemployments.country}}/{{unemployments.year}}">{{unemployments.country}}</a></td>
+            <td>{{unemployments.year}}</td>
+            <td>{{unemployments.young}}</td>
+            <td>{{unemployments.adult}}</td>
+            <td>{{unemployments.old}}</td>
+            <td>{{unemployments.longterm}}</td>
+            <td><button class="button btn-danger" ng-click="deleteUnemployment(unemployments.country, unemployments.year)" text>Delete</button></td>
+        </tr>
+        <tr>
+        </tr>
+    </tbody>
+</table>
+<div>{{status}}</div>
