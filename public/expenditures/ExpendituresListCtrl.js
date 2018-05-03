@@ -11,8 +11,9 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
 
     $scope.addExpenditure = function() {
         $http.post(BASE_API_PATH, $scope.newExpenditure).then(function(response) {
-            $scope.status = "Status: " + response.status;
+            $scope.status = "Status: " + response;
             getExpenditures();
+            window.alert("All deleted!");
         });
     };
 
@@ -21,14 +22,15 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
             .then(function(response) {
                 $scope.status = response.data;
                 getExpenditures();
+                window.alert(response.data);
             });
     };
 
     $scope.deleteAll = function() {
         $http.delete(BASE_API_PATH).then(function(response) {
             $scope.status = response.data;
-            window.alert("all delete!");
             getExpenditures();
+            window.alert(response.data);
         });
     };
 
@@ -57,6 +59,7 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
         }, function errorCallback(response) {
             console.log("Empty");
             $scope.expenditures = [];
+            window.alert("Not found!");
         });
     };
 
@@ -64,6 +67,7 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
         $http.get(BASE_API_PATH + "/loadInitialData").then(function(response) {
             getExpenditures();
             $scope.status = response.data;
+            window.alert(response.data);
         });
     };
 
@@ -75,6 +79,7 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
             console.log("Empty");
             $scope.expenditures = [];
             $scope.status = response.data;
+            window.alert("Not found!");
         });
     }
 
@@ -88,6 +93,7 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
             console.log("Empty");
             $scope.expenditures = [];
             $scope.status = response.data;
+            window.alert("Not found!");
         });
     };
 
@@ -98,8 +104,8 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
             $scope.expenditures = response.data;
             $scope.hasNextPage = response.data.length >= p;
         }, function errorCallback(response) {
-            console.log("Empty");
             $scope.expenditures = [];
+            console.log("Not found!");
         });
     };
     getExpenditures();
