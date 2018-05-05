@@ -6,8 +6,10 @@ angular.module("App").controller("EmploymentsListCtrl", ["$scope", "$http", "$ht
 
     var BASE_API_PATH_ = "/api/v2/secure/employments";
     var BASE_API_PATH_LIMIT = "/api/v2/employments?&limit=10";
-    var offsetP = 0;
+ 
     var dataCount = 0;
+  $scope.offsetP = 0;
+    $scope.hasNextPage = true;
 
     $scope.addEmployment = function() {
         $http.post(BASE_API_PATH, $scope.newEmployment).then(function(response) {
@@ -114,7 +116,7 @@ angular.module("App").controller("EmploymentsListCtrl", ["$scope", "$http", "$ht
             $scope.status = response.data;
         });
     };
-
+/*
     $scope.getPage = function(p) {
         offsetP = offsetP + p;
         console.log(offsetP);
@@ -150,6 +152,18 @@ angular.module("App").controller("EmploymentsListCtrl", ["$scope", "$http", "$ht
                 $scope.employments = [];
             });
         }
+    };*/
+    
+    $scope.getPage = function(p) {
+        $scope.offsetP = $scope.offsetP + p;
+        console.log($scope.offsetP);
+        $http.get(BASE_API_PATH_LIMIT + "&offset=" + $scope.offsetP).then(function(response) {
+            $scope.employments = response.data;
+            $scope.hasNextPage = response.data.length >= p;
+        }, function errorCallback(response) {
+            console.log("Empty");
+            $scope.employments = [];
+        });
     };
     getEmployment();
 }]);
