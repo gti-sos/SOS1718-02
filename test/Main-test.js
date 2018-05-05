@@ -1,6 +1,4 @@
-/*global browser*//*global element*//*global expect*//*global by*/
-
-
+/*global browser*/ /*global element*/ /*global expect*/ /*global by*/
 describe('Data is loaded', function() {
     it('should show some employments', function() {
         browser.
@@ -14,7 +12,6 @@ describe('Data is loaded', function() {
     it('should add a new employment', function() {
         browser.
         get('https://sos1718-02.herokuapp.com/#!/employments');
-
         element.all(by.repeater('employment in employments')).then(function(employments) {
 
             element(by.model('newEmployment.country')).sendKeys('Spain');
@@ -38,7 +35,6 @@ describe('Data is loaded', function() {
     it('should add a new expenditure', function() {
         browser.
         get('https://sos1718-02.herokuapp.com/#!/expenditures');
-
         element.all(by.repeater('expenditures in expenditures')).then(function(expenditures) {
 
             element(by.model('newExpenditure.country')).sendKeys('Spain');
@@ -51,7 +47,7 @@ describe('Data is loaded', function() {
 
         });
     });
-     it('should show some unemployments', function() {
+    it('should show some unemployments', function() {
         browser.
         get('https://sos1718-02.herokuapp.com/#!/unemployments').
         then(function() {
@@ -63,7 +59,6 @@ describe('Data is loaded', function() {
     it('should add a new unemployment', function() {
         browser.
         get('https://sos1718-02.herokuapp.com/#!/unemployments');
-
         element.all(by.repeater('unemployments in unemployments')).then(function(unemployments) {
 
             element(by.model('newUnemployment.country')).sendKeys('Spain');
@@ -74,7 +69,6 @@ describe('Data is loaded', function() {
             element(by.model('newUnemployment.longterm')).sendKeys(123);
 
             element(by.buttonText('Add')).click();
-
         });
     });
 });
