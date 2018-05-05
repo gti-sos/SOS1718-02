@@ -20,6 +20,9 @@ angular.module("App", ["chart.js", "ngRoute"]).config(function($routeProvider) {
     }).when("/unemployments/:country/:year", {
         templateUrl: "unemployments/UnemploymentsEdit.html",
         controller: "UnemploymentsEditCtrl"
+    }).when("/unemployments/graphics", {
+        templateUrl: "unemployments/UnemploymentsGraph.html",
+        controller: "UnemploymentsGraphCtrl"
     }).
 
     when("/expenditures", {
