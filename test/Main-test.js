@@ -42,7 +42,7 @@ describe('Data is loaded', function() {
             element(by.model('newExpenditure.country')).sendKeys('Spain');
             element(by.model('newExpenditure.year')).sendKeys(20);
             element(by.model('newExpenditure.primary')).sendKeys(123);
-            element(by.model('newExpenditure.secondary')).sendKeys(123);
+            element(by.model('newExpenditure.secundary')).sendKeys(123);
             element(by.model('newExpenditure.tertiery')).sendKeys(123);
 
             element(by.buttonText('Add')).click();
