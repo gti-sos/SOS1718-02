@@ -54,7 +54,7 @@ describe('Data is loaded', function() {
         get('https://sos1718-02.herokuapp.com/#!/unemployments').
         then(function() {
             element.all(by.repeater('unemployments in unemployments')).then(function(unemployments) {
-                expect(unemployments.length).toEqual(10);
+                expect(unemployments.length).toBeGraterThan(5);
             })
         })
     })
