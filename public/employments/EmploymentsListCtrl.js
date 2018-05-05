@@ -3,7 +3,7 @@
 angular.module("App").controller("EmploymentsListCtrl", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
     console.log("List Ctrl initialized!");
     var BASE_API_PATH = "/api/v2/employments";
-    
+
     var BASE_API_PATH_ = "/api/v2/secure/employments";
     var BASE_API_PATH_LIMIT = "/api/v2/employments?&limit=10";
     var offsetP = 0;
@@ -50,10 +50,11 @@ angular.module("App").controller("EmploymentsListCtrl", ["$scope", "$http", "$ht
         var query = $httpParamSerializer($scope.newEmployment);
         query.limit = 10;
         query.offset = 10;
-        
-        
-        $http.get(BASE_API_PATH + "/?" + query ).then(function(response) {
-            $scope.employments = response.data;}, function errorCallback(response) {
+
+
+        $http.get(BASE_API_PATH + "/?" + query).then(function(response) {
+            $scope.employments = response.data;
+        }, function errorCallback(response) {
             console.log("Empty");
             $scope.employment = [];
         });
@@ -66,10 +67,13 @@ angular.module("App").controller("EmploymentsListCtrl", ["$scope", "$http", "$ht
         });
     };
 
+    
     function getEmployment() {
-      $http.get(BASE_API_PATH_LIMIT + "&offset=0").then(function(response) {
+        $http.get(BASE_API_PATH_LIMIT + "&offset=0").then(function(response) {
             $scope.employments = response.data;
+            console.log(response.data);
             dataCount = response.data.length();
+            console.log(response.data);
         }, function errorCallback(response) {
             console.log("Empty");
             $scope.employments = [];
@@ -95,7 +99,7 @@ angular.module("App").controller("EmploymentsListCtrl", ["$scope", "$http", "$ht
         }
         var query = $httpParamSerializer($scope.newEmployment);
         $http.get(BASE_API_PATH + "/?" + query + "&offset=0&limit=0").then(function(response) {
-            $scope.count=response.data.length;
+            $scope.count = response.data.length;
         });
     };
     $scope.getEmploymentsSecured = function() {
@@ -111,7 +115,7 @@ angular.module("App").controller("EmploymentsListCtrl", ["$scope", "$http", "$ht
         });
     };
 
-     $scope.getPage = function(p) {
+    $scope.getPage = function(p) {
         offsetP = offsetP + p;
         console.log(offsetP);
         if (offsetP < 0) {
@@ -130,7 +134,7 @@ angular.module("App").controller("EmploymentsListCtrl", ["$scope", "$http", "$ht
                 $scope.employments = [];
             });
         }
-        else if(offsetP > 20){
+        else if (offsetP > 20) {
             $http.get(BASE_API_PATH_LIMIT + "&offset=20").then(function(response) {
                 $scope.employments = response.data;
             }, function errorCallback(response) {
