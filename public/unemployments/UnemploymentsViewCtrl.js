@@ -1,24 +1,27 @@
 /* global angular */ /* global Highcharts*/ /* global google*/
-angular.module("App").controller("ExpendituresGraphCtrl", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
+angular.module("App").controller("UnemploymentsView", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
 
-    console.log("ExpendituresGraphCtrl initialized!");
+    console.log("UnemploymentsView initialized!");
     var countries = [];
     var years = [];
-    var prymaries = [];
-    var secundaries = [];
-    var tertieries = [];
+    var youngs = [];
+    var adults = [];
+    var olds = [];
+    var longterms = [];
 
-    $http.get("/api/v2/expenditures").then(function(response) {
+    $http.get("/api/v1/unemployments").then(function(response) {
         countries = response.data.map(function(d) { return d.country });
         years = response.data.map(function(d) { return d.year });
-        prymaries = response.data.map(function(d) { return d.primary });
-        secundaries = response.data.map(function(d) { return d.secundary });
-        tertieries = response.data.map(function(d) { return d.tertiery });
+        youngs = response.data.map(function(d) { return d.young });
+        adults = response.data.map(function(d) { return d.adult });
+        olds = response.data.map(function(d) { return d.old });
+        longterms = response.data.map(function(d) { return d.longterm });
         console.log(countries);
         console.log(years);
-        console.log(prymaries);
-        console.log(secundaries);
-        console.log(tertieries);
+        console.log(youngs);
+        console.log(adults);
+        console.log(olds);
+        console.log(longterms);
 
     });
 
