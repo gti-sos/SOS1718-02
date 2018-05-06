@@ -2,129 +2,127 @@
 angular.module("App").controller("ExpendituresView", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
 
     console.log("ExpendituresView initialized!");
-    var countries = [];
-    var years = [];
+    //var countries = [];
+    //var years = [];
     var primaries = [];
     var secundaries = [];
     var tertieries = [];
+    var countryyear = [];
+    var sumas = [];
+    var medias = [];
+    var sumaPrimaries;
+    var sumaSecundaries;
+    var sumaTertieries;
+    var CandYsumas = [];
 
     $http.get("/api/v2/expenditures").then(function(response) {
-        countries = response.data.map(function(d) { return d.country });
-        years = response.data.map(function(d) { return d.year });
-        primaries = response.data.map(function(d) { return d.primary });
-        secundaries = response.data.map(function(d) { return d.secundary });
-        tertieries = response.data.map(function(d) { return d.tertiery });
-        console.log(countries);
-        console.log(years);
-        console.log(primaries);
-        console.log(secundaries);
-        console.log(tertieries);
+        //countries = response.data.map(function(d) { return d.country });
+        //years = response.data.map(function(d) { return d.year });
+        primaries = response.data.map(function(d) { return d.primary }); //Coleccion todas las primaries
+        secundaries = response.data.map(function(d) { return d.secundary }); //Coleccion todas las secundaries.
+        tertieries = response.data.map(function(d) { return d.tertiery }); //Coleccion todas las tertieries.
+        sumas = response.data.map(function(d) { return d.primary + d.secundary + d.tertiery }); //Total de todo.
+        medias = sumas.map(function(d) { return d / 3 }); //Media de todo
+        sumaPrimaries = primaries.reduce(function(prev, next) { return prev + next }, 0); //  primaries.map(function(d) { return d.primary });
+        sumaSecundaries = secundaries.reduce(function(prev, next) { return prev + next }, 0);
+        sumaTertieries = tertieries.reduce(function(prev, next) { return prev + next }, 0);
+        countryyear = response.data.map(function(d) { return d.country + " " + d.year });
+        CandYsumas=countryyear.map(function(n,i) {
+            return [n,sumas[i]];
+        });
+        CandYsumas.unshift(['Country', 'Expenditures']);
 
-    });
-
-    //Highcharts Column, line and pie
-    Highcharts.chart('container', {
-        title: {
-            text: 'Combination chart'
-        },
-        xAxis: {
-            categories: ['Apples', 'Oranges', 'Pears', 'Bananas', 'Plums']
-        },
-        labels: {
-            items: [{
-                html: 'Total fruit consumption',
-                style: {
-                    left: '50px',
-                    top: '18px',
-                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+        //Highcharts Column, line and pie
+        Highcharts.chart('container', {
+            title: {
+                text: 'Combination chart'
+            },
+            xAxis: {
+                categories: countryyear
+            },
+            labels: {
+                items: [{
+                    html: 'Total expenditures',
+                    style: {
+                        left: '50px',
+                        top: '18px',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                    }
+                }]
+            },
+            series: [{
+                type: 'column',
+                name: 'Primary',
+                data: primaries
+            }, {
+                type: 'column',
+                name: 'Secundary',
+                data: secundaries
+            }, {
+                type: 'column',
+                name: 'Tertiery',
+                data: tertieries
+            }, {
+                type: 'spline',
+                name: 'Average',
+                data: medias,
+                marker: {
+                    lineWidth: 2,
+                    lineColor: Highcharts.getOptions().colors[3],
+                    fillColor: 'white'
+                }
+            }, {
+                type: 'pie',
+                name: 'Total expenditures',
+                data: [{
+                    name: 'Primary',
+                    y: sumaPrimaries,
+                    color: Highcharts.getOptions().colors[0]
+                }, {
+                    name: 'Secundary',
+                    y: sumaSecundaries,
+                    color: Highcharts.getOptions().colors[1]
+                }, {
+                    name: 'Tertiery',
+                    y: sumaTertieries,
+                    color: Highcharts.getOptions().colors[2]
+                }],
+                center: [100, 80],
+                size: 100,
+                showInLegend: false,
+                dataLabels: {
+                    enabled: false
                 }
             }]
-        },
-        series: [{
-            type: 'column',
-            name: 'Jane',
-            data: [3, 2, 1, 3, 4]
-        }, {
-            type: 'column',
-            name: 'John',
-            data: [2, 3, 5, 7, 6]
-        }, {
-            type: 'column',
-            name: 'Joe',
-            data: [4, 3, 3, 9, 0]
-        }, {
-            type: 'spline',
-            name: 'Average',
-            data: [3, 2.67, 3, 6.33, 3.33],
-            marker: {
-                lineWidth: 2,
-                lineColor: Highcharts.getOptions().colors[3],
-                fillColor: 'white'
-            }
-        }, {
-            type: 'pie',
-            name: 'Total consumption',
-            data: [{
-                name: 'Jane',
-                y: 13,
-                color: Highcharts.getOptions().colors[0] // Jane's color
-            }, {
-                name: 'John',
-                y: 23,
-                color: Highcharts.getOptions().colors[1] // John's color
-            }, {
-                name: 'Joe',
-                y: 19,
-                color: Highcharts.getOptions().colors[2] // Joe's color
-            }],
-            center: [100, 80],
-            size: 100,
-            showInLegend: false,
-            dataLabels: {
-                enabled: false
-            }
-        }]
+        });
+
+        //Geochart de GOOGLE
+        google.charts.load('current', {
+            'packages': ['geochart'],
+            // Note: you will need to get a mapsApiKey for your project.
+            // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+            'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+        });
+        google.charts.setOnLoadCallback(drawRegionsMap);
+
+        function drawRegionsMap() {
+            var data = google.visualization.arrayToDataTable(
+                CandYsumas
+            );
+
+            var options = { region: '150' };
+            var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+            chart.draw(data, options);
+        }
+
+        //OTRO
+        $scope.labels = countryyear;
+        $scope.series = ['Series A', 'Series B'];
+
+        $scope.data = [
+            primaries,
+            secundaries,
+            tertieries
+        ];
     });
-
-    //Geochart de GOOGLE
-    google.charts.load('current', {
-        'packages': ['geochart'],
-        // Note: you will need to get a mapsApiKey for your project.
-        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
-        'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
-    });
-    google.charts.setOnLoadCallback(drawRegionsMap);
-
-    function drawRegionsMap() {
-        var data = google.visualization.arrayToDataTable([
-            ['Country', 'Popularity'],
-            ['Germany', 200],
-            ['United States', 300],
-            ['Brazil', 400],
-            ['Canada', 500],
-            ['France', 600],
-            ['RU', 700]
-        ]);
-
-        var options = {};
-        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-        chart.draw(data, options);
-    }
-    
-    //OTRO
-    $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-    $scope.series = ['Series A', 'Series B'];
-
-    $scope.data = [
-        [65, 59, 80, 81, 56, 55, 40],
-        [28, 48, 40, 19, 86, 27, 90]
-    ];
-    
-    $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-    $scope.series = ['Series A', 'Series B'];
-
-    $scope.data = [
-      [65, 59, 80, 81, 56, 55, 40],
-      [28, 48, 40, 19, 86, 27, 90]
-    ];
 }]);
