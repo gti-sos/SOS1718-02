@@ -1,4 +1,4 @@
-/* global angular */ /* global Highcharts*/ /* global google*/
+/* global angular */ /* global d3 */ /* global Highcharts*/ /* global google*/
 angular.module("App").controller("UnemploymentsView", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
 
     console.log("UnemploymentsView initialized!");
@@ -8,6 +8,76 @@ angular.module("App").controller("UnemploymentsView", ["$scope", "$http", "$http
     var adults = [];
     var olds = [];
     var longterms = [];
+    var sumas = [];
+    var CandYsumas = [];
+    var countryandyear = [];
+    var CandProperties = [];
+
+    function d3Chart(data) {
+        var bubbleChart = new d3.svg.BubbleChart({
+            supportResponsive: true,
+            container: document.querySelector('.bubbleChart'),
+            size: 1000,
+            //viewBoxSize: => use @default
+            innerRadius: 300 / 1,
+            //outerRadius: => use @default
+            radiusMin: 40,
+            radiusMax: 60,
+            //intersectDelta: use @default
+            //intersectInc: use @default
+            //circleColor: use @default,
+            data: {
+                items: data,
+                eval: function(item) { return item.count; },
+                classed: function(item) { return item.text.split(" ").join(""); }
+            },
+            plugins: [{
+                name: "lines",
+                options: {
+                    format: [{ // Line #0
+                            textField: "count",
+                            classed: { count: true },
+                            style: {
+                                "font-size": "30px",
+                                "font-family": "Source Sans Pro, sans-serif",
+                                "text-anchor": "middle",
+                                fill: "white"
+                            },
+                            attr: {
+                                dy: "0px",
+                                x: function(d) { return d.cx; },
+                                y: function(d) { return d.cy; }
+                            }
+                        },
+                        { // Line #1
+                            textField: "text",
+                            classed: { text: true },
+                            style: {
+                                "font-size": "30px",
+                                "font-family": "Source Sans Pro, sans-serif",
+                                "text-anchor": "middle",
+                                fill: "white"
+                            },
+                            attr: {
+                                dy: "20px",
+                                x: function(d) { return d.cx; },
+                                y: function(d) { return d.cy; }
+                            }
+                        }
+                    ],
+                    centralFormat: [{ // Line #0
+                            style: { "font-size": "30px" },
+                            attr: {}
+                        },
+                        { // Line #1
+                            style: { "font-size": "30px" },
+                            attr: { dy: "40px" }
+                        }
+                    ]
+                }
+            }]
+        });
+    }
 
     $http.get("/api/v1/unemployments").then(function(response) {
         countries = response.data.map(function(d) { return d.country });
@@ -16,118 +86,89 @@ angular.module("App").controller("UnemploymentsView", ["$scope", "$http", "$http
         adults = response.data.map(function(d) { return d.adult });
         olds = response.data.map(function(d) { return d.old });
         longterms = response.data.map(function(d) { return d.longterm });
-        console.log(countries);
-        console.log(years);
-        console.log(youngs);
-        console.log(adults);
-        console.log(olds);
-        console.log(longterms);
 
-    });
+        countryandyear = response.data.map(function(d) { return d.country + " " + d.year });
+        sumas = response.data.map(function(d) { return d.old + d.young + d.adult + d.longterm });
 
-    //Highcharts Column, line and pie
-    Highcharts.chart('container', {
-        title: {
-            text: 'Combination chart'
-        },
-        xAxis: {
-            categories: ['Apples', 'Oranges', 'Pears', 'Bananas', 'Plums']
-        },
-        labels: {
-            items: [{
-                html: 'Total fruit consumption',
-                style: {
-                    left: '50px',
-                    top: '18px',
-                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+        CandProperties = countryandyear.map(function(n, i) {
+            return {
+                name: countryandyear[i],
+                data: [youngs[i], adults[i], olds[i], longterms[i]]
+            };
+        });
+        console.log(CandProperties);
+        CandYsumas = countryandyear.map(function(n, i) {
+            return [n, sumas[i]];
+        });
+        CandYsumas.unshift(['Country', 'Unemployments']);
+
+        //Highcharts Basic Columnpie
+        Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Monthly Average Rainfall'
+            },
+            subtitle: {
+                text: 'Source: WorldClimate.com'
+            },
+            xAxis: {
+                categories: [
+                    "Young", "Adult", "Old", "Longterm"
+                ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Rainfall (mm)'
                 }
-            }]
-        },
-        series: [{
-            type: 'column',
-            name: 'Jane',
-            data: [3, 2, 1, 3, 4]
-        }, {
-            type: 'column',
-            name: 'John',
-            data: [2, 3, 5, 7, 6]
-        }, {
-            type: 'column',
-            name: 'Joe',
-            data: [4, 3, 3, 9, 0]
-        }, {
-            type: 'spline',
-            name: 'Average',
-            data: [3, 2.67, 3, 6.33, 3.33],
-            marker: {
-                lineWidth: 2,
-                lineColor: Highcharts.getOptions().colors[3],
-                fillColor: 'white'
-            }
-        }, {
-            type: 'pie',
-            name: 'Total consumption',
-            data: [{
-                name: 'Jane',
-                y: 13,
-                color: Highcharts.getOptions().colors[0] // Jane's color
-            }, {
-                name: 'John',
-                y: 23,
-                color: Highcharts.getOptions().colors[1] // John's color
-            }, {
-                name: 'Joe',
-                y: 19,
-                color: Highcharts.getOptions().colors[2] // Joe's color
-            }],
-            center: [100, 80],
-            size: 100,
-            showInLegend: false,
-            dataLabels: {
-                enabled: false
-            }
-        }]
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: CandProperties
+        });
+
+        //Geochart de GOOGLE
+        google.charts.load('current', {
+            'packages': ['geochart'],
+            // Note: you will need to get a mapsApiKey for your project.
+            // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+            'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+        });
+        google.charts.setOnLoadCallback(drawRegionsMap);
+
+        function drawRegionsMap() {
+            var data = google.visualization.arrayToDataTable(
+                CandYsumas
+            );
+
+            var options = { region: '150' };
+            var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+            chart.draw(data, options);
+        }
+
+        //OTRO
+        var d3data = countryandyear.map(function(name, index) {
+            return {
+                text: name,
+                count: parseInt(sumas[index])
+            };
+        });
+
+        d3Chart(d3data);
     });
-
-    //Geochart de GOOGLE
-    google.charts.load('current', {
-        'packages': ['geochart'],
-        // Note: you will need to get a mapsApiKey for your project.
-        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
-        'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
-    });
-    google.charts.setOnLoadCallback(drawRegionsMap);
-
-    function drawRegionsMap() {
-        var data = google.visualization.arrayToDataTable([
-            ['Country', 'Popularity'],
-            ['Germany', 200],
-            ['United States', 300],
-            ['Brazil', 400],
-            ['Canada', 500],
-            ['France', 600],
-            ['RU', 700]
-        ]);
-
-        var options = {};
-        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-        chart.draw(data, options);
-    }
-    
-    //OTRO
-    $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-    $scope.series = ['Series A', 'Series B'];
-
-    $scope.data = [
-        [65, 59, 80, 81, 56, 55, 40],
-        [28, 48, 40, 19, 86, 27, 90]
-    ];
-    
-    $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-    $scope.series = ['Series A', 'Series B'];
-
-    $scope.data = [
-      [65, 59, 80, 81, 56, 55, 40],
-      [28, 48, 40, 19, 86, 27, 90]
-    ];
 }]);
