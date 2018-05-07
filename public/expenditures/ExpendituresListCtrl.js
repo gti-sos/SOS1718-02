@@ -11,9 +11,13 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
 
     $scope.addExpenditure = function() {
         $http.post(BASE_API_PATH, $scope.newExpenditure).then(function(response) {
-            $scope.status = "Status: " + response;
+            $scope.status = "Status: " + response.status;
             getExpenditures();
-            window.alert("All deleted!");
+            window.alert("Created");
+        }, function errorCallback(response) {
+            console.log("Bad request");
+            window.alert("Bad request");
+             $scope.status("Bad request");
         });
     };
 
@@ -59,7 +63,6 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
         }, function errorCallback(response) {
             console.log("Empty");
             $scope.expenditures = [];
-            window.alert("Not found!");
         });
     };
 
@@ -79,7 +82,6 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
             console.log("Empty");
             $scope.expenditures = [];
             $scope.status = response.data;
-            window.alert("Not found!");
         });
     }
 
@@ -93,7 +95,6 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
             console.log("Empty");
             $scope.expenditures = [];
             $scope.status = response.data;
-            window.alert("Not found!");
         });
     };
 

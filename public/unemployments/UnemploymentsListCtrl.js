@@ -13,6 +13,10 @@ angular.module("App").controller("UnemploymentsListCtrl", ["$scope", "$http", "$
         $http.post(BASE_API_PATH, $scope.newUnemployment).then(function(response) {
             $scope.status = "Status: " + response.status;
             getUnemployments();
+        }, function errorCallback(response) {
+            console.log("Bad request");
+            window.alert("Bad request");
+             $scope.status("Bad request");
         });
     };
 
@@ -21,6 +25,7 @@ angular.module("App").controller("UnemploymentsListCtrl", ["$scope", "$http", "$
             .then(function(response) {
                 $scope.status = response.data;
                 getUnemployments();
+                window.alert(response.data);
             });
     };
 
@@ -28,6 +33,7 @@ angular.module("App").controller("UnemploymentsListCtrl", ["$scope", "$http", "$
         $http.delete(BASE_API_PATH).then(function(response) {
             $scope.status = response.data;
             getUnemployments();
+            window.alert(response.data);
         });
     };
 
@@ -66,6 +72,7 @@ angular.module("App").controller("UnemploymentsListCtrl", ["$scope", "$http", "$
         $http.get(BASE_API_PATH + "/loadInitialData").then(function(response) {
             getUnemployments();
             $scope.status = response.data;
+            window.alert(response.data);
         });
     };
 
@@ -102,6 +109,7 @@ angular.module("App").controller("UnemploymentsListCtrl", ["$scope", "$http", "$
         }, function errorCallback(response) {
             console.log("Empty");
             $scope.unemployments = [];
+            console.log("Not found");
         });
     };
     getUnemployments();

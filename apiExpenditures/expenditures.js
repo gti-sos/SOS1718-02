@@ -75,11 +75,8 @@ apiExpenditures.register = function(app) {
             if (req.query.limit) {
                 limit = Number(req.query.limit);
             }
-            console.log(query);
-            console.log(query.apikey);
             delete query.offset;
             delete query.limit;
-            //console.log(query);
             
             dbo.collection("expenditures").find(query).skip(offset).limit(limit).toArray(function(err, result) {
                 if (!err && !result.length) {
@@ -224,8 +221,6 @@ apiExpenditures.register = function(app) {
     //PUT
     app.put(BASE_API_PATH + "/:country/:year", (req, res) => {
         console.log("Put");
-        console.log(req.params);
-        console.log(req.body);
         if (req.body._id != undefined || req.body.country != req.params.country || req.body.year != req.params.year || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.primary) || isNaN(req.body.secundary) || isNaN(req.body.tertiery)) {
             res.sendStatus(400);
             console.log("Bad request");
