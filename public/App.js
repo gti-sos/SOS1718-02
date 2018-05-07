@@ -5,6 +5,8 @@ angular.module("App", ["chart.js", "ngRoute"]).config(function($routeProvider) {
     when("/", {
         templateUrl: "main.html"
     }).
+    //
+    
     when("/analytics", {
         templateUrl: "analytics.html"
     }).
