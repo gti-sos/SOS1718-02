@@ -36,6 +36,7 @@ angular.module("App").controller("ExpendituresView", ["$scope", "$http", "$httpP
         console.log(sumas);
         console.log(CandYsumas);
 
+
         //Highcharts Column, line and pie
         Highcharts.chart('container', {
             title: {
