@@ -2,30 +2,39 @@
 angular.module("App").controller("ExpendituresView", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
 
     console.log("ExpendituresView initialized!");
-    var countries = [];
-    var years = [];
+    //var countries = [];
+    //var years = [];
     var primaries = [];
     var secundaries = [];
     var tertieries = [];
     var countryyear = [];
     var sumas = [];
+    var medias = [];
+    var sumaPrimaries;
+    var sumaSecundaries;
+    var sumaTertieries;
+    var CandYsumas = [];
 
     $http.get("/api/v2/expenditures").then(function(response) {
-        countries = response.data.map(function(d) { return d.country });
-        years = response.data.map(function(d) { return d.year });
-        primaries = response.data.map(function(d) { return d.primary });
-        secundaries = response.data.map(function(d) { return d.secundary });
-        tertieries = response.data.map(function(d) { return d.tertiery });
-        sumas = response.data.map(function(d) { return d.primary + d.secundary + d.tertiery });
+        //countries = response.data.map(function(d) { return d.country });
+        //years = response.data.map(function(d) { return d.year });
+        primaries = response.data.map(function(d) { return d.primary }); //Coleccion todas las primaries
+        secundaries = response.data.map(function(d) { return d.secundary }); //Coleccion todas las secundaries.
+        tertieries = response.data.map(function(d) { return d.tertiery }); //Coleccion todas las tertieries.
+        sumas = response.data.map(function(d) { return d.primary + d.secundary + d.tertiery }); //Total de todo.
+        medias = sumas.map(function(d) { return d / 3 }); //Media de todo
+        sumaPrimaries = primaries.reduce(function(prev, next) { return prev + next }, 0); //  primaries.map(function(d) { return d.primary });
+        sumaSecundaries = secundaries.reduce(function(prev, next) { return prev + next }, 0);
+        sumaTertieries = tertieries.reduce(function(prev, next) { return prev + next }, 0);
         countryyear = response.data.map(function(d) { return d.country + " " + d.year });
-
-        console.log(countries);
-        console.log(years);
-        console.log(primaries);
-        console.log(secundaries);
-        console.log(tertieries);
-        console.log(sumas);
+        CandYsumas=countryyear.map(function(n,i) {
+            return [n,sumas[i]];
+        });
+        CandYsumas.unshift(['Country', 'Expenditures']);
+        
         console.log(countryyear);
+        console.log(sumas);
+        console.log(CandYsumas);
 
         //Highcharts Column, line and pie
         Highcharts.chart('container', {
@@ -33,11 +42,11 @@ angular.module("App").controller("ExpendituresView", ["$scope", "$http", "$httpP
                 text: 'Combination chart'
             },
             xAxis: {
-                categories: ['Apples', 'Oranges', 'Pears', 'Bananas', 'Plums']
+                categories: countryyear
             },
             labels: {
                 items: [{
-                    html: 'Total fruit consumption',
+                    html: 'Total expenditures',
                     style: {
                         left: '50px',
                         top: '18px',
@@ -47,20 +56,20 @@ angular.module("App").controller("ExpendituresView", ["$scope", "$http", "$httpP
             },
             series: [{
                 type: 'column',
-                name: 'Jane',
-                data: [3, 2, 1, 3, 4]
+                name: 'Primary',
+                data: primaries
             }, {
                 type: 'column',
-                name: 'John',
-                data: [2, 3, 5, 7, 6]
+                name: 'Secundary',
+                data: secundaries
             }, {
                 type: 'column',
-                name: 'Joe',
-                data: [4, 3, 3, 9, 0]
+                name: 'Tertiery',
+                data: tertieries
             }, {
                 type: 'spline',
                 name: 'Average',
-                data: [3, 2.67, 3, 6.33, 3.33],
+                data: medias,
                 marker: {
                     lineWidth: 2,
                     lineColor: Highcharts.getOptions().colors[3],
@@ -68,19 +77,19 @@ angular.module("App").controller("ExpendituresView", ["$scope", "$http", "$httpP
                 }
             }, {
                 type: 'pie',
-                name: 'Total consumption',
+                name: 'Total expenditures',
                 data: [{
-                    name: 'Jane',
-                    y: 13,
-                    color: Highcharts.getOptions().colors[0] // Jane's color
+                    name: 'Primary',
+                    y: sumaPrimaries,
+                    color: Highcharts.getOptions().colors[0]
                 }, {
-                    name: 'John',
-                    y: 23,
-                    color: Highcharts.getOptions().colors[1] // John's color
+                    name: 'Secundary',
+                    y: sumaSecundaries,
+                    color: Highcharts.getOptions().colors[1]
                 }, {
-                    name: 'Joe',
-                    y: 19,
-                    color: Highcharts.getOptions().colors[2] // Joe's color
+                    name: 'Tertiery',
+                    y: sumaTertieries,
+                    color: Highcharts.getOptions().colors[2]
                 }],
                 center: [100, 80],
                 size: 100,
@@ -101,17 +110,11 @@ angular.module("App").controller("ExpendituresView", ["$scope", "$http", "$httpP
         google.charts.setOnLoadCallback(drawRegionsMap);
 
         function drawRegionsMap() {
-            var data = google.visualization.arrayToDataTable([
-                ['Country', 'Popularity'],
-                ['Germany', 200],
-                ['United States', 300],
-                ['Brazil', 400],
-                ['Canada', 500],
-                ['France', 600],
-                ['RU', 700]
-            ]);
+            var data = google.visualization.arrayToDataTable(
+                CandYsumas
+            );
 
-            var options = {};
+            var options = { region: '150' };
             var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
             chart.draw(data, options);
         }
@@ -126,6 +129,4 @@ angular.module("App").controller("ExpendituresView", ["$scope", "$http", "$httpP
             tertieries
         ];
     });
-
-
 }]);
