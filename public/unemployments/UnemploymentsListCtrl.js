@@ -59,7 +59,6 @@ angular.module("App").controller("UnemploymentsListCtrl", ["$scope", "$http", "$
         var query = $httpParamSerializer($scope.newUnemployment);
         query.limit = 10;
         query.offset = 10;
-        console.log(query);
         $http.get(BASE_API_PATH + "/?" + query).then(function(response) {
             $scope.unemployments = response.data;
         }, function errorCallback(response) {
@@ -93,7 +92,7 @@ angular.module("App").controller("UnemploymentsListCtrl", ["$scope", "$http", "$
         }).then(function(response) {
             $scope.unemployments = response.data;
             $scope.status = response.data;
-            window.alert(response.data);
+            window.alert("Authorized");
         }, function errorCallback(response) {
             console.log("Empty");
             $scope.unemployments = [];
