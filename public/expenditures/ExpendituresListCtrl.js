@@ -90,11 +90,13 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
             headers: { "user": $scope.user, "pass": $scope.pass }
         }).then(function(response) {
             $scope.expenditures = response.data;
-            $scope.status = "Authorized";
+           $scope.status = response.data;
+            window.alert(response.data);
         }, function errorCallback(response) {
             console.log("Empty");
             $scope.expenditures = [];
             $scope.status = response.data;
+            window.alert(response.data);
         });
     };
 

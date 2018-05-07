@@ -92,11 +92,13 @@ angular.module("App").controller("UnemploymentsListCtrl", ["$scope", "$http", "$
             headers: { "user": $scope.user, "pass": $scope.pass }
         }).then(function(response) {
             $scope.unemployments = response.data;
-            $scope.status = "Authorized";
+            $scope.status = response.data;
+            window.alert(response.data);
         }, function errorCallback(response) {
             console.log("Empty");
             $scope.unemployments = [];
             $scope.status = response.data;
+            window.alert(response.data);
         });
     };
 
