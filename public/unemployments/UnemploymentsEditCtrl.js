@@ -10,7 +10,10 @@ controller("UnemploymentsEditCtrl", ["$scope", "$http", "$routeParams", "$locati
     $scope.updateUnemployment = function() {
         $http.put(BASE_API_PATH, $scope.data).then(function(response) {
             window.alert("update!!!");
-            $location.path("/");
+            $location.path("/unemployments");
+        }, function errorCallback(response) {
+            console.log("Bad request");
+            window.alert("All fields must be numbers!!");
         });
     };
 }]);

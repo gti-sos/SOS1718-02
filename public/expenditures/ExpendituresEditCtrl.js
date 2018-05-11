@@ -10,7 +10,10 @@ controller("ExpendituresEditCtrl", ["$scope", "$http", "$routeParams", "$locatio
     $scope.updateExpenditure = function() {
         $http.put(BASE_API_PATH, $scope.data).then(function(response) {
             window.alert("Updated!");
-            $location.path("/");
+            $location.path("/expenditures");
+        }, function errorCallback(response) {
+            console.log("Bad request");
+            window.alert("All fields must be numbers!!");
         });
     };
 }]);
