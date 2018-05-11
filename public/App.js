@@ -57,6 +57,13 @@ angular.module("App", ["chart.js", "ngRoute"]).config(function($routeProvider) {
     }).when("/expenditures/:country/:year", {
         templateUrl: "expenditures/ExpendituresEdit.html",
         controller: "ExpendituresEditCtrl"
+    }).
+    when("/analytics/expendituresApiCompartida", {
+        templateUrl: "expenditures/ApiCompartidaView.html",
+        controller: "ApiCompartidaViewCtrl"
+    }).
+    when("/analytics/expendituresApiCompartidaProxy", {
+        templateUrl: "expenditures/ApiCompartidaViewProxy.html",
+        controller: "ApiCompartidaViewProxyCtrl"
     });
-
 });
