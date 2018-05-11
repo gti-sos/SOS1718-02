@@ -19,6 +19,14 @@ expendituresApi.register(app);
 expendituresApi2.register(app);
 employmentsApi.register(app);
 unemploymentsApi.register(app);
+var dirProxyJA = "https://sos1718-08.herokuapp.com";
+//Colocación de proxys
+app.use("/proxyJA", function(req, res) {
+    var url = dirProxyJA + req.url;
+    req.pipe(request(url)).pipe(res);
+});
+
+
 
 app.listen(port, () => {
     console.log("Server ready on port: " + port + "!");
