@@ -10,10 +10,22 @@ angular.module("App", ["chart.js", "ngRoute"]).config(function($routeProvider) {
     when("/analytics", {
         templateUrl: "analytics.html"
     }).
+    
+    
     when("/analytics/employments", {
         templateUrl: "employments/EmploymentsView.html",
         controller: "EmploymentsView"
     }).
+    when("/analytics/employmentsApiCompartida", {
+        templateUrl: "employments/ApiCompartidaView.html",
+        controller: "ApiCompartidaView"
+    }).
+    when("/analytics/employmentsApiCompartidaProxy", {
+        templateUrl: "employments/ApiCompartidaViewProxy.html",
+        controller: "ApiCompartidaViewProxy"
+    }).
+    
+    
     when("/analytics/unemployments", {
         templateUrl: "unemployments/UnemploymentsView.html",
         controller: "UnemploymentsView"
