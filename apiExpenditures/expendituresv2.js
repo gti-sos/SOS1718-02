@@ -40,9 +40,8 @@ var initialsExpenditures = [
     { "country": "italy", "year": 2001, "primary": 23.71071, "secundary": 30.13383, "tertiery": 24.97742 }
 ];
 
-apiExpenditures.register = function(app) {
+apiExpenditures.register = function(app, request) {
     // Proxy
-    var request = require("request");
     var apiServerHost = 'http://sos1718-11.herokuapp.com';
     app.use("/proxyALS", function(req, res) {
         var url = apiServerHost + req.url;

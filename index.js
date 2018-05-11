@@ -13,12 +13,11 @@ var unemploymentsApi = require("./apiUnemployments/unemployments.js");
 
 app.use(bodyParser.json());
 app.use(cors());
-//app.use(request);
 
 app.use("/", express.static(path.join(__dirname + "/public")));
 
-expendituresApi.register(app);
-expendituresApi2.register(app);
+expendituresApi.register(app,request);
+expendituresApi2.register(app,request);
 employmentsApi.register(app);
 unemploymentsApi.register(app);
 var dirProxyJA = "https://sos1718-08.herokuapp.com";
