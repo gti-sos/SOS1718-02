@@ -1,4 +1,8 @@
 angular.module("App").controller("ApiCompartidaViewProxyCtrl", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
+    $http.get("/proxyFPZ/api/v1/homicide-reports-data").then(function(response) {
+        console.log(response.data);
+    });
+
     Highcharts.chart('container', {
         chart: {
             type: 'area'

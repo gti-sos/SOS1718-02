@@ -42,8 +42,8 @@ var initialsExpenditures = [
 
 apiExpenditures.register = function(app, request) {
     // Proxy
-    var apiServerHost = 'http://sos1718-11.herokuapp.com';
-    app.use("/proxyALS", function(req, res) {
+    var apiServerHost = 'https://sos1718-07.herokuapp.com';
+    app.use("/proxyFPZ", function(req, res) {
         var url = apiServerHost + req.url;
         req.pipe(request(url)).pipe(res);
     });
