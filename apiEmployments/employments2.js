@@ -14,8 +14,8 @@ var initialsEmployments = [
     { "country": "italy", "year": 2000, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "austria", "year": 2001, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "france", "year": 2000, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
-    
-    
+
+
     { "country": "croatia", "year": 1999, "totalself": 18.5, "totalsalaried": 75.30000305, "totalcontributingfamilyworker": 6.19999980926514 },
     { "country": "cyprus", "year": 2004, "totalself": 20.5, "totalsalaried": 76.80000305, "totalcontributingfamilyworker": 2.799999952 },
     { "country": "romania", "year": 1999, "totalself": 22.60000038, "totalsalaried": 59.70000076, "totalcontributingfamilyworker": 17.79999924 },
@@ -24,8 +24,8 @@ var initialsEmployments = [
     { "country": "italy", "year": 2001, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "austria", "year": 2002, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "france", "year": 2001, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
-    
-    
+
+
     { "country": "croatia", "year": 2000, "totalself": 18.5, "totalsalaried": 75.30000305, "totalcontributingfamilyworker": 6.19999980926514 },
     { "country": "cyprus", "year": 2003, "totalself": 20.5, "totalsalaried": 76.80000305, "totalcontributingfamilyworker": 2.799999952 },
     { "country": "romania", "year": 2000, "totalself": 22.60000038, "totalsalaried": 59.70000076, "totalcontributingfamilyworker": 17.79999924 },
@@ -33,9 +33,9 @@ var initialsEmployments = [
     { "country": "portugal", "year": 2002, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "italy", "year": 2002, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "austria", "year": 2003, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
-    { "country": "france", "year": 2002, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 }
+    { "country": "france", "year": 2002, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
 
-    ,{ "country": "romania", "year": 2001, "totalself": 22.60000038, "totalsalaried": 59.70000076, "totalcontributingfamilyworker": 17.79999924 },
+    , { "country": "romania", "year": 2001, "totalself": 22.60000038, "totalsalaried": 59.70000076, "totalcontributingfamilyworker": 17.79999924 },
     { "country": "spain", "year": 2004, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "portugal", "year": 2003, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "italy", "year": 2003, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
@@ -43,11 +43,18 @@ var initialsEmployments = [
     { "country": "france", "year": 2003, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 }
 
 ];
-apiEmployments.register = function(app) {
+apiEmployments.register = function(app, request) {
+    //Colocación de proxys
+    app.use("/proxyJA", function(req, res) {
+        var dirProxyJA = "https://sos1718-08.herokuapp.com";
+        var url = dirProxyJA + req.url;
+        req.pipe(request(url)).pipe(res);
+    });
+
     //Postman Docs
     app.get(BASE_API_PATH + "/docs", (req, res) => {
         console.log("Postman Docs");
-         res.redirect("https://documenter.getpostman.com/view/3881259/sos1718-02-employments/RVu5i8A3");
+        res.redirect("https://documenter.getpostman.com/view/3881259/sos1718-02-employments/RVu5i8A3");
     });
 
     //loadInitialData
@@ -125,8 +132,8 @@ apiEmployments.register = function(app) {
         console.log("Get all secured");
         var user = req.headers.user;
         var pass = req.headers.pass;
-       if (user == "joseangel" && pass == "joseangel") {
-           MongoClient.connect(url, function(err, db) {
+        if (user == "joseangel" && pass == "joseangel") {
+            MongoClient.connect(url, function(err, db) {
                 if (err) throw err;
                 var dbo = db.db("sos1718-jmm-sandbox");
                 dbo.collection("employments").find().toArray(function(err, result) {
@@ -260,11 +267,11 @@ apiEmployments.register = function(app) {
                 var myquery = { country: req.params.country, year: Number(req.params.year) };
                 var newValues = {
                     $set: {
-                       country: req.body.country,
-                year: Number(req.body.year),
-                totalself: Number(req.body.totalself),
-                totalsalaried: Number(req.body.totalsalaried),
-                totalcontributingfamilyworker: Number(req.body.totalcontributingfamilyworker)
+                        country: req.body.country,
+                        year: Number(req.body.year),
+                        totalself: Number(req.body.totalself),
+                        totalsalaried: Number(req.body.totalsalaried),
+                        totalcontributingfamilyworker: Number(req.body.totalcontributingfamilyworker)
                     }
                 };
                 dbo.collection("employments").count(myquery, function(err, count) {

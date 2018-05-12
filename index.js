@@ -18,16 +18,8 @@ app.use("/", express.static(path.join(__dirname + "/public")));
 
 expendituresApi.register(app,request);
 expendituresApi2.register(app,request);
-employmentsApi.register(app);
-unemploymentsApi.register(app);
-var dirProxyJA = "https://sos1718-08.herokuapp.com";
-//Colocación de proxys
-app.use("/proxyJA", function(req, res) {
-    var url = dirProxyJA + req.url;
-    req.pipe(request(url)).pipe(res);
-});
-
-
+employmentsApi.register(app, request);
+unemploymentsApi.register(app, request);
 
 app.listen(port, () => {
     console.log("Server ready on port: " + port + "!");
