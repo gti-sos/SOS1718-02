@@ -5,7 +5,6 @@ angular.module("App", ["chart.js", "ngRoute"]).config(function($routeProvider) {
     when("/", {
         templateUrl: "main.html"
     }).
-    //
     
     when("/analytics", {
         templateUrl: "analytics.html"
@@ -49,6 +48,14 @@ angular.module("App", ["chart.js", "ngRoute"]).config(function($routeProvider) {
     }).when("/unemployments/:country/:year", {
         templateUrl: "unemployments/UnemploymentsEdit.html",
         controller: "UnemploymentsEditCtrl"
+    }).
+    when("/analytics/unemploymentsApiCompartida", {
+        templateUrl: "unemployments/ApiCompartidaView.html",
+        controller: "ApiCompartidaViewCtrl"
+    }).
+    when("/analytics/unemploymentsApiCompartidaProxy", {
+        templateUrl: "unemployments/ApiCompartidaViewProxy.html",
+        controller: "ApiCompartidaViewProxyCtrl"
     }).
 
     when("/expenditures", {

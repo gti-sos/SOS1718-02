@@ -20,7 +20,15 @@ var initialsUnemployments = [
     { "country": "italy", "year": 2005, "young": 32, "adult": 16, "old": 15.10000038, "longterm": 11 }
 ];
 
-apiUnemployments.register = function(app) {
+apiUnemployments.register = function(app, request) {
+    // Proxy
+    var apiServerHost = 'https://sos1718-05.herokuapp.com';
+    app.use("/proxyG05", function(req, res) {
+        //api/v1/global-warmings
+        var url = apiServerHost + req.url;
+        req.pipe(request(url)).pipe(res);
+    });
+    
     //urlQuery
     app.get(BASE_API_PATH + "?", (req, res) => {
         MongoClient.connect(url, function(err, db) {
