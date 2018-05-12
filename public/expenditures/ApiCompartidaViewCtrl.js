@@ -1,5 +1,6 @@
+/*global angular*//*global Highcharts*/
 angular.module("App").controller("ApiCompartidaViewCtrl", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
-    $http.get("https://sos1718-11.herokuapp.com/api/v2/basketball-stats").then(function(response) {
+    $http.get("https://sos1718-09.herokuapp.com/api/v1/spanish-universities").then(function(response) {
         console.log(response.data);
     });
     Highcharts.chart('container', {

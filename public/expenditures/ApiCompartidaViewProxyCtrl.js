@@ -1,5 +1,6 @@
+/*global angular*//*global Highcharts*/
 angular.module("App").controller("ApiCompartidaViewProxyCtrl", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
-    $http.get("/proxyFPZ/api/v1/homicide-reports-data").then(function(response) {
+    $http.get("/proxyG03/api/v1/global-warmings").then(function(response) {
         console.log(response.data);
     });
 
