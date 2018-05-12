@@ -16,6 +16,8 @@ app.use(cors());
 
 app.use("/", express.static(path.join(__dirname + "/public")));
 
+//Añadir
+
 expendituresApi.register(app,request);
 expendituresApi2.register(app,request);
 employmentsApi.register(app, request);
