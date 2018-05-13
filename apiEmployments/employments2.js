@@ -43,7 +43,10 @@ var initialsEmployments = [
     { "country": "france", "year": 2003, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 }
 
 ];
+
 apiEmployments.register = function(app, request) {
+
+    
     //Colocación de proxys
     app.use("/proxyJA", function(req, res) {
         var dirProxyJA = "https://sos1718-08.herokuapp.com";
