@@ -1,61 +1,79 @@
-/*global angular*//*global Highcharts*/
+/*global angular*/ /*global Highcharts*/ /*global $*/
+var cities = [];
+var allcountriesExp = [];
+var uniqueCountriesExp = [];
+var bothCountries = [];
+var CandYtert = [];
+var tertieries = [];
+var peakpowers = [];
+var warnings = [];
+var allCountries = [];
 angular.module("App").controller("ApiCompartidaViewProxyCtrl", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
     $http.get("/proxyG03/api/v1/global-warmings").then(function(response) {
-        console.log(response.data);
-    });
+        cities = response.data.map(function(d) { return d.name + " " + d.year });
+        peakpowers = response.data.map(function(d) { return d.peakPower });
+        //warnings = cities.map(function(n, i) { return [n, peakpowers[i]]; });
+        //console.log(warnings);
+        $http.get("/api/v2/expenditures").then(function(response) {
+            allcountriesExp = response.data.map(function(d) { return d.country + " " + d.year });
+            tertieries = response.data.map(function(d) { return d.tertiery });
+            //allCountries = allcountriesExp.map(function(n, i) { return [n, tertieries[i]]; });
+            //console.log(allCountries);
+            //console.log(response.data);
+            //$.each(allcountriesExp, function(i, el) {
+            //    if ($.inArray(el, uniqueCountriesExp) === -1) uniqueCountriesExp.push(el);
+            //});
+            bothCountries = peakpowers.concat(tertieries);
+            console.log(bothCountries);
+            //console.log(bothCountries);
+            // CandYtert = bothCountries.map(function(n, i) { return [n, tertieries[i]]; });
+            //console.log(CandYtert);
 
-    Highcharts.chart('container', {
-        chart: {
-            type: 'area'
-        },
-        title: {
-            text: 'Historic and Estimated Worldwide Population Distribution by Region'
-        },
-        subtitle: {
-            text: 'Source: Wikipedia.org'
-        },
-        xAxis: {
-            categories: ['1750', '1800', '1850', '1900', '1950', '1999', '2050'],
-            tickmarkPlacement: 'on',
-            title: {
-                enabled: false
+
+            //3D Columns
+            // Set up the chart
+            var chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'container',
+                    type: 'column',
+                    options3d: {
+                        enabled: true,
+                        alpha: 15,
+                        beta: 15,
+                        depth: 50,
+                        viewDistance: 25
+                    }
+                },
+                title: {
+                    text: 'Expenditures + Warnings'
+                },
+                subtitle: {
+                    text: 'Test options by dragging the sliders below'
+                },
+                plotOptions: {
+                    column: {
+                        depth: 25
+                    }
+                },
+                series: [{
+                    data: bothCountries
+                }]
+            });
+
+            function showValues() {
+                $('#alpha-value').html(chart.options.chart.options3d.alpha);
+                $('#beta-value').html(chart.options.chart.options3d.beta);
+                $('#depth-value').html(chart.options.chart.options3d.depth);
             }
-        },
-        yAxis: {
-            title: {
-                text: 'Percent'
-            }
-        },
-        tooltip: {
-            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.0f} millions)<br/>',
-            split: true
-        },
-        plotOptions: {
-            area: {
-                stacking: 'percent',
-                lineColor: '#ffffff',
-                lineWidth: 1,
-                marker: {
-                    lineWidth: 1,
-                    lineColor: '#ffffff'
-                }
-            }
-        },
-        series: [{
-            name: 'Asia',
-            data: [502, 635, 809, 947, 1402, 3634, 5268]
-        }, {
-            name: 'Africa',
-            data: [106, 107, 111, 133, 221, 767, 1766]
-        }, {
-            name: 'Europe',
-            data: [163, 203, 276, 408, 547, 729, 628]
-        }, {
-            name: 'America',
-            data: [18, 31, 54, 156, 339, 818, 1201]
-        }, {
-            name: 'Oceania',
-            data: [2, 2, 2, 6, 13, 30, 46]
-        }]
+
+            // Activate the sliders
+            $('#sliders input').on('input change', function() {
+                chart.options.chart.options3d[this.id] = parseFloat(this.value);
+                showValues();
+                chart.redraw(false);
+            });
+
+            showValues();
+        });
     });
 }]);

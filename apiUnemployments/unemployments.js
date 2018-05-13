@@ -22,9 +22,10 @@ var initialsUnemployments = [
 
 apiUnemployments.register = function(app, request) {
     // Proxy
-    var apiServerHost = 'https://sos1718-05.herokuapp.com';
-    app.use("/proxyG05", function(req, res) {
-        //api/v1/global-warmings
+    var apiServerHost = 'https://sos1718-09.herokuapp.com';
+    console.log("Proxy!!");
+    //https://sos1718-09.herokuapp.com/api/v2/spanish-universities
+    app.use("/proxyG09", function(req, res) {
         var url = apiServerHost + req.url;
         req.pipe(request(url)).pipe(res);
     });

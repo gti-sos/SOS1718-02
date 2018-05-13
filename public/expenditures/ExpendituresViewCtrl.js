@@ -23,19 +23,13 @@ angular.module("App").controller("ExpendituresView", ["$scope", "$http", "$httpP
         tertieries = response.data.map(function(d) { return d.tertiery }); //Coleccion todas las tertieries.
         sumas = response.data.map(function(d) { return d.primary + d.secundary + d.tertiery }); //Total de todo.
         medias = sumas.map(function(d) { return d / 3 }); //Media de todo
-        sumaPrimaries = primaries.reduce(function(prev, next) { return prev + next }, 0); //  primaries.map(function(d) { return d.primary });
-        sumaSecundaries = secundaries.reduce(function(prev, next) { return prev + next }, 0);
-        sumaTertieries = tertieries.reduce(function(prev, next) { return prev + next }, 0);
-        countryyear = response.data.map(function(d) { return d.country + " " + d.year });
-        CandYsumas=countryyear.map(function(n,i) {
-            return [n,sumas[i]];
-        });
-        CandYsumas.unshift(['Country', 'Expenditures']);
-        
-        console.log(countryyear);
-        console.log(sumas);
+        sumaPrimaries = primaries.reduce(function(prev, next) { return prev + next }, 0); //Suma Primaries
+        sumaSecundaries = secundaries.reduce(function(prev, next) { return prev + next }, 0); //Suma secundaries
+        sumaTertieries = tertieries.reduce(function(prev, next) { return prev + next }, 0); //Suma tertieries
+        countryyear = response.data.map(function(d) { return d.country + " " + d.year }); //Junta countries con years
+        CandYsumas = countryyear.map(function(n, i) { return [n, sumas[i]]; }); //Junta Country year con las sumas del resto.
+        CandYsumas.unshift(['Country', 'Expenditures']); //Añade Country and Expenditures al principio.
         console.log(CandYsumas);
-
 
         //Highcharts Column, line and pie
         Highcharts.chart('container', {

@@ -50,12 +50,12 @@ angular.module("App", ["chart.js", "ngRoute"]).config(function($routeProvider) {
         controller: "UnemploymentsEditCtrl"
     }).
     when("/analytics/unemploymentsApiCompartida", {
-        templateUrl: "unemployments/ApiCompartidaView.html",
-        controller: "ApiCompartidaViewCtrl"
+        templateUrl: "unemployments/ApiCompartida.html",
+        controller: "ApiCompartidaCtrl"
     }).
     when("/analytics/unemploymentsApiCompartidaProxy", {
-        templateUrl: "unemployments/ApiCompartidaViewProxy.html",
-        controller: "ApiCompartidaViewProxyCtrl"
+        templateUrl: "unemployments/ApiCompartidaProxy.html",
+        controller: "ApiCompartidaProxyCtrl"
     }).
 
     when("/expenditures", {
