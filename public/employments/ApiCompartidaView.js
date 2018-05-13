@@ -39,37 +39,39 @@ controller("ApiCompartidaView", ["$scope", "$http", "$httpParamSerializer", func
         }
         Highcharts.chart('container', {
             chart: {
-                type: 'areaspline'
+                type: 'column'
             },
             title: {
-                text: "Relation between Self-employments and Kills in terrorism's acts"
+                text: 'Relation between kills and Self-employments'
             },
-            legend: {
-                layout: 'vertical',
-                align: 'left',
-                verticalAlign: 'top',
-                x: 1500,
-                y: 100,
-                floating: true,
-                borderWidth: 1,
-                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-            },
+           
             xAxis: {
                 categories: dataCountries,
-
+                crosshair: true
             },
-
+            
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
             plotOptions: {
-                areaspline: {
-                    fillOpacity: 0.5
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
                 }
             },
             series: [{
-                name: 'Total Self Employments',
-                data: dataTotalSelf
-            }, {
-                name: 'Total kills',
+                name: 'Kills',
                 data: dataKills
+
+            }, {
+                name: 'Self-employments',
+                data: dataTotalSelf
+
             }]
         });
     });
