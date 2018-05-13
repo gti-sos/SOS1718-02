@@ -4,6 +4,7 @@ var BASE_API_PATH = "/api/v2/employments";
 var MongoClient = require('mongodb').MongoClient;
 var apiEmployments = {};
 module.exports = apiEmployments;
+var jwt = require('jsonwebtoken');
 
 var initialsEmployments = [
     { "country": "croatia", "year": 1998, "totalself": 18.5, "totalsalaried": 75.30000305, "totalcontributingfamilyworker": 6.19999980926514 },
@@ -43,9 +44,77 @@ var initialsEmployments = [
     { "country": "france", "year": 2003, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 }
 
 ];
-
+var datosPrivados = [
+    { "country": "croatia", "year": 1998, "totalself": 18.5, "totalsalaried": 75.30000305, "totalcontributingfamilyworker": 6.19999980926514 },
+    { "country": "cyprus", "year": 2005, "totalself": 20.5, "totalsalaried": 76.80000305, "totalcontributingfamilyworker": 2.799999952 },
+    { "country": "romania", "year": 1998, "totalself": 22.60000038, "totalsalaried": 59.70000076, "totalcontributingfamilyworker": 17.79999924 },
+    { "country": "spain", "year": 2005, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
+    { "country": "portugal", "year": 2001, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
+    { "country": "italy", "year": 2000, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
+    { "country": "austria", "year": 2001, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
+    { "country": "france", "year": 2000, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 }
+]
 apiEmployments.register = function(app, request) {
 
+    ////////////
+    ////JWT/////
+    ////////////
+    app.post(BASE_API_PATH+'/jwtdatos', verifyToken, (req, res) => {
+        jwt.verify(req.token, 'secretkey', (err, authData) => {
+            if (err) {
+                res.sendStatus(403);
+            }
+            else {
+                res.json({
+                    message: 'Post created...',
+                    authData,
+                    datosPrivados
+                    
+                });
+            }
+        });
+    });
+
+    app.post(BASE_API_PATH+'/jwttoken', (req, res) => {
+        // Mock user
+        const user = {
+            id: 1,
+            username: 'brad',
+            email: 'brad@gmail.com'
+        }
+
+        jwt.sign({ user }, 'secretkey', { expiresIn: '30s' }, (err, token) => {
+            res.json({
+                token
+            });
+        });
+    });
+
+    // FORMAT OF TOKEN
+    // Authorization: Bearer <access_token>
+
+    // Verify Token
+    function verifyToken(req, res, next) {
+        // Get auth header value
+        const bearerHeader = req.headers['authorization'];
+        // Check if bearer is undefined
+        if (typeof bearerHeader !== 'undefined') {
+            // Split at the space
+            const bearer = bearerHeader.split(' ');
+            // Get token from array
+            const bearerToken = bearer[1];
+            // Set the token
+            req.token = bearerToken;
+            // Next middleware
+            next();
+        }
+        else {
+            // Forbidden
+            res.sendStatus(403);
+        }
+
+    }
+    ////////////////////////////////////////////////////////////////////////////////
     
     //Colocación de proxys
     app.use("/proxyJA", function(req, res) {
