@@ -10,7 +10,6 @@ angular.module("App", ["chart.js", "ngRoute"]).config(function($routeProvider) {
         templateUrl: "analytics.html"
     }).
     
-    
     when("/analytics/employments", {
         templateUrl: "employments/EmploymentsView.html",
         controller: "EmploymentsView"
