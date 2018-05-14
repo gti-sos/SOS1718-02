@@ -11,7 +11,7 @@ angular.module("App").controller("ApiCompartidaViewCtrl", ["$scope", "$http", "$
             expenditures = response.data.map(function(d) { return d.primary });
             Highcharts.chart('container', {
                 chart: {
-                    type: 'column'
+                    type: 'bars'
                 },
 
                 title: {
