@@ -18,13 +18,16 @@
   },
   "homepage": "https://github.com/gti-sos/SOS1718-02#readme",
   "dependencies": {
+    "@google-cloud/storage": "^1.6.0",
     "body-parser": "^1.18.2",
     "bower-components": "^1.0.0",
     "cors": "^2.8.4",
     "express": "^4.16.3",
+    "gcloud": "^0.37.2",
     "jsonwebtoken": "^8.2.1",
     "mongodb": "^3.0.7",
     "nedb": "^1.8.0",
+    "newman": "^3.9.3",
     "request": "^2.85.0"
   }
 }
