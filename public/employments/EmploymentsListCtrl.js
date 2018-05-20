@@ -6,9 +6,9 @@ angular.module("App").controller("EmploymentsListCtrl", ["$scope", "$http", "$ht
 
     var BASE_API_PATH_ = "/api/v2/secure/employments";
     var BASE_API_PATH_LIMIT = "/api/v2/employments?&limit=10";
- 
+
     var dataCount = 0;
-  $scope.offsetP = 0;
+    $scope.offsetP = 0;
     $scope.hasNextPage = true;
 
     $scope.addEmployment = function() {
@@ -69,7 +69,7 @@ angular.module("App").controller("EmploymentsListCtrl", ["$scope", "$http", "$ht
         });
     };
 
-    
+
     function getEmployment() {
         $http.get(BASE_API_PATH_LIMIT + "&offset=0").then(function(response) {
             $scope.employments = response.data;
@@ -116,44 +116,44 @@ angular.module("App").controller("EmploymentsListCtrl", ["$scope", "$http", "$ht
             $scope.status = response.data;
         });
     };
-/*
-    $scope.getPage = function(p) {
-        offsetP = offsetP + p;
-        console.log(offsetP);
-        if (offsetP < 0) {
-            $http.get(BASE_API_PATH_LIMIT + "&offset=0").then(function(response) {
-                $scope.employments = response.data;
-            }, function errorCallback(response) {
-                console.log("Empty");
-                $scope.employments = [];
-            });
-        }
-        else if (false) {
-            $http.get(BASE_API_PATH_LIMIT + "&offset=0").then(function(response) {
-                $scope.employments = response.data;
-            }, function errorCallback(response) {
-                console.log("Empty");
-                $scope.employments = [];
-            });
-        }
-        else if (offsetP > 20) {
-            $http.get(BASE_API_PATH_LIMIT + "&offset=20").then(function(response) {
-                $scope.employments = response.data;
-            }, function errorCallback(response) {
-                console.log("Empty");
-                $scope.employments = [];
-            });
-        }
-        else {
-            $http.get(BASE_API_PATH_LIMIT + "&offset=" + offsetP).then(function(response) {
-                $scope.employments = response.data;
-            }, function errorCallback(response) {
-                console.log("Empty");
-                $scope.employments = [];
-            });
-        }
-    };*/
-    
+    /*
+        $scope.getPage = function(p) {
+            offsetP = offsetP + p;
+            console.log(offsetP);
+            if (offsetP < 0) {
+                $http.get(BASE_API_PATH_LIMIT + "&offset=0").then(function(response) {
+                    $scope.employments = response.data;
+                }, function errorCallback(response) {
+                    console.log("Empty");
+                    $scope.employments = [];
+                });
+            }
+            else if (false) {
+                $http.get(BASE_API_PATH_LIMIT + "&offset=0").then(function(response) {
+                    $scope.employments = response.data;
+                }, function errorCallback(response) {
+                    console.log("Empty");
+                    $scope.employments = [];
+                });
+            }
+            else if (offsetP > 20) {
+                $http.get(BASE_API_PATH_LIMIT + "&offset=20").then(function(response) {
+                    $scope.employments = response.data;
+                }, function errorCallback(response) {
+                    console.log("Empty");
+                    $scope.employments = [];
+                });
+            }
+            else {
+                $http.get(BASE_API_PATH_LIMIT + "&offset=" + offsetP).then(function(response) {
+                    $scope.employments = response.data;
+                }, function errorCallback(response) {
+                    console.log("Empty");
+                    $scope.employments = [];
+                });
+            }
+        };*/
+
     $scope.getPage = function(p) {
         $scope.offsetP = $scope.offsetP + p;
         console.log($scope.offsetP);

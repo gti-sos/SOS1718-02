@@ -6,6 +6,7 @@ var path = require("path");
 var cors = require("cors");
 var request = require("request");
 var firebase = require("firebase");
+var jwt = require('jsonwebtoken');
 
 var expendituresApi = require("./apiExpenditures/expenditures.js");
 var expendituresApi2 = require("./apiExpenditures/expendituresv2.js");
@@ -24,10 +25,10 @@ app.use("/", express.static(path.join(__dirname + "/public")));
 //Añadir
 //
 expendituresApi.register(app, request);
-expendituresApi2.register(app, request);
+expendituresApi2.register(app, request, jwt);
 expendituresApiFB.register(app, request, firebase)
 employmentsApi.register(app, request);
-unemploymentsApi.register(app, request);
+unemploymentsApi.register(app, request, jwt);
 
 app.listen(port, () => {
     console.log("Server ready on port: " + port + "!");

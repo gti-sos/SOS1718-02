@@ -20,7 +20,55 @@ var initialsUnemployments = [
     { "country": "italy", "year": 2005, "young": 32, "adult": 16, "old": 15.10000038, "longterm": 11 }
 ];
 
-apiUnemployments.register = function(app, request) {
+var unemployments = [{ "country": "austria", "year": 1998, "young": 1.600000024, "adult": 1.600000024, "old": 1.600000024, "longterm": 1.600000024 },
+    { "country": "belgium", "year": 2003, "young": 3.5, "adult": 3.5, "old": 3.5, "longterm": 3.5 },
+    { "country": "bulgaria", "year": 1998, "young": 8, "adult": 8, "old": 8, "longterm": 8 },
+    { "country": "croatia", "year": 2003, "young": 8, "adult": 8, "old": 8, "longterm": 8 },
+    { "country": "austria", "year": 1999, "young": 1.399999976, "adult": 1.399999976, "old": 1.399999976, "longterm": 1.399999976 },
+    { "country": "italy", "year": 2001, "young": 6.0, "adult": 6.0, "old": 6.0, "longterm": 6.0 }];
+
+apiUnemployments.register = function(app, request, jwt) {
+    //JWT Data
+    app.post(BASE_API_PATH + '/jwtdatas', verifyToken, (req, res) => {
+        jwt.verify(req.token, 'secretkey', (err, authData) => {
+            if (err) {
+                res.sendStatus(403);
+            }
+            else {
+                res.json({
+                    authData,
+                    unemployments
+                });
+            }
+        });
+    });
+
+    //JWT Token
+    app.get(BASE_API_PATH + '/jwttoken', (req, res) => {
+        const user = {
+            id: 1,
+            username: 'andres',
+            email: 'wirfen@gmail.com'
+        };
+        jwt.sign({ user }, 'secretkey', { expiresIn: '28800s' }, (err, token) => {
+            res.json({
+                token
+            });
+        });
+    });
+
+    //Formating tokken
+    function verifyToken(req, res, next) {
+        const bearerHeader = req.headers['authorization'];
+        if (typeof bearerHeader !== 'undefined') {
+            req.token = bearerHeader;
+            next();
+        }
+        else {
+            res.sendStatus(403);
+        }
+    }
+
     // Proxy
     var apiServerHost = 'https://sos1718-09.herokuapp.com';
     console.log("Proxy!!");
@@ -29,7 +77,7 @@ apiUnemployments.register = function(app, request) {
         var url = apiServerHost + req.url;
         req.pipe(request(url)).pipe(res);
     });
-    
+
     //urlQuery
     app.get(BASE_API_PATH + "?", (req, res) => {
         MongoClient.connect(url, function(err, db) {
@@ -76,12 +124,12 @@ apiUnemployments.register = function(app, request) {
             });
         });
     });
-    
+
     //Postman docs
     app.get(BASE_API_PATH + "/docs", (req, res) => {
         res.redirect("https://documenter.getpostman.com/view/3901859/sos1718-02-unemployments/RVu1HAku");
     });
-    
+
     //loadInitialData
     app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
         MongoClient.connect(url, function(err, db) {
@@ -105,8 +153,8 @@ apiUnemployments.register = function(app, request) {
         });
     });
 
-    
-    
+
+
     //GET all SECURED
     app.get(BASE_API + "/secure/unemployments", (req, res) => {
         var user = req.headers.user;
@@ -194,13 +242,13 @@ apiUnemployments.register = function(app, request) {
             console.log("Bad request");
         }
         else {
-            var newValues= {
+            var newValues = {
                 country: req.body.country,
                 year: Number(req.body.year),
                 young: Number(req.body.young),
                 adult: Number(req.body.adult),
-                old: Number (req.body.old),
-                longterm: Number (req.body.longterm)
+                old: Number(req.body.old),
+                longterm: Number(req.body.longterm)
             };
             MongoClient.connect(url, function(err, db) {
                 if (err) throw err;

@@ -5,134 +5,197 @@ var MongoClient = require('mongodb').MongoClient;
 var apiExpenditures = {};
 module.exports = apiExpenditures;
 
-var initialsExpenditures = [{"country": "austria","year": 1998,"primary": 27.8599,"secundary": 27.46764,"tertiery": 49.0146},
- {"country": "austria",
+var initialsExpenditures = [{ "country": "austria", "year": 1998, "primary": 27.8599, "secundary": 27.46764, "tertiery": 49.0146 },
+    {
+        "country": "austria",
+        "year": 1999,
+        "primary": 24.94544,
+        "secundary": 30,
+        "tertiery": 51.81163
+    },
+    {
+        "country": "austria",
+        "year": 2000,
+        "primary": 23,
+        "secundary": 27.82916,
+        "tertiery": 43.92245
+    },
+    {
+        "country": "austria",
+        "year": 2001,
+        "primary": 23.11054,
+        "secundary": 27.8599,
+        "tertiery": 41.23967
+    },
+    {
+        "country": "austria",
+        "year": 2002,
+        "primary": 23.51146,
+        "secundary": 27.76882,
+        "tertiery": 46.3006
+    },
+    {
+        "country": "austria",
+        "year": 2003,
+        "primary": 23.28574,
+        "secundary": 28.71626,
+        "tertiery": 45.90786
+    },
+    {
+        "country": "austria",
+        "year": 2004,
+        "primary": 22.74152,
+        "secundary": 27.46764,
+        "tertiery": 49.0146
+    },
+    {
+        "country": "austria",
+        "year": 2005,
+        "primary": 23.44222,
+        "secundary": 26.32676,
+        "tertiery": 49.98216
+    },
+    {
+        "country": "belgium",
+        "year": 1998,
+        "primary": 18.35639,
+        "secundary": 38.18731,
+        "tertiery": 18.35639
+    },
+    {
+        "country": "belgium",
+        "year": 1999,
+        "primary": 18.35639,
+        "secundary": 22.54006,
+        "tertiery": 24.34144
+    },
+    {
+        "country": "belgium",
+        "year": 2000,
+        "primary": 38.18731,
+        "secundary": 18.35639,
+        "tertiery": 22.54006
+    },
+    {
+        "country": "belgium",
+        "year": 2001,
+        "primary": 18.16457,
+        "secundary": 23.68813,
+        "tertiery": 38.18731
+    },
+    {
+        "country": "belgium",
+        "year": 2002,
+        "primary": 18.35639,
+        "secundary": 24.34144,
+        "tertiery": 37.2642
+    },
+    {
+        "country": "belgium",
+        "year": 2003,
+        "primary": 19.69228,
+        "secundary": 22.54006,
+        "tertiery": 36.19783
+    },
+    {
+        "country": "belgium",
+        "year": 2004,
+        "primary": 19.73273,
+        "secundary": 33.12874,
+        "tertiery": 34.73538
+    },
+    {
+        "country": "belgium",
+        "year": 2005,
+        "primary": 19.83316,
+        "secundary": 32.84222,
+        "tertiery": 34.572
+    },
+    {
+        "country": "croatia",
+        "year": 1998,
+        "primary": 23.11054,
+        "secundary": 22.54006,
+        "tertiery": 19.83316
+    },
+    {
+        "country": "croatia",
+        "year": 1999,
+        "primary": 19.83316,
+        "secundary": 18.35639,
+        "tertiery": 35.82432
+    },
+    {
+        "country": "croatia",
+        "year": 2000,
+        "primary": 18.35639,
+        "secundary": 19.83316,
+        "tertiery": 42.42285
+    }
+];
+
+var expenditures = [{
+    "country": "austria",
+    "year": 1998,
+    "primary": 27.8599,
+    "secundary": 27.46764,
+    "tertiery": 49.0146
+}, {
+    "country": "austria",
     "year": 1999,
     "primary": 24.94544,
     "secundary": 30,
     "tertiery": 51.81163
-  },
-  {
+}, {
     "country": "austria",
     "year": 2000,
     "primary": 23,
     "secundary": 27.82916,
     "tertiery": 43.92245
-  },
-  {
-    "country": "austria",
-    "year": 2001,
-    "primary": 23.11054,
-    "secundary": 27.8599,
-    "tertiery": 41.23967
-  },
-  {
-    "country": "austria",
-    "year": 2002,
-    "primary": 23.51146,
-    "secundary": 27.76882,
-    "tertiery": 46.3006
-  },
-  {
-    "country": "austria",
-    "year": 2003,
-    "primary": 23.28574,
-    "secundary": 28.71626,
-    "tertiery": 45.90786
-  },
-  {
-    "country": "austria",
-    "year": 2004,
-    "primary": 22.74152,
-    "secundary": 27.46764,
-    "tertiery": 49.0146
-  },
-  {
-    "country": "austria",
-    "year": 2005,
-    "primary": 23.44222,
-    "secundary": 26.32676,
-    "tertiery": 49.98216
-  },
-  {
-    "country": "belgium",
-    "year": 1998,
-    "primary": 18.35639,
-    "secundary": 38.18731,
-    "tertiery": 18.35639
-  },
-  {
-    "country": "belgium",
-    "year": 1999,
-    "primary": 18.35639,
-    "secundary": 22.54006,
-    "tertiery": 24.34144
-  },
-  {
-    "country": "belgium",
-    "year": 2000,
-    "primary": 38.18731,
-    "secundary": 18.35639,
-    "tertiery": 22.54006
-  },
-  {
-    "country": "belgium",
-    "year": 2001,
-    "primary": 18.16457,
-    "secundary": 23.68813,
-    "tertiery": 38.18731
-  },
-  {
-    "country": "belgium",
-    "year": 2002,
-    "primary": 18.35639,
-    "secundary": 24.34144,
-    "tertiery": 37.2642
-  },
-  {
-    "country": "belgium",
-    "year": 2003,
-    "primary": 19.69228,
-    "secundary": 22.54006,
-    "tertiery": 36.19783
-  },
-  {
-    "country": "belgium",
-    "year": 2004,
-    "primary": 19.73273,
-    "secundary": 33.12874,
-    "tertiery": 34.73538
-  },
-  {
-    "country": "belgium",
-    "year": 2005,
-    "primary": 19.83316,
-    "secundary": 32.84222,
-    "tertiery": 34.572
-  },
-  {
-    "country": "croatia",
-    "year": 1998,
-    "primary": 23.11054,
-    "secundary": 22.54006,
-    "tertiery": 19.83316
-  },
-  {
-    "country": "croatia",
-    "year": 1999,
-    "primary": 19.83316,
-    "secundary": 18.35639,
-    "tertiery": 35.82432
-  },
-  {
-    "country": "croatia",
-    "year": 2000,
-    "primary": 18.35639,
-    "secundary": 19.83316,
-    "tertiery": 42.42285
-  }];
+}];
 
-apiExpenditures.register = function(app, request) {
+apiExpenditures.register = function(app, request, jwt) {
+    //JWT Data
+    app.post(BASE_API_PATH + '/jwtdatas', verifyToken, (req, res) => {
+        jwt.verify(req.token, 'secretkey', (err, authData) => {
+            if (err) {
+                res.sendStatus(403);
+            }
+            else {
+                res.json({
+                    authData,
+                    expenditures
+                });
+            }
+        });
+    });
+    
+    //JWT Token
+    app.get(BASE_API_PATH + '/jwttoken', (req, res) => {
+        const user = {
+            id: 1,
+            username: 'andres',
+            email: 'wirfen@gmail.com'
+        };
+        jwt.sign({ user }, 'secretkey', { expiresIn: '28800s' }, (err, token) => {
+            res.json({
+                token
+            });
+        });
+    });
+
+    //Formating tokken
+    function verifyToken(req, res, next) {
+        const bearerHeader = req.headers['authorization'];
+        if (typeof bearerHeader !== 'undefined') {
+            req.token = bearerHeader;
+            next();
+        }
+        else {
+            res.sendStatus(403);
+        }
+    }
+
     // Proxy
     var apiServerHost = 'https://sos1718-03.herokuapp.com';
     app.use("/proxyG03", function(req, res) {
