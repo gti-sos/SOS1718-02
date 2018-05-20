@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "expendituresapi",
+  "private_key_id": "f47b79f4e2fc27b2db8c725401fc333c47a41538",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCz2pJQpO8VM3MZ\nE7tcKycuC6Zpcmbhgwg4zAlefT0lMsclibG7JAGr4wc0fOS63ZbTA6mcrESkiZ9l\nsiJYFLOpgldfEpN5KdUbLdKPwIHp0obOywcVkcfba/fQ2djKo5OUBU/HHT/gzd04\nbEwGlqrFS+z7HMREHDJv3FQQR0+MmjO0ZjFd9RQ3BDWQOfzvzMKadRlaQGvFMUnc\niVQUYIBlXm/Do/BC2Y+0f3RGqGRn5giHluWlhm/YJIP6YduwZnR+z3PAh42mUJue\n4xEj5ivhHVhgXJ1ha0yOOJx4xjAQ7N9sCH5h6WmeG7HNbX19rVYMEvLty7SjHVpL\nLiGe2bi/AgMBAAECggEAB+G0N8SClbNDf/3VYBykAuiPyl8xEwDjA1otru5eF5s6\nDvMRztmtGRNB5ZLzkxzS1zx52lvSRkOhsJs11hZSKUOFAK2XuN+UbzR63cHZ751C\nOx26mb9husPogEaLsZWpifsRm/A0NG3RG//i9Qb1ROAm6npAP5vcufo11ODLI6Yr\ndOkDnfG9c46CevmZCJPXTivaZFf6e9mMuq0PjJtqyEBGqKkqAlvi7a4iZXMlHMQk\nzTBJWNgC7eqmE3uYAwyWmP15o6tbFdgn+kOabFhdeOYrWwxPBshWATM2mbFVKSGX\n/MLWPlCABV2YyTW3b3O2I3HV9wGSksFJTFp08Ne3gQKBgQDlL1bd58eL27Hjde50\n6bqcSQvymT/A88oUS1vi4kWorL33d9rC8QKWvLzQ5otRDOYYlrpDWQnP4fsIUuWJ\neJcbB70zIxWEpwkgFCdLgr7S6CLq8Tl9ZyChH9QG5GnaZj7B6mUB9s8gwG7cZ68D\n3lYEN9e+ZVI8SljceOJ1Wtst1wKBgQDI5aRQs71GR7cKqUNUfLkGDKwhvqbsFMmQ\nd1i+D5yuCO8B1trELl9qNbRemWFN1kCwW19CpMoD+qgOt7zmqX6fkGEr1VWfWkQc\nfCcH85+ytZ98TPBPerR+XpioZU12P9PPNoMhCjvyxaRw9TWBAXefoZqiRjK7tGmR\nSQwXpfxfWQKBgDVrr2fSGuUytGg8mPSPdnvvWuWVaxLiwHuyhRyBeZMzkKQaP9eo\nrd3M6IYY9uhRhWC94XTJUEwwdH8gM3izryURzLwatW1SMgJUMESdmTU3/sucprXg\nT+6+qIFixHmv03kH1bt7eBQ+RpkBYf4Y2RvqmFM88soy2jupwb9xCh3JAoGAF55w\nEBDhqtaZnYZC5Tb4pc5tmlYI1+6lt/dgFpBNUmS4fNXeyHvPOfRwbULJHtaWqmVD\nsNkg6xDYG0rcyZ2Zxna6BeZB98csBNFP4W5yExepVXrSMfXyLH1Ao2OtlL5yT4VQ\nK11BqQw1hhY+IRmkD793J6brJghS9QLKiik4n5kCgYBBwItGExK86Ya0t2yuxbuK\nBS4bCynwL8bZ3hMpa9Wd5YzArBpw1sVkvTqQLBatbiFYTWdasJiRt6ux1bjUh6Qc\nEV+5VsP77jtStp52DJli44uFLSwynyL5YVUeeVgzJqkc/3AAD8DqOVN48jD2kE4o\nDX8JjuCvjtL8w3EUXAPJFA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "wirfen@expendituresapi.iam.gserviceaccount.com",
+  "client_id": "104923191382979248061",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/wirfen%40expendituresapi.iam.gserviceaccount.com"
+}
