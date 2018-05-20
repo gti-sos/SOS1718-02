@@ -66,7 +66,6 @@ apiEmployments.register = function(app, request) {
             }
             else {
                 res.json({
-                    message: 'Post created...',
                     authData,
                     datosPrivados
                     
@@ -75,15 +74,15 @@ apiEmployments.register = function(app, request) {
         });
     });
 
-    app.post(BASE_API_PATH+'/jwttoken', (req, res) => {
+    app.get(BASE_API_PATH+'/jwttoken', (req, res) => {
         // Mock user
         const user = {
             id: 1,
-            username: 'brad',
-            email: 'brad@gmail.com'
+            username: 'joseangel',
+            email: 'joseangel@gmail.com'
         }
 
-        jwt.sign({ user }, 'secretkey', { expiresIn: '30s' }, (err, token) => {
+        jwt.sign({ user }, 'secretkey', { expiresIn: '30000s' }, (err, token) => {
             res.json({
                 token
             });
@@ -91,7 +90,7 @@ apiEmployments.register = function(app, request) {
     });
 
     // FORMAT OF TOKEN
-    // Authorization: Bearer <access_token>
+    // Authorization:  <access_token>
 
     // Verify Token
     function verifyToken(req, res, next) {
@@ -100,11 +99,9 @@ apiEmployments.register = function(app, request) {
         // Check if bearer is undefined
         if (typeof bearerHeader !== 'undefined') {
             // Split at the space
-            const bearer = bearerHeader.split(' ');
-            // Get token from array
-            const bearerToken = bearer[1];
+            
             // Set the token
-            req.token = bearerToken;
+            req.token = bearerHeader;
             // Next middleware
             next();
         }
