@@ -4,7 +4,7 @@
   "description": "first module in NodeJS",
   "main": "index.js",
   "scripts": {
-    "pretest": "test/runPhantomjs.sh",
+    " pretest": "test/runPhantomjs.sh",
     "test": "protractor test/config.js",
     "posttest": "killall phantomjs",
     "start": "node index.js"
