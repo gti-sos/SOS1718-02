@@ -47,10 +47,11 @@ apiUnemployments.register = function(app, request, jwt) {
     app.get(BASE_API_PATH + '/jwttoken', (req, res) => {
         const user = {
             id: 1,
-            username: 'andres',
-            email: 'wirfen@gmail.com'
+            username: 'lola',
+            email: 'nekanerosaa@gmail.com'
         };
         jwt.sign({ user }, 'secretkey', { expiresIn: '28800s' }, (err, token) => {
+            if(err) throw err;
             res.json({
                 token
             });
@@ -71,7 +72,7 @@ apiUnemployments.register = function(app, request, jwt) {
 
     // Proxy
     var apiServerHost = 'https://sos1718-09.herokuapp.com';
-    console.log("Proxy!!");
+    console.log("Proxy!! Unemployments");
     //https://sos1718-09.herokuapp.com/api/v2/spanish-universities
     app.use("/proxyG09", function(req, res) {
         var url = apiServerHost + req.url;
@@ -80,6 +81,7 @@ apiUnemployments.register = function(app, request, jwt) {
 
     //urlQuery
     app.get(BASE_API_PATH + "?", (req, res) => {
+        console.log("Search Unemployments");
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-msr-sandbox");
@@ -127,10 +129,12 @@ apiUnemployments.register = function(app, request, jwt) {
 
     //Postman docs
     app.get(BASE_API_PATH + "/docs", (req, res) => {
+        console.log("Postman docs Unemployments");
         res.redirect("https://documenter.getpostman.com/view/3901859/sos1718-02-unemployments/RVu1HAku");
     });
 
     //loadInitialData
+    console.log("loadInitialData Unemployments");
     app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
@@ -157,6 +161,7 @@ apiUnemployments.register = function(app, request, jwt) {
 
     //GET all SECURED
     app.get(BASE_API + "/secure/unemployments", (req, res) => {
+        console.log("Get all secured Unemployments");
         var user = req.headers.user;
         var pass = req.headers.pass;
         if (user == "lolasanchez" && pass == "lolasanchez") {
@@ -186,6 +191,7 @@ apiUnemployments.register = function(app, request, jwt) {
 
     //GET country OR year
     app.get(BASE_API_PATH + "/:obj", (req, res) => {
+        console.log("country or year Unemployments");
         var myquery;
         if (isNaN(req.params.obj)) {
             myquery = { country: req.params.obj };
@@ -214,6 +220,7 @@ apiUnemployments.register = function(app, request, jwt) {
 
     //GET country & year
     app.get(BASE_API_PATH + "/:country/:year", (req, res) => {
+        console.log("country and year Unemployments");
         var myquery = { country: req.params.country, year: Number(req.params.year) };
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
@@ -236,6 +243,7 @@ apiUnemployments.register = function(app, request, jwt) {
 
     //POST
     app.post(BASE_API_PATH, (req, res) => {
+        console.log("Post Unemployments");
         var myquery = { country: req.body.country, year: Number(req.body.year) };
         if (req.body._id || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.young) || isNaN(req.body.adult) || isNaN(req.body.old) || isNaN(req.body.longterm)) {
             res.sendStatus(400);
@@ -273,6 +281,7 @@ apiUnemployments.register = function(app, request, jwt) {
 
     //PUT
     app.put(BASE_API_PATH + "/:country/:year", (req, res) => {
+        console.log("Put Unemployments");
         if (req.body._id != undefined || req.body.country != req.params.country || req.body.year != req.params.year || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.young) || isNaN(req.body.adult) || isNaN(req.body.old) || isNaN(req.body.longterm)) {
             res.sendStatus(400);
             console.log("Bad request");
@@ -304,6 +313,7 @@ apiUnemployments.register = function(app, request, jwt) {
 
     //DELETE all
     app.delete(BASE_API_PATH, (req, res) => {
+        console.log("Delete all Unemployments");
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-msr-sandbox");
@@ -327,6 +337,7 @@ apiUnemployments.register = function(app, request, jwt) {
 
     //DELETE country or year
     app.delete(BASE_API_PATH + "/:obj", (req, res) => {
+        console.log("Delete country or year Unemployments");
         var myquery;
         if (isNaN(req.params.obj)) {
             myquery = { country: req.params.obj };
@@ -357,6 +368,7 @@ apiUnemployments.register = function(app, request, jwt) {
 
     //DELETE country & year
     app.delete(BASE_API_PATH + "/:country/:year", (req, res) => {
+        console.log("Delete country & year Unemployments");
         var myquery = { country: req.params.country, year: Number(req.params.year) };
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;

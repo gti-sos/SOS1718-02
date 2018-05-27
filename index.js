@@ -5,12 +5,10 @@ var bodyParser = require("body-parser");
 var path = require("path");
 var cors = require("cors");
 var request = require("request");
-var firebase = require("firebase");
 var jwt = require('jsonwebtoken');
 
 var expendituresApi = require("./apiExpenditures/expenditures.js");
 var expendituresApi2 = require("./apiExpenditures/expendituresv2.js");
-var expendituresApiFB = require("./apiExpenditures/expendituresFB.js");
 
 var employmentsApi = require("./apiEmployments/employments2.js");
 
@@ -22,11 +20,8 @@ app.use(cors());
 
 app.use("/", express.static(path.join(__dirname + "/public")));
 
-//Añadir
-//
 expendituresApi.register(app, request);
 expendituresApi2.register(app, request, jwt);
-//expendituresApiFB.register(app, request, firebase)
 employmentsApi.register(app, request);
 unemploymentsApi.register(app, request, jwt);
 

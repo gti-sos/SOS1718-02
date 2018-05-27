@@ -35,7 +35,6 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
         controller: "ApiCompartidaViewProxy"
     }).
     
-    
     when("/analytics/unemployments", {
         templateUrl: "unemployments/UnemploymentsView.html",
         controller: "UnemploymentsView"
@@ -83,8 +82,5 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
     when("/analytics/expendituresApiCompartidaProxy", {
         templateUrl: "expenditures/ApiCompartidaViewProxy.html",
         controller: "ApiCompartidaViewProxyCtrl"
-    }).when("/expenditures/login", {
-        templateUrl: "expenditures/expendituresLogin.html",
-        controller: "ExpendituresLoginCtrl"
     });
 });
