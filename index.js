@@ -7,16 +7,16 @@ var cors = require("cors");
 var request = require("request");
 var jwt = require('jsonwebtoken');
 
-var expendituresApi = require("./apiExpenditures/expenditures.js");
-var expendituresApi2 = require("./apiExpenditures/expendituresv2.js");
-
-var employmentsApi = require("./apiEmployments/employments2.js");
-
-var unemploymentsApi = require("./apiUnemployments/unemployments.js");
-
 
 app.use(bodyParser.json());
 app.use(cors());
+
+var expendituresApi = require("./apiExpenditures/expenditures.js");
+var expendituresApi2 = require("./apiExpenditures/expendituresv2.js");
+var employmentsApi = require("./apiEmployments/employments2.js");
+var unemploymentsApi = require("./apiUnemployments/unemployments.js");
+
+
 
 app.use("/", express.static(path.join(__dirname + "/public")));
 
