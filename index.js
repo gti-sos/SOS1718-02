@@ -22,7 +22,7 @@ app.use("/", express.static(path.join(__dirname + "/public")));
 
 expendituresApi.register(app, request);
 expendituresApi2.register(app, request, jwt);
-employmentsApi.register(app, request);
+employmentsApi.register(app, request,jwt);
 unemploymentsApi.register(app, request, jwt);
 
 app.listen(port, () => {

@@ -4,7 +4,6 @@ var BASE_API_PATH = "/api/v2/employments";
 var MongoClient = require('mongodb').MongoClient;
 var apiEmployments = {};
 module.exports = apiEmployments;
-var jwt = require('jsonwebtoken');
 
 var initialsEmployments = [
     { "country": "croatia", "year": 1998, "totalself": 18.5, "totalsalaried": 75.30000305, "totalcontributingfamilyworker": 6.19999980926514 },
@@ -54,7 +53,7 @@ var datosPrivados = [
     { "country": "austria", "year": 2001, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "france", "year": 2000, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 }
 ]
-apiEmployments.register = function(app, request) {
+apiEmployments.register = function(app, request,jwt) {
 
     ////////////
     ////JWT/////
@@ -135,7 +134,7 @@ apiEmployments.register = function(app, request) {
                 if (!err && !count) {
                     dbo.collection("employments").insertMany(initialsEmployments, function(err, resu) {
                         if (err) throw err;
-                        console.log("Number of documents inserted: " + resu.insertedCount);
+                        console.log("Number of documentss inserted: " + resu.insertedCount);
                         res.send("Number of documents inserted: " + resu.insertedCount);
                         db.close();
                     });
