@@ -134,7 +134,7 @@ apiEmployments.register = function(app, request) {
             dbo.collection("employments").count(function(err, count) { 
                 if (!err && !count) { 
                     //
-                    dbo.collection("employments").insertMany(datosPrivados, function(err, resu) { 
+                    dbo.collection("employments").insertMany(datosPrivados , function(err, resu) { 
                         if (err) throw err; 
                         console.log("Number of documentss inserted: " + resu.insertedCount); 
                         res.send("Number of documents inserted: " + resu.insertedCount); 
