@@ -5,7 +5,49 @@
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
-	
+		{
+			"name": "Borrar todo al inicio",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bcfeb826-dcfe-4613-88ef-ee3e86bf4c54",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200 or 404\"] = responseCode.code === 200 || responseCode.code === 404 ;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v2/employments",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v2",
+						"employments"
+					]
+				}
+			},
+			"response": []
+		},
 		{
 			"name": "GET a todo vacio",
 			"event": [
@@ -94,6 +136,50 @@
 			"response": []
 		},
 		{
+			"name": "GET a pais vacio",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0b9ba54b-7585-4237-b3ed-0d54ceca3e6a",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v2/employments/spain",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v2",
+						"employments",
+						"spain"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "GET a pais y año vacio",
 			"event": [
 				{
@@ -139,15 +225,16 @@
 			"response": []
 		},
 		{
-			"name": "GET a pais vacio",
+			"name": "GET a loadInitialData vacio",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "0b9ba54b-7585-4237-b3ed-0d54ceca3e6a",
+						"id": "da21dc17-a2db-491b-9018-735df2e48aa0",
 						"type": "text/javascript",
 						"exec": [
-							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+							"tests[\"Status code is 200\"] = responseCode.code === 200 ",
+							""
 						]
 					}
 				}
@@ -165,7 +252,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v2/employments/spain",
+					"raw": "http://sos1718-02.herokuapp.com/api/v2/employments/loadInitialData",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -176,14 +263,56 @@
 						"api",
 						"v2",
 						"employments",
-						"spain"
+						"loadInitialData"
 					]
 				}
 			},
 			"response": []
 		},
-		
-	
+		{
+			"name": "GET a loadInitialData tras carga",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7ae8a13b-4262-44ce-8b2b-adc1930a4cd8",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v2/employments/loadInitialData",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v2",
+						"employments",
+						"loadInitialData"
+					]
+				}
+			},
+			"response": []
+		},
 		{
 			"name": "GET a todo cargado",
 			"event": [
@@ -579,7 +708,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/employments?yea=1998",
+					"raw": "http://sos1718-02.herokuapp.com/api/v2/employments?yea=1998",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -588,7 +717,7 @@
 					],
 					"path": [
 						"api",
-						"v1",
+						"v2",
 						"employments"
 					],
 					"query": [
@@ -832,7 +961,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v2/expenditures?totalself=21.39999962&totalsalaried=64.69999695",
+					"raw": "http://sos1718-02.herokuapp.com/api/v2/employments?totalself=21.39999962&totalsalaried=64.69999695",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -842,7 +971,7 @@
 					"path": [
 						"api",
 						"v2",
-						"expenditures"
+						"employments"
 					],
 					"query": [
 						{
