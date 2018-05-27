@@ -275,7 +275,7 @@ apiExpenditures.register = function(app) {
                 }
                 else {
                     console.log("Not found");
-                    res.send("Nothing for delete");
+                    res.sendStatus(404);
                 }
                 db.close();
             });
