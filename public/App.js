@@ -11,6 +11,17 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
         controller: "GlobalView"
     }).
     
+    
+    
+    
+    
+    when("/integrations/employmentsExternalApi", {
+        templateUrl: "employments/employmentsExternalApi.html",
+        controller: "employmentsExternalApi"
+    }).
+    
+    
+    
     when("/analytics/employments", {
         templateUrl: "employments/EmploymentsView.html",
         controller: "EmploymentsView"
