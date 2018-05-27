@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "89f4eff7-ec2c-4b76-9e08-783da0b53caf",
 		"name": "SOS1718-02-unemployments",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
@@ -31,20 +31,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments"
 			},
 			"response": []
 		},
@@ -74,20 +61,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments"
 			},
 			"response": []
 		},
@@ -117,21 +91,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/1998",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"1998"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/1998"
 			},
 			"response": []
 		},
@@ -161,21 +121,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/spain",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"spain"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/spain"
 			},
 			"response": []
 		},
@@ -205,22 +151,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/spain/1998",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"spain",
-						"1998"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/spain/1998"
 			},
 			"response": []
 		},
@@ -251,21 +182,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/loadInitialData",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"loadInitialData"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/loadInitialData"
 			},
 			"response": []
 		},
@@ -295,21 +212,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/loadInitialData",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"loadInitialData"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/loadInitialData"
 			},
 			"response": []
 		},
@@ -341,20 +244,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments"
 			},
 			"response": []
 		},
@@ -386,21 +276,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"austria"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria"
 			},
 			"response": []
 		},
@@ -432,21 +308,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/1998",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"1998"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/1998"
 			},
 			"response": []
 		},
@@ -456,12 +318,12 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "91d242d1-cbe2-4ae2-91e3-e01e3b2fc5b6",
+						"id": "557b77b0-86b8-4bde-aad0-78777246b495",
 						"type": "text/javascript",
 						"exec": [
 							"var jsonData=JSON.parse(responseBody);",
 							"",
-							"tests[\"Number of citys == 1\"] = jsonData.length == 1;"
+							"tests[\"city==austria & year==1998\"] = jsonData.country==\"austria\" & jsonData.year==1998;"
 						]
 					}
 				}
@@ -478,22 +340,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria/1998",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"austria",
-						"1998"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria/1998"
 			},
 			"response": []
 		},
@@ -523,21 +370,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/2018",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"2018"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/2018"
 			},
 			"response": []
 		},
@@ -567,22 +400,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/rumania/2018",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"rumania",
-						"2018"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/rumania/2018"
 			},
 			"response": []
 		},
@@ -612,21 +430,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/rumania",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"rumania"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/rumania"
 			},
 			"response": []
 		},
@@ -659,7 +463,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?young=1.600000024",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?young=1.600000024",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -669,8 +473,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -811,7 +614,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?old=1.600000024",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?old=1.600000024",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -821,8 +624,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -863,7 +665,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?adult=1.600000024",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?adult=1.600000024",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -873,8 +675,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -915,7 +716,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?longterm=1.600000024",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?longterm=1.600000024",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -925,8 +726,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -967,7 +767,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?old=1.600000024&adult=1.600000024",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?old=1.600000024&adult=1.600000024",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -977,8 +777,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -1023,7 +822,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?old=1.600000024&young=1.600000024",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?old=1.600000024&young=1.600000024",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -1033,8 +832,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -1079,7 +877,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?young=1.600000024&adult=1.600000024",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?young=1.600000024&adult=1.600000024",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -1089,8 +887,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -1135,7 +932,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?young=1.600000024&longterm=1.600000024",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?young=1.600000024&longterm=1.600000024",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -1145,8 +942,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -1191,7 +987,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?longterm=1.600000024&adult=1.600000024",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?longterm=1.600000024&adult=1.600000024",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -1201,8 +997,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -1247,7 +1042,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?old=1.600000024&longterm=1.600000024",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?old=1.600000024&longterm=1.600000024",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -1257,8 +1052,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -1303,7 +1097,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?young=1.600000024&adult=1.600000024&old=1.600000024",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?young=1.600000024&adult=1.600000024&old=1.600000024",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -1313,8 +1107,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -1363,7 +1156,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?young=1.600000024&adult=1.600000024&old=1.600000024&longterm=1.600000024",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?young=1.600000024&adult=1.600000024&old=1.600000024&longterm=1.600000024",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -1373,8 +1166,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -1427,7 +1219,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?year=1998&young=1.600000024",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?year=1998&young=1.600000024",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -1437,8 +1229,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -1483,7 +1274,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?year=1998&young=1.600000024&adult=1.600000024&old=1.600000024&longterm=1.600000024",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?year=1998&young=1.600000024&adult=1.600000024&old=1.600000024&longterm=1.600000024",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -1493,8 +1284,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -1549,7 +1339,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?year=2018&young=1.600000024&adult=1.600000024&old=1.600000024&longterm=1.600000024",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?year=2018&young=1.600000024&adult=1.600000024&old=1.600000024&longterm=1.600000024",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -1559,8 +1349,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -1617,7 +1406,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?year=1998",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?year=1998",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -1627,8 +1416,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -1669,7 +1457,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?offset=3",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?offset=3",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -1679,8 +1467,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -1721,7 +1508,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?limit=3",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?limit=3",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -1731,8 +1518,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -1773,7 +1559,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?offset=3&limit=2",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?offset=3&limit=2",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -1783,8 +1569,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -1829,7 +1614,7 @@
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
 				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/country?year=1998&offset=1&limit=1",
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments?year=1998&offset=1&limit=1",
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
@@ -1839,8 +1624,7 @@
 					"path": [
 						"api",
 						"v1",
-						"unemployments",
-						"country"
+						"unemployments"
 					],
 					"query": [
 						{
@@ -1886,22 +1670,7 @@
 					"mode": "raw",
 					"raw": " {\n        \"country\": \"belgium\",\n        \"year\": 1998,\n        \"young\": 1.600000024,\n        \"adult\": 1.600000024,\n        \"old\": 1.600000024,\n        \"longterm\": 1.600000024\n }"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria/1998",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"austria",
-						"1998"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria/1998"
 			},
 			"response": []
 		},
@@ -1931,22 +1700,7 @@
 					"mode": "raw",
 					"raw": " {\n        \"country\": \"austria\",\n        \"year\": 2018,\n        \"young\": 1.600000024,\n        \"adult\": 1.600000024,\n        \"old\": 1.600000024,\n        \"longterm\": 1.600000024\n }"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria/1998",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"austria",
-						"1998"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria/1998"
 			},
 			"response": []
 		},
@@ -1976,22 +1730,7 @@
 					"mode": "raw",
 					"raw": "{\n        \"country\": \"austria\",\n        \"year\": 1998,\n        \"young\": 0,\n        \"adult\": 0,\n        \"old\": 0,\n        \"longterm\": 0\n    }"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria/1998",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"austria",
-						"1998"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria/1998"
 			},
 			"response": []
 		},
@@ -2021,22 +1760,7 @@
 					"mode": "raw",
 					"raw": "{\n        \"country\": \"spain\",\n        \"year\": 2018,\n        \"young\": 0,\n        \"adult\": 0,\n        \"old\": 0,\n        \"longterm\": 0\n    }"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/spain/2018",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"spain",
-						"2018"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/spain/2018"
 			},
 			"response": []
 		},
@@ -2066,22 +1790,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"austria\",\n            \"year\": 1998 ,\n            \"primary\": 0,\n            \"secundary\": 0,\n            \"tertiery\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria/1998",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"austria",
-						"1998"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria/1998"
 			},
 			"response": []
 		},
@@ -2111,21 +1820,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young\": 0,\n            \"adult\": 0,\n            \"old\": 0,\n            \"longterm\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"austria"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria"
 			},
 			"response": []
 		},
@@ -2155,21 +1850,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young\": 0,\n            \"adult\": 0,\n            \"old\": 0,\n            \"longterm\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/1998",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"1998"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/1998"
 			},
 			"response": []
 		},
@@ -2199,20 +1880,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young\": 0,\n            \"adult\": 0,\n            \"old\": 0,\n            \"longterm\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments"
 			},
 			"response": []
 		},
@@ -2242,22 +1910,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young\": 0,\n            \"adult\": 0,\n            \"old\": 0,\n            \"longterm\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria/1998",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"austria",
-						"1998"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria/1998"
 			},
 			"response": []
 		},
@@ -2287,21 +1940,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young\": 0,\n            \"adult\": 0,\n            \"old\": 0,\n            \"longterm\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"austria"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria"
 			},
 			"response": []
 		},
@@ -2331,21 +1970,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young\": 0,\n            \"adult\": 0,\n            \"old\": 0,\n            \"longterm\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/1998",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"1998"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/1998"
 			},
 			"response": []
 		},
@@ -2375,20 +2000,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2018,\n            \"young\": 0,\n            \"adult\": 0,\n            \"old\": 0,\n            \"longterm\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments"
 			},
 			"response": []
 		},
@@ -2418,20 +2030,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2018,\n            \"young\": 1,\n            \"adult\": 1,\n            \"old\": 1,\n            \"longterm\": 1\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments"
 			},
 			"response": []
 		},
@@ -2461,22 +2060,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria/1998",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"austria",
-						"1998"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria/1998"
 			},
 			"response": []
 		},
@@ -2506,22 +2090,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria/1998",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"austria",
-						"1998"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/austria/1998"
 			},
 			"response": []
 		},
@@ -2551,21 +2120,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/rumania",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"rumania"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/rumania"
 			},
 			"response": []
 		},
@@ -2595,21 +2150,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/1998",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"1998"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/1998"
 			},
 			"response": []
 		},
@@ -2639,21 +2180,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/1998",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"1998"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/1998"
 			},
 			"response": []
 		},
@@ -2683,21 +2210,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/spain",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"spain"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/spain"
 			},
 			"response": []
 		},
@@ -2727,20 +2240,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments"
 			},
 			"response": []
 		},
@@ -2770,20 +2270,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments"
 			},
 			"response": []
 		},
@@ -2814,21 +2301,7 @@
 					"mode": "raw",
 					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
 				},
-				"url": {
-					"raw": "http://sos1718-02.herokuapp.com/api/v1/unemployments/loadInitialData",
-					"protocol": "http",
-					"host": [
-						"sos1718-02",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"api",
-						"v1",
-						"unemployments",
-						"loadInitialData"
-					]
-				}
+				"url": "http://sos1718-02.herokuapp.com/api/v1/unemployments/loadInitialData"
 			},
 			"response": []
 		}
