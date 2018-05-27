@@ -134,7 +134,7 @@ apiEmployments.register = function(app, request) {
             dbo.collection("employments").count(function(err, count) { 
                 if (!err && !count) { 
                     //
-                    dbo.collection("employments").insertMany(initialsEmployments, function(err, resu) { 
+                    dbo.collection("employments").insertMany(initialsEmployments , function(err, resu) { 
                         if (err) throw err; 
                         console.log("Number of documentss inserted: " + resu.insertedCount); 
                         res.send("Number of documents inserted: " + resu.insertedCount); 
@@ -244,7 +244,7 @@ apiEmployments.register = function(app, request) {
                 if (!err && !result.length) {
                     console.log("Not found");
                     res.sendStatus(404);
-                    res.send(null);
+                   // res.send(null);
                 }
                 else {
                     res.send(result.map((c) => {
