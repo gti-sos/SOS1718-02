@@ -50,15 +50,9 @@ var datosPrivados = [
     { "country": "italy", "year": 2000, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "austria", "year": 2001, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "france", "year": 2000, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 }
-<<<<<<< HEAD
 ];
 apiEmployments.register = function(app, request) {
 
-=======
-]
-apiEmployments.register = function(app, request,jwt) {
-    
->>>>>>> b0b341c08e2f756cf9987d3bc1e0a027a7049cf1
     ////////////
     ////JWT/////
     ////////////
@@ -159,13 +153,9 @@ apiEmployments.register = function(app, request,jwt) {
 
     //urlQuery
     app.get(BASE_API_PATH, (req, res) => {
-<<<<<<< HEAD
         console.log("urlQuery employments v2");
         console.log(req.query);
         MongoClient.connect(url, function(err, db) {
-=======
-      MongoClient.connect(url, function(err, db) {
->>>>>>> b0b341c08e2f756cf9987d3bc1e0a027a7049cf1
             if (err) throw err;
             var dbo = db.db("sos1718-jmm-sandbox");
             var query = req.query;

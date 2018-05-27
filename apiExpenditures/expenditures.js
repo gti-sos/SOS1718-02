@@ -34,7 +34,7 @@ apiExpenditures.register = function(app) {
                     dbo.collection("expenditures").insertMany(initialsExpenditures, function(err, resu) {
                         if (err) throw err;
                         console.log("Number of documents inserted: " + resu.insertedCount);
-                        res.send("Number of documents inserted: " + resu.insertedCount);
+                        res.sendStatus(200);
                         db.close();
                     });
                 }

@@ -7,6 +7,7 @@ controller("ExpendituresEditCtrl", ["$scope", "$http", "$routeParams", "$locatio
     $http.get(BASE_API_PATH).then(function(response) {
         if (user.logged == "true") {
             $scope.data = response.data;
+            console.log(response.data.country);
         }
         else {
             window.alert("You are not logged");
