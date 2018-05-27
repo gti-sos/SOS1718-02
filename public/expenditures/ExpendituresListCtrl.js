@@ -116,20 +116,14 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
         $http.get(BASE_API + "/secure/expenditures", {
             headers: $scope.user
         }).then(function(response) {
-            console.log(response);
-            console.log(response.data);
-            console.log(response.data.admin);
             if (response.data) {
-                console.log("Hay usuario");
                 user.logged = "true";
                 getExpenditures();
-            }
-            else if (response.data.admin) {
-                console.log("Es admin");
-                user.admin = "true";
+                if (response.data.admin == true) {
+                    user.admin = "true";
+                }
             }
             else {
-                console.log("User not found");
                 $scope.expenditures = [];
                 user.logged = "false";
                 user.admin = "false";
@@ -143,7 +137,6 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
 
     $scope.getPage = function(p) {
         $scope.offsetP = $scope.offsetP + p;
-        console.log($scope.offsetP);
         $http.get(BASE_API_PATH_LIMIT + "&offset=" + $scope.offsetP).then(function(response) {
             $scope.expenditures = response.data;
             $scope.hasNextPage = response.data.length >= p;

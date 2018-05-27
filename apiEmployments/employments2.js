@@ -53,7 +53,7 @@ var datosPrivados = [
     { "country": "italy", "year": 2000, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "austria", "year": 2001, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "france", "year": 2000, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 }
-]
+];
 apiEmployments.register = function(app, request) {
 
     ////////////
@@ -80,9 +80,10 @@ apiEmployments.register = function(app, request) {
             id: 1,
             username: 'joseangel',
             email: 'joseangel@gmail.com'
-        }
+        };
 
         jwt.sign({ user }, 'secretkey', { expiresIn: '30000s' }, (err, token) => {
+            if(err) throw err;
             res.json({
                 token
             });
@@ -121,13 +122,13 @@ apiEmployments.register = function(app, request) {
 
     //Postman Docs
     app.get(BASE_API_PATH + "/docs", (req, res) => {
-        console.log("Postman Docs");
+        console.log("Postman Docs employments v2");
         res.redirect("https://documenter.getpostman.com/view/3881259/sos1718-02-employments/RVu5i8A3");
     });
 
     //loadInitialData
     app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
-        console.log("loadInitialData");
+        console.log("loadInitialData employments v2");
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-jmm-sandbox");
@@ -151,7 +152,7 @@ apiEmployments.register = function(app, request) {
 
     //urlQuery
     app.get(BASE_API_PATH, (req, res) => {
-        console.log("urlQuery");
+        console.log("urlQuery employments v2");
         console.log(req.query);
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
@@ -197,7 +198,7 @@ apiEmployments.register = function(app, request) {
 
     //GET all SECURED
     app.get(BASE_API + "/secure/employments", (req, res) => {
-        console.log("Get all secured");
+        console.log("Get all secured employments v2");
         var user = req.headers.user;
         var pass = req.headers.pass;
         if (user == "joseangel" && pass == "joseangel") {
@@ -227,7 +228,7 @@ apiEmployments.register = function(app, request) {
 
     //GET country OR year
     app.get(BASE_API_PATH + "/:obj" + "", (req, res) => {
-        console.log("GET country OR year");
+        console.log("GET country OR year employments v2");
         var myquery;
         if (isNaN(req.params.obj)) {
             myquery = { country: req.params.obj };
@@ -257,7 +258,7 @@ apiEmployments.register = function(app, request) {
 
     //GET country & year
     app.get(BASE_API_PATH + "/:country/:year", (req, res) => {
-        console.log("Get country & year");
+        console.log("Get country & year employments v2");
         var myquery = { country: req.params.country, year: Number(req.params.year) };
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
@@ -280,7 +281,7 @@ apiEmployments.register = function(app, request) {
 
     //POST Create a document
     app.post(BASE_API_PATH, (req, res) => {
-        console.log("Post");
+        console.log("Post employments v2");
         var myquery = {
             country: req.body.country,
             year: Number(req.body.year)
@@ -321,7 +322,7 @@ apiEmployments.register = function(app, request) {
 
     //PUT
     app.put(BASE_API_PATH + "/:country/:year", (req, res) => {
-        console.log("Put");
+        console.log("Put employments v2");
         console.log(req.params);
         console.log(req.body);
         if (req.body._id != undefined || req.body.country != req.params.country || req.body.year != req.params.year || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.totalself) || isNaN(req.body.totalsalaried) || isNaN(req.body.totalcontributingfamilyworker)) {
@@ -364,7 +365,7 @@ apiEmployments.register = function(app, request) {
     //DELETE all
     app.delete(BASE_API_PATH, (req, res) => {
         MongoClient.connect(url, function(err, db) {
-            console.log("Delete all");
+            console.log("Delete all employments v2");
             if (err) throw err;
             var dbo = db.db("sos1718-jmm-sandbox");
             dbo.collection("employments").count(function(err, count) {
@@ -387,7 +388,7 @@ apiEmployments.register = function(app, request) {
 
     //DELETE country or year
     app.delete(BASE_API_PATH + "/:obj", (req, res) => {
-        console.log("Delete country or year");
+        console.log("Delete country or year employments v2");
         var myquery;
         if (isNaN(req.params.obj)) {
             myquery = { country: req.params.obj };
@@ -418,7 +419,7 @@ apiEmployments.register = function(app, request) {
 
     //DELETE country & year
     app.delete(BASE_API_PATH + "/:country/:year", (req, res) => {
-        console.log("Delete country & year");
+        console.log("Delete country & year employments v2");
         var myquery = { country: req.params.country, year: Number(req.params.year) };
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
