@@ -125,7 +125,7 @@ apiExpenditures.register = function(app) {
     });
 
     //GET country OR year
-    app.get(BASE_API_PATH + "/:obj" + "", (req, res) => {
+    app.get(BASE_API_PATH + "/:obj", (req, res) => {
         console.log("GET country OR year");
         var myquery;
         if (isNaN(req.params.obj)) {
@@ -141,9 +141,9 @@ apiExpenditures.register = function(app) {
                 if (!err && !result.length) {
                     console.log("Not found");
                     res.sendStatus(404);
-                    res.send(null);
                 }
                 else {
+                    console.log("Entering else");
                     res.send(result.map((c) => {
                         delete c._id;
                         return c;
