@@ -4,10 +4,11 @@
   "description": "first module in NodeJS",
   "main": "index.js",
   "scripts": {
-    " pretest": "test/runPhantomjs.sh",
+    
+    "start": "node index.js",
+    "pretest": "test/runPhantomjs.sh",
     "test": "protractor test/config.js",
-    "posttest": "killall phantomjs",
-    "start": "node index.js"
+    "posttest": "killall phantomjs"
   },
   "repository": {
     "type": "git",
