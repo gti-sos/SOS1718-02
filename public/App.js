@@ -71,8 +71,5 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
     when("/analytics/expendituresApiCompartidaProxy", {
         templateUrl: "expenditures/ApiCompartidaViewProxy.html",
         controller: "ApiCompartidaViewProxyCtrl"
-    }).when("/expenditures/login", {
-        templateUrl: "expenditures/expendituresLogin.html",
-        controller: "ExpendituresLoginCtrl"
     });
 });

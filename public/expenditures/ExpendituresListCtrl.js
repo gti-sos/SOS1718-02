@@ -4,6 +4,7 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
     var BASE_API = "/api/v2";
     var BASE_API_PATH = "/api/v2/expenditures";
     var BASE_API_PATH_LIMIT = "/api/v2/expenditures?&limit=10";
+    var user = window.localStorage;
     var dataCount = 0;
 
     $scope.offsetP = 0;
@@ -22,80 +23,121 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
     };
 
     $scope.deleteExpenditure = function(country, year) {
-        $http.delete(BASE_API_PATH + "/" + country + "/" + year, $scope.newExpenditure)
-            .then(function(response) {
+        if (user.admin == "true") {
+            $http.delete(BASE_API_PATH + "/" + country + "/" + year, $scope.newExpenditure)
+                .then(function(response) {
+                    $scope.status = response.data;
+                    getExpenditures();
+                    window.alert(response.data);
+                });
+        }
+        else {
+            window.alert("You are not admin");
+        }
+    };
+
+    $scope.deleteAll = function() {
+        if (user.admin == "true") {
+            $http.delete(BASE_API_PATH).then(function(response) {
                 $scope.status = response.data;
                 getExpenditures();
                 window.alert(response.data);
             });
-    };
-
-    $scope.deleteAll = function() {
-        $http.delete(BASE_API_PATH).then(function(response) {
-            $scope.status = response.data;
-            getExpenditures();
-            window.alert(response.data);
-        });
+        }
+        else {
+            window.alert("You are not admin");
+        }
     };
 
     $scope.getSearch = function() {
-        if (!$scope.newExpenditure.country) {
-            delete $scope.newExpenditure.country;
+        if (user.logged == "true") {
+            if (!$scope.newExpenditure.country) {
+                delete $scope.newExpenditure.country;
+            }
+            if (!$scope.newExpenditure.year) {
+                delete $scope.newExpenditure.year;
+            }
+            if (!$scope.newExpenditure.primary) {
+                delete $scope.newExpenditure.primary;
+            }
+            if (!$scope.newExpenditure.secundary) {
+                delete $scope.newExpenditure.secundary;
+            }
+            if (!$scope.newExpenditure.tertiery) {
+                delete $scope.newExpenditure.tertiery;
+            }
+            var query = $httpParamSerializer($scope.newExpenditure);
+            query.limit = 10;
+            query.offset = 10;
+            $http.get(BASE_API_PATH + "/?" + query).then(function(response) {
+                $scope.expenditures = response.data;
+            }, function errorCallback(response) {
+                console.log("Empty");
+                $scope.expenditures = [];
+            });
         }
-        if (!$scope.newExpenditure.year) {
-            delete $scope.newExpenditure.year;
+        else {
+            window.alert("Not logged!!");
         }
-        if (!$scope.newExpenditure.primary) {
-            delete $scope.newExpenditure.primary;
-        }
-        if (!$scope.newExpenditure.secundary) {
-            delete $scope.newExpenditure.secundary;
-        }
-        if (!$scope.newExpenditure.tertiery) {
-            delete $scope.newExpenditure.tertiery;
-        }
-        var query = $httpParamSerializer($scope.newExpenditure);
-        query.limit = 10;
-        query.offset = 10;
-        $http.get(BASE_API_PATH + "/?" + query).then(function(response) {
-            $scope.expenditures = response.data;
-        }, function errorCallback(response) {
-            console.log("Empty");
-            $scope.expenditures = [];
-        });
     };
 
     $scope.getLoad = function() {
-        $http.get(BASE_API_PATH + "/loadInitialData").then(function(response) {
-            getExpenditures();
-            $scope.status = response.data;
-            window.alert(response.data);
-        });
+        if (user.admin == "true") {
+            $http.get(BASE_API_PATH + "/loadInitialData").then(function(response) {
+                getExpenditures();
+                $scope.status = response.data;
+                window.alert(response.data);
+            });
+        }
+        else {
+            window.alert("You are not admin");
+        }
     };
 
     function getExpenditures() {
-        $http.get(BASE_API_PATH_LIMIT + "&offset=0").then(function(response) {
-            $scope.expenditures = response.data;
-            dataCount = response.data.length;
-        }, function errorCallback(response) {
-            console.log("Empty");
-            $scope.expenditures = [];
-            $scope.status = response.data;
-        });
+        if (user.logged == "true") {
+            $http.get(BASE_API_PATH_LIMIT + "&offset=0").then(function(response) {
+                $scope.expenditures = response.data;
+                dataCount = response.data.length;
+            }, function errorCallback(response) {
+                console.log("Empty");
+                $scope.expenditures = [];
+                $scope.status = response.data;
+            });
+        }
+        else {
+            window.alert("Not logged!!");
+        }
+
     }
 
     $scope.getExpendituresSecured = function() {
+        user.clear();
         $http.get(BASE_API + "/secure/expenditures", {
-            headers: { "user": $scope.user, "pass": $scope.pass }
+            headers: $scope.user
         }).then(function(response) {
-            $scope.expenditures = response.data;
-            $scope.status = response.data;
-            window.alert("Authorized");
+            console.log(response);
+            console.log(response.data);
+            console.log(response.data.admin);
+            if (response.data) {
+                console.log("Hay usuario");
+                user.logged = "true";
+                getExpenditures();
+            }
+            else if (response.data.admin) {
+                console.log("Es admin");
+                user.admin = "true";
+            }
+            else {
+                console.log("User not found");
+                $scope.expenditures = [];
+                user.logged = "false";
+                user.admin = "false";
+            }
         }, function errorCallback(response) {
-            console.log("Empty");
-            $scope.expenditures = [];
-            $scope.status = response.data;
-            window.alert(response.data);
+            console.log("Unauthorized!!");
+            user.logged = "false";
+            user.admin = "false";
         });
     };
 

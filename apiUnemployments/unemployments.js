@@ -47,8 +47,8 @@ apiUnemployments.register = function(app, request, jwt) {
     app.get(BASE_API_PATH + '/jwttoken', (req, res) => {
         const user = {
             id: 1,
-            username: 'andres',
-            email: 'wirfen@gmail.com'
+            username: 'lola',
+            email: 'nekanerosaa@gmail.com'
         };
         jwt.sign({ user }, 'secretkey', { expiresIn: '28800s' }, (err, token) => {
             res.json({

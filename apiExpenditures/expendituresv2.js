@@ -169,7 +169,7 @@ apiExpenditures.register = function(app, request, jwt) {
             }
         });
     });
-    
+
     //JWT Token
     app.get(BASE_API_PATH + '/jwttoken', (req, res) => {
         const user = {
@@ -178,6 +178,7 @@ apiExpenditures.register = function(app, request, jwt) {
             email: 'wirfen@gmail.com'
         };
         jwt.sign({ user }, 'secretkey', { expiresIn: '28800s' }, (err, token) => {
+            if (err) throw err;
             res.json({
                 token
             });
@@ -279,34 +280,28 @@ apiExpenditures.register = function(app, request, jwt) {
         });
     });
 
-    //GET all SECURED
+    //GET SECURED
     app.get(BASE_API + "/secure/expenditures", (req, res) => {
         console.log("Get all secured");
-        var user = req.headers.user;
-        var pass = req.headers.pass;
-        if (user == "andres" && pass == "andres") {
-            MongoClient.connect(url, function(err, db) {
-                if (err) throw err;
-                var dbo = db.db("sos1718-alc-sandbox");
-                dbo.collection("expenditures").find().toArray(function(err, result) {
-                    if (!err && !result.length) {
-                        console.log("Not found");
-                        res.sendStatus(404);
-                    }
-                    else {
-                        res.send(result.map((c) => {
-                            delete c._id;
-                            return c;
-                        }));
-                    }
-                    db.close();
-                });
+        var myquery = { name: req.headers.name, pass: req.headers.pass };
+        MongoClient.connect(url, function(err, db) {
+            if (err) throw err;
+            var dbo = db.db("sos1718-alc-sandbox");
+            dbo.collection("admins").find(myquery).toArray(function(err, result) {
+                if (!err && !result.length) {
+                    console.log("Not found");
+                    res.send(result[0]);
+                }
+                else {
+                    delete result[0].pass;
+                    delete result[0]._id;
+                    //console.log(result[0].admin);
+                    console.log(result[0]);
+                    res.send(result[0]);
+                }
+                db.close();
             });
-        }
-        else {
-            console.log("Unauthorized");
-            res.sendStatus(401);
-        }
+        });
     });
 
     //GET country OR year
