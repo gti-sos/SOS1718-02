@@ -4,7 +4,6 @@ var BASE_API_PATH = "/api/v2/employments";
 var MongoClient = require('mongodb').MongoClient;
 var apiEmployments = {};
 module.exports = apiEmployments;
-var jwt = require('jsonwebtoken');
 
 var initialsEmployments = [
     { "country": "croatia", "year": 1998, "totalself": 18.5, "totalsalaried": 75.30000305, "totalcontributingfamilyworker": 6.19999980926514 },
@@ -16,7 +15,6 @@ var initialsEmployments = [
     { "country": "austria", "year": 2001, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "france", "year": 2000, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
 
-
     { "country": "croatia", "year": 1999, "totalself": 18.5, "totalsalaried": 75.30000305, "totalcontributingfamilyworker": 6.19999980926514 },
     { "country": "cyprus", "year": 2004, "totalself": 20.5, "totalsalaried": 76.80000305, "totalcontributingfamilyworker": 2.799999952 },
     { "country": "romania", "year": 1999, "totalself": 22.60000038, "totalsalaried": 59.70000076, "totalcontributingfamilyworker": 17.79999924 },
@@ -25,7 +23,6 @@ var initialsEmployments = [
     { "country": "italy", "year": 2001, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "austria", "year": 2002, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "france", "year": 2001, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
-
 
     { "country": "croatia", "year": 2000, "totalself": 18.5, "totalsalaried": 75.30000305, "totalcontributingfamilyworker": 6.19999980926514 },
     { "country": "cyprus", "year": 2003, "totalself": 20.5, "totalsalaried": 76.80000305, "totalcontributingfamilyworker": 2.799999952 },
@@ -36,7 +33,7 @@ var initialsEmployments = [
     { "country": "austria", "year": 2003, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "france", "year": 2002, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
 
-    , { "country": "romania", "year": 2001, "totalself": 22.60000038, "totalsalaried": 59.70000076, "totalcontributingfamilyworker": 17.79999924 },
+    { "country": "romania", "year": 2001, "totalself": 22.60000038, "totalsalaried": 59.70000076, "totalcontributingfamilyworker": 17.79999924 },
     { "country": "spain", "year": 2004, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "portugal", "year": 2003, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "italy", "year": 2003, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
@@ -53,9 +50,15 @@ var datosPrivados = [
     { "country": "italy", "year": 2000, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "austria", "year": 2001, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 },
     { "country": "france", "year": 2000, "totalself": 21.39999962, "totalsalaried": 64.69999695, "totalcontributingfamilyworker": 13.80000019 }
+<<<<<<< HEAD
 ];
 apiEmployments.register = function(app, request) {
 
+=======
+]
+apiEmployments.register = function(app, request,jwt) {
+    
+>>>>>>> b0b341c08e2f756cf9987d3bc1e0a027a7049cf1
     ////////////
     ////JWT/////
     ////////////
@@ -112,7 +115,7 @@ apiEmployments.register = function(app, request) {
 
     }
     ////////////////////////////////////////////////////////////////////////////////
-    
+   
     //Colocación de proxys
     app.use("/proxyJA", function(req, res) {
         var dirProxyJA = "https://sos1718-08.herokuapp.com";
@@ -129,21 +132,25 @@ apiEmployments.register = function(app, request) {
     //loadInitialData
     app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
         console.log("loadInitialData employments v2");
+       
         MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("sos1718-jmm-sandbox");
-            dbo.collection("employments").count(function(err, count) {
-                if (!err && !count) {
-                    dbo.collection("employments").insertMany(initialsEmployments, function(err, resu) {
-                        if (err) throw err;
-                        console.log("Number of documents inserted: " + resu.insertedCount);
-                        res.send("Number of documents inserted: " + resu.insertedCount);
-                        db.close();
-                    });
-                }
-                else {
-                    console.log("Expenditures has " + count + " documents inserted.");
-                    res.send("Expenditures has " + count + " documents inserted.");
+       
+            if (err) throw err; 
+            var dbo = db.db("sos1718-jmm-sandbox"); 
+            dbo.collection("employments").count(function(err, count) { 
+                if (!err && !count) { 
+                    //
+                    dbo.collection("employments").insertMany(initialsEmployments, function(err, resu) { 
+                        if (err) throw err; 
+                        console.log("Number of documentss inserted: " + resu.insertedCount); 
+                        res.send("Number of documents inserted: " + resu.insertedCount); 
+                        db.close(); 
+                    }); 
+                } 
+                else { 
+                    
+                    console.log("Employments has " + count + " documents inserted."); 
+                    res.send("Employments has " + count + " documents inserted."); 
                 }
                 db.close();
             });
@@ -152,9 +159,13 @@ apiEmployments.register = function(app, request) {
 
     //urlQuery
     app.get(BASE_API_PATH, (req, res) => {
+<<<<<<< HEAD
         console.log("urlQuery employments v2");
         console.log(req.query);
         MongoClient.connect(url, function(err, db) {
+=======
+      MongoClient.connect(url, function(err, db) {
+>>>>>>> b0b341c08e2f756cf9987d3bc1e0a027a7049cf1
             if (err) throw err;
             var dbo = db.db("sos1718-jmm-sandbox");
             var query = req.query;
