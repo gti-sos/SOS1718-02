@@ -25,7 +25,8 @@ var unemployments = [{ "country": "austria", "year": 1998, "young": 1.600000024,
     { "country": "bulgaria", "year": 1998, "young": 8, "adult": 8, "old": 8, "longterm": 8 },
     { "country": "croatia", "year": 2003, "young": 8, "adult": 8, "old": 8, "longterm": 8 },
     { "country": "austria", "year": 1999, "young": 1.399999976, "adult": 1.399999976, "old": 1.399999976, "longterm": 1.399999976 },
-    { "country": "italy", "year": 2001, "young": 6.0, "adult": 6.0, "old": 6.0, "longterm": 6.0 }];
+    { "country": "italy", "year": 2001, "young": 6.0, "adult": 6.0, "old": 6.0, "longterm": 6.0 }
+];
 
 apiUnemployments.register = function(app, request, jwt) {
     //JWT Data
@@ -45,13 +46,14 @@ apiUnemployments.register = function(app, request, jwt) {
 
     //JWT Token
     app.get(BASE_API_PATH + '/jwttoken', (req, res) => {
+        console.log("JWT Token");
         const user = {
             id: 1,
             username: 'lola',
             email: 'nekanerosaa@gmail.com'
         };
         jwt.sign({ user }, 'secretkey', { expiresIn: '28800s' }, (err, token) => {
-            if(err) throw err;
+            if (err) throw err;
             res.json({
                 token
             });
@@ -80,8 +82,9 @@ apiUnemployments.register = function(app, request, jwt) {
     });
 
     //urlQuery
-    app.get(BASE_API_PATH + "?", (req, res) => {
+    app.get(BASE_API_PATH, (req, res) => {
         console.log("Search Unemployments");
+        console.log(req.query);
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-msr-sandbox");
@@ -134,8 +137,8 @@ apiUnemployments.register = function(app, request, jwt) {
     });
 
     //loadInitialData
-    console.log("loadInitialData Unemployments");
     app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
+        console.log("loadInitialData Unemployments");
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-msr-sandbox");
