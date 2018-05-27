@@ -1587,7 +1587,7 @@
 					"protocol": "http",
 					"host": [
 						"sos1718-02",
-						"herokuapp",
+						"herokuapp" ,
 						"com"
 					],
 					"path": [
