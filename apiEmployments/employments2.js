@@ -244,7 +244,7 @@ apiEmployments.register = function(app, request) {
                 if (!err && !result.length) {
                     console.log("Not found");
                     res.sendStatus(404);
-                    res.send(null);
+                   // res.send(null);
                 }
                 else {
                     res.send(result.map((c) => {
