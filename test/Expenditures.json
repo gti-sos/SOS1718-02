@@ -1,0 +1,2046 @@
+{
+	"info": {
+		"_postman_id": "71ebd402-902d-4bd9-87d8-97f251639fd1",
+		"name": "SOS1718-02-expenditures",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Borrar todo al inicio",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bcfeb826-dcfe-4613-88ef-ee3e86bf4c54",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200 or 404\"] = responseCode.code === 200 || responseCode.code === 404 ;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures"
+			},
+			"response": []
+		},
+		{
+			"name": "GET a todo vacio",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ae33a9a5-7a12-4494-bacf-9e646bd9c27b",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures"
+			},
+			"response": []
+		},
+		{
+			"name": "GET a año vacio",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "51b12e12-dc86-493d-b105-3c03643b5231",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/1998"
+			},
+			"response": []
+		},
+		{
+			"name": "GET a pais vacio",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0b9ba54b-7585-4237-b3ed-0d54ceca3e6a",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/spain"
+			},
+			"response": []
+		},
+		{
+			"name": "GET a pais y año vacio",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fddc3610-db9a-4fc1-b2f0-11371d135e5b",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/spain/1998"
+			},
+			"response": []
+		},
+		{
+			"name": "GET a loadInitialData vacio",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "da21dc17-a2db-491b-9018-735df2e48aa0",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200 ",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/loadInitialData"
+			},
+			"response": []
+		},
+		{
+			"name": "GET a loadInitialData tras carga",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7ae8a13b-4262-44ce-8b2b-adc1930a4cd8",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/loadInitialData"
+			},
+			"response": []
+		},
+		{
+			"name": "GET a todo cargado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ada83dc9-ebac-45c4-8a6a-da5c305d1d19",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"tests[\"Number of citys >= 1\"]=jsonData.length >= 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures"
+			},
+			"response": []
+		},
+		{
+			"name": "GET a pais cargado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "140bb186-e980-4961-9a75-e65595358593",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"tests[\"Number of citys >= 1\"]=jsonData.length >= 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/austria"
+			},
+			"response": []
+		},
+		{
+			"name": "GET a año cargado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e86400d4-ec00-4371-8d30-7de39383a568",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"tests[\"Number of citys >= 1\"]=jsonData.length >= 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/1998"
+			},
+			"response": []
+		},
+		{
+			"name": "GET a pais y año cargado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f44b2621-ff57-4cc0-bf64-09770eae19b9",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"tests[\"city==austria & year==1998\"] = jsonData.country==\"austria\" & jsonData.year==1998;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/austria/1998"
+			},
+			"response": []
+		},
+		{
+			"name": "GET a año no existente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "259be6d1-4898-48bb-af7b-18f67a4661d5",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/2018"
+			},
+			"response": []
+		},
+		{
+			"name": "GET a pais y año no existente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0e3abe6f-9bc3-4bbc-a3aa-f7c14923516a",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/spain/2018"
+			},
+			"response": []
+		},
+		{
+			"name": "GET  a pais no existente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bf2c7aea-798b-4134-8198-75024e5bb800",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/spain"
+			},
+			"response": []
+		},
+		{
+			"name": "Busqueda por parametro secundary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bd3c30a2-98b4-46a1-b54a-64490a35d527",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"tests[\"Number of citys >= 1\"]=jsonData.length >= 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/expenditures?secundary=27.46764",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"expenditures"
+					],
+					"query": [
+						{
+							"key": "secundary",
+							"value": "27.46764"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busqueda por un parametro no existente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1df3e551-da53-446a-adb9-2de6adfd3c4e",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/expenditures?ecundary=27.46764",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"expenditures"
+					],
+					"query": [
+						{
+							"key": "ecundary",
+							"value": "27.46764"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busqueda por un parametro a algo que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5d275cff-b0a4-4390-a347-2083250e7313",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/expenditures?primary=0",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"expenditures"
+					],
+					"query": [
+						{
+							"key": "primary",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busqueda por parametro primary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1a60b841-932a-4cad-89c3-56d28b2373fe",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"tests[\"Number of citys >= 1\"]=jsonData.length >= 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/expenditures?primary=27.8599",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"expenditures"
+					],
+					"query": [
+						{
+							"key": "primary",
+							"value": "27.8599"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Paginacion offset=3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1a60b841-932a-4cad-89c3-56d28b2373fe",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"tests[\"Number of citys >= 1\"]=jsonData.length >= 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/expenditures?offset=3",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"expenditures"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Paginacion limit=2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1a60b841-932a-4cad-89c3-56d28b2373fe",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"tests[\"Number of citys >= 1\"]=jsonData.length >= 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/expenditures?limit=2",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"expenditures"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Paginacion offset=3&limit=2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1a60b841-932a-4cad-89c3-56d28b2373fe",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"tests[\"Number of citys >= 1\"]=jsonData.length >= 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/expenditures?offset=3&limit=2",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"expenditures"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "3"
+						},
+						{
+							"key": "limit",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busqueda por parametro year y Paginacion offset=2 y limit=1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1a60b841-932a-4cad-89c3-56d28b2373fe",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"tests[\"Number of citys >= 1\"]=jsonData.length >= 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/expenditures?primary=27.8599",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"expenditures"
+					],
+					"query": [
+						{
+							"key": "primary",
+							"value": "27.8599"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busqueda por parametro tertiery",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5e55b44c-a477-4db3-bc27-d13eadf9e08c",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"tests[\"Number of citys >= 1\"]=jsonData.length >= 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/expenditures?tertiery=49.0146",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"expenditures"
+					],
+					"query": [
+						{
+							"key": "tertiery",
+							"value": "49.0146"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busqueda secundary & tertiery",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "da74a577-9e4e-4a6c-88ce-2c06b35f4b95",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"tests[\"Number of citys >= 1\"]=jsonData.length >= 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/expenditures?secundary=27.46764&tertiery=49.0146",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"expenditures"
+					],
+					"query": [
+						{
+							"key": "secundary",
+							"value": "27.46764"
+						},
+						{
+							"key": "tertiery",
+							"value": "49.0146"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busqueda primary&secundary&tertiery",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9446600f-2298-4287-90d7-696bf5175679",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"tests[\"Number of citys >= 1\"]=jsonData.length >= 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/expenditures?primary=27.8599&secundary=27.46764&tertiery=49.0146",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"expenditures"
+					],
+					"query": [
+						{
+							"key": "primary",
+							"value": "27.8599"
+						},
+						{
+							"key": "secundary",
+							"value": "27.46764"
+						},
+						{
+							"key": "tertiery",
+							"value": "49.0146"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busqueda year&primary&secundary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cc01a595-2cde-412a-8e88-af4bd2bfadc4",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"tests[\"Number of citys >= 1\"]=jsonData.length >= 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/expenditures?year=1998&primary=27.8599&secundary=27.46764",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"expenditures"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "1998"
+						},
+						{
+							"key": "primary",
+							"value": "27.8599"
+						},
+						{
+							"key": "secundary",
+							"value": "27.46764"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busqueda year&primary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4e417949-b18b-495d-a3d3-8ba9a9510c92",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"tests[\"Number of citys >= 1\"]=jsonData.length >= 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/expenditures?year=1998&primary=27.8599",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"expenditures"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "1998"
+						},
+						{
+							"key": "primary",
+							"value": "27.8599"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busqueda year&primary&secundary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "41dd1aff-7842-409c-8f7c-2f39868430e3",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"tests[\"Number of citys >= 1\"]=jsonData.length >= 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/expenditures?year=1998&primary=27.8599&secundary=27.46764&tertiery=49.0146",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"expenditures"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "1998"
+						},
+						{
+							"key": "primary",
+							"value": "27.8599"
+						},
+						{
+							"key": "secundary",
+							"value": "27.46764"
+						},
+						{
+							"key": "tertiery",
+							"value": "49.0146"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busqueda por todos los campos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e0e5ca23-bdf5-40c1-95e2-d585872f0b41",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"tests[\"Number of citys >= 1\"]=jsonData.length >= 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/expenditures?year=1998&primary=27.8599&secundary=27.46764&tertiery=49.0146",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"expenditures"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "1998"
+						},
+						{
+							"key": "primary",
+							"value": "27.8599"
+						},
+						{
+							"key": "secundary",
+							"value": "27.46764"
+						},
+						{
+							"key": "tertiery",
+							"value": "49.0146"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busqueda por todos los campos erronea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "99d4293d-c073-4efe-bb83-a034dea51d1f",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/expenditures?year=2018&primary=27.8599&secundary=27.46764&tertiery=49.0146",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"expenditures"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2018"
+						},
+						{
+							"key": "primary",
+							"value": "27.8599"
+						},
+						{
+							"key": "secundary",
+							"value": "27.46764"
+						},
+						{
+							"key": "tertiery",
+							"value": "49.0146"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busqueda year",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6375f1b5-6615-4e4a-ba65-4e13ff25a78a",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);",
+							"",
+							"tests[\"Number of citys >= 1\"]=jsonData.length >= 1;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": {
+					"raw": "http://sos1718-02.herokuapp.com/api/v1/expenditures?year=1998",
+					"protocol": "http",
+					"host": [
+						"sos1718-02",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"expenditures"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "1998"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT intentando cambiar pais",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fc31523a-f26f-4edf-80e5-8aa5d763b47a",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 400\"] = responseCode.code === 400;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"belgium\",\n            \"year\": 1998 ,\n            \"primary\": 2,\n            \"secundary\": 2,\n            \"tertiery\": 2\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/austria/1998"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT intentando cambiar año",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "26cc767d-698e-4a54-b2f8-da4bf8d75f54",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 400\"] = responseCode.code === 400;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"austria\",\n            \"year\": 2003 ,\n            \"primary\": 1,\n            \"secundary\": 1,\n            \"tertiery\": 1\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/austria/1998"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT CORRECTO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9cde6d00-cab4-4426-8949-767d75134d8b",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"austria\",\n            \"year\": 1998 ,\n            \"primary\": 0,\n            \"secundary\": 0,\n            \"tertiery\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/austria/1998"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT a algo inexistente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8b5cc850-9664-4f24-b6d9-56c0b7c8c95f",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2018,\n            \"primary\": 0,\n            \"secundary\": 0,\n            \"tertiery\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/spain/2018"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT con cuerpo corrupto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9cc6a831-ba7e-47d6-aafc-1d23d756af4d",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 400\"] = responseCode.code === 400;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"austria\",\n            \"year\": 1998,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/austria/1998"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT pais (ERROR TABLA AZUL)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a43f7958-cd61-45c6-b53d-81c216e3af53",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 405\"] = responseCode.code === 405;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"austria\",\n            \"year\": 1998 ,\n            \"primary\": 0,\n            \"secundary\": 0,\n            \"tertiery\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/austria"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT  año (ERROR TABLA AZUL)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ce58813-4d05-4708-862c-a299b6dada25",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 405\"] = responseCode.code === 405;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/1998"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT base (ERROR TABLA AZUL)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8c5ba4e2-f7bd-49c3-b84a-a75048e4995c",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 405\"] = responseCode.code === 405;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/"
+			},
+			"response": []
+		},
+		{
+			"name": "POST a recurso concreto (ERROR TABLA AZUL)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2fe11eaf-e1eb-4552-90d6-a8f5dbc21ad2",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 405\"] = responseCode.code === 405;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"belgium\",\n            \"year\": 1998 ,\n            \"primary\": 2,\n            \"secundary\": 2,\n            \"tertiery\": 2\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/austria/1998"
+			},
+			"response": []
+		},
+		{
+			"name": "POST a pais (ERROR TABLA AZUL)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f7253243-f79a-4b64-be9e-274dae4a1910",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 405\"] = responseCode.code === 405;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"belgium\",\n            \"year\": 1998 ,\n            \"primary\": 2,\n            \"secundary\": 2,\n            \"tertiery\": 2\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/austria"
+			},
+			"response": []
+		},
+		{
+			"name": "POST a año (ERROR TABLA AZUL)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "41f675ba-d86f-4118-bf05-f3ff75e1ee9f",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 405\"] = responseCode.code === 405;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"belgium\",\n            \"year\": 1998 ,\n            \"primary\": 2,\n            \"secundary\": 2,\n            \"tertiery\": 2\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/1998"
+			},
+			"response": []
+		},
+		{
+			"name": "POST CORRECTO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2063b751-ec3f-4fb8-aad3-779eec86cd69",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 201\"] = responseCode.code === 201;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 2,\n            \"secundary\": 2,\n            \"tertiery\": 2\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures"
+			},
+			"response": []
+		},
+		{
+			"name": "POST intenta actualizar dato ya existente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4819f32c-eea6-4075-a0b0-d5b66e7fefaa",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 409\"] = responseCode.code === 409;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE a recurso concreto",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2727aec6-f0af-441a-8991-8811e8d8a1e1",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/belgium/2005"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE a recurso concreto que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a8f1d22c-49ee-4e0a-a740-7466599a31d2",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/austria/2003"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE a pais que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "65430a41-0ac2-4d05-9c07-324359a2c9a0",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/belgium"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE a año",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6d7e4709-74b7-42df-8414-ed8e73fdbeaf",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/2003"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE a año que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "15ec5a30-8c97-4e7c-996a-e5dd079908dd",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/2003"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE a pais",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0f9de1a4-b5ad-4a0c-bfc2-1c4026812e3b",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/austria"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE de Todo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bff5a1f5-2ad7-4e49-940e-cdfd7afbc936",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE de todo vacio",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cd16cb26-3979-4eda-92d8-f39077be0990",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 404\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 1998 ,\n            \"primary\": 3,\n            \"secundary\": 3,\n            \"tertiery\": 3\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures"
+			},
+			"response": []
+		},
+		{
+			"name": "Lo dejamos todo tal cual estaba",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "da21dc17-a2db-491b-9018-735df2e48aa0",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200 ",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"country\": \"spain\",\n            \"year\": 2003,\n            \"young-unemployment\": 0,\n            \"adult-unemployment\": 0,\n            \"old-unemployment\": 0,\n            \"long-term-unemployment\": 0\n}"
+				},
+				"url": "http://sos1718-02.herokuapp.com/api/v1/expenditures/loadInitialData"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "f16edb0e-ca5b-407e-84f4-0fceecf5929d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "e039a7da-de9d-453a-a3a1-30ce606b29a5",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
