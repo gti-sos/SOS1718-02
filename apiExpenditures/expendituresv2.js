@@ -207,7 +207,7 @@ apiExpenditures.register = function(app, request, jwt) {
 
     //urlQuery
     app.get(BASE_API_PATH, (req, res) => {
-        console.log("urlQuery");
+        console.log("urlQuery Expenditures V2");
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-alc-sandbox");
@@ -252,13 +252,13 @@ apiExpenditures.register = function(app, request, jwt) {
 
     //Postman Docs
     app.get(BASE_API_PATH + "/docs", (req, res) => {
-        console.log("Postman Docs");
+        console.log("Postman Docs Expenditures V2");
         res.redirect("https://documenter.getpostman.com/view/3901859/sos1718-02-expenditures/RVu1HAko");
     });
 
     //loadInitialData
     app.get(BASE_API_PATH + "/loadInitialData", (req, res) => {
-        console.log("loadInitialData");
+        console.log("loadInitialData Expenditures V2");
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("sos1718-alc-sandbox");
@@ -282,7 +282,7 @@ apiExpenditures.register = function(app, request, jwt) {
 
     //GET SECURED
     app.get(BASE_API + "/secure/expenditures", (req, res) => {
-        console.log("Get all secured");
+        console.log("Get all secured Expenditures V2");
         var myquery = { name: req.headers.name, pass: req.headers.pass };
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
@@ -306,7 +306,7 @@ apiExpenditures.register = function(app, request, jwt) {
 
     //GET country OR year
     app.get(BASE_API_PATH + "/:obj" + "", (req, res) => {
-        console.log("GET country OR year");
+        console.log("GET country OR year Expenditures V2");
         var myquery;
         if (isNaN(req.params.obj)) {
             myquery = { country: req.params.obj };
@@ -336,7 +336,7 @@ apiExpenditures.register = function(app, request, jwt) {
 
     //GET country & year
     app.get(BASE_API_PATH + "/:country/:year", (req, res) => {
-        console.log("Get country & year");
+        console.log("Get country & year Expenditures V2");
         var myquery = { country: req.params.country, year: Number(req.params.year) };
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
@@ -359,7 +359,7 @@ apiExpenditures.register = function(app, request, jwt) {
 
     //POST Create a document
     app.post(BASE_API_PATH, (req, res) => {
-        console.log("Post");
+        console.log("Post Expenditures V2");
         var myquery = {
             country: req.body.country,
             year: Number(req.body.year)
@@ -400,7 +400,7 @@ apiExpenditures.register = function(app, request, jwt) {
 
     //PUT
     app.put(BASE_API_PATH + "/:country/:year", (req, res) => {
-        console.log("Put");
+        console.log("Put Expenditures V2");
         console.log(req.params);
         console.log(req.body);
         if (req.body._id != undefined || req.body.country != req.params.country || req.body.year != req.params.year || !isNaN(req.body.country) || isNaN(req.body.year) || isNaN(req.body.primary) || isNaN(req.body.secundary) || isNaN(req.body.tertiery)) {
@@ -435,7 +435,7 @@ apiExpenditures.register = function(app, request, jwt) {
     //DELETE all
     app.delete(BASE_API_PATH, (req, res) => {
         MongoClient.connect(url, function(err, db) {
-            console.log("Delete all");
+            console.log("Delete all Expenditures V2");
             if (err) throw err;
             var dbo = db.db("sos1718-alc-sandbox");
             dbo.collection("expenditures").count(function(err, count) {
@@ -458,7 +458,7 @@ apiExpenditures.register = function(app, request, jwt) {
 
     //DELETE country or year
     app.delete(BASE_API_PATH + "/:obj", (req, res) => {
-        console.log("Delete country or year");
+        console.log("Delete country or year Expenditures V2");
         var myquery;
         if (isNaN(req.params.obj)) {
             myquery = { country: req.params.obj };
@@ -489,7 +489,7 @@ apiExpenditures.register = function(app, request, jwt) {
 
     //DELETE country & year
     app.delete(BASE_API_PATH + "/:country/:year", (req, res) => {
-        console.log("Delete country & year");
+        console.log("Delete country & year Expenditures V2");
         var myquery = { country: req.params.country, year: Number(req.params.year) };
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;

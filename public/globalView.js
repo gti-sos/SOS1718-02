@@ -1,4 +1,4 @@
-/*global angular,Highcharts,google*/
+/*global angular,Highcharts*/
 angular.module("App").
 controller("GlobalView", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
 
@@ -7,19 +7,17 @@ controller("GlobalView", ["$scope", "$http", "$httpParamSerializer", function($s
     var EmpTS = [];
     var EmpTSe = [];
 
-    
     var UnempY = [];
     var UnempA = [];
     var UnempO = [];
     var UnempL = [];
 
-    
     var expP = [];
     var expS = [];
     var expT = [];
 
-
-    $http.get("https://sos1718-02.herokuapp.com/api/v2/employments").then(function(response) {
+    $http.get("api/v2/employments").then(function(response) {
+        console.log("Api Employments");
         for (var i = 0; i < response.data.length; i++) {
             Coun.push(response.data[i].country + " " + response.data[i].year);
             EmpTC.push(response.data[i].totalcontributingfamilyworker);
@@ -29,7 +27,8 @@ controller("GlobalView", ["$scope", "$http", "$httpParamSerializer", function($s
             expP.push(0);expS.push(0);expT.push(0);
         }
     });
-    $http.get("https://sos1718-02.herokuapp.com/api/v1/unemployments").then(function(response) {
+    $http.get("api/v1/unemployments").then(function(response) {
+        console.log("Api Unemployments");
         for (var i = 0; i < response.data.length; i++) {
             Coun.push(response.data[i].country + " " + response.data[i].year);
             UnempY.push(response.data[i].young);
@@ -42,7 +41,8 @@ controller("GlobalView", ["$scope", "$http", "$httpParamSerializer", function($s
         }
     });
 
-    $http.get("https://sos1718-02.herokuapp.com/api/v2/expenditures").then(function(response) {
+    $http.get("api/v2/expenditures").then(function(response) {
+        console.log("Api Expenditures");
      for (var i = 0; i < response.data.length; i++) {
             Coun.push(response.data[i].country + " " + response.data[i].year);
             expP.push(response.data[i].primary);

@@ -24,7 +24,6 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
         controller: "ApiCompartidaViewProxy"
     }).
     
-    
     when("/analytics/unemployments", {
         templateUrl: "unemployments/UnemploymentsView.html",
         controller: "UnemploymentsView"
