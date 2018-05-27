@@ -7,7 +7,8 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
     }).
     
     when("/analytics", {
-        templateUrl: "analytics.html"
+        templateUrl: "analytics.html",
+        controller: "GlobalView"
     }).
     
     when("/analytics/employments", {

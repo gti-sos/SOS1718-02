@@ -90,7 +90,6 @@ apiEmployments.register = function(app, request) {
     });
 
     // FORMAT OF TOKEN
-    // Authorization:  <access_token>
 
     // Verify Token
     function verifyToken(req, res, next) {

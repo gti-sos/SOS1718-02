@@ -26,7 +26,7 @@ app.use("/", express.static(path.join(__dirname + "/public")));
 //
 expendituresApi.register(app, request);
 expendituresApi2.register(app, request, jwt);
-expendituresApiFB.register(app, request, firebase)
+//expendituresApiFB.register(app, request, firebase)
 employmentsApi.register(app, request);
 unemploymentsApi.register(app, request, jwt);
 
