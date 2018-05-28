@@ -17,7 +17,6 @@ controller("employmentsExternalApi", ["$scope", "$http", "$httpParamSerializer",
         }
     });
 
-
     console.log(Countries, Area, Population);
     //
     var mashape = {
