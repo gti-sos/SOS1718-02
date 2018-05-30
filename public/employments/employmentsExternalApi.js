@@ -18,24 +18,7 @@ controller("employmentsExternalApi", ["$scope", "$http", "$httpParamSerializer",
     });
 
     console.log(Countries, Area, Population);
-    //
-    var mashape = {
-        method: 'GET',
-        url: "https://jgentes-Crime-Data-v1.p.mashape.com/crime?startdate=9%2F19%2F2015&enddate=9%2F25%2F2015&lat=37.757815&long=-122.5076392",
-        headers: {
-            "X-Mashape-Key": "AjwED67vgkmshiq6oeOCmR5RHxQ5p1cpKt1jsnu4XHxoGDLIlT",
-            "X-Mashape-Host": "jgentes-Crime-Data-v1.p.mashape.com",
-            "Accept": "application/json"
-        }
-    };
-    var a=[];
-    $http(mashape).then(function(response) {
-        for (var i = 0; i < response.data.length; i++) {
-            a.push(response.data);
-        }
-    });
-    console.log(a);
-    //
+    
     $http.get("https://sos1718-02.herokuapp.com/api/v2/employments").then(function(response) {
         for (var i = 0; i < response.data.length; i++) {
             Countries.push(response.data[i].country);
