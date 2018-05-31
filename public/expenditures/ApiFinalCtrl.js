@@ -17,7 +17,9 @@ var commonPopulation = []; //Array de cantidades comunes population
 var datas = [];
 var datas2 = [];
 
-var results = [];
+var temporadas= [];
+var capitulos = [];
+var series = [];
 
 angular.module("App").controller("ApiFinalCtrl", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
     $http.get("/proxyVat").then(function(response) {
@@ -41,7 +43,6 @@ angular.module("App").controller("ApiFinalCtrl", ["$scope", "$http", "$httpParam
                     if ($.inArray(el, uniqueCountries) === -1) uniqueCountries.push(el);
                 });
                 $scope.uniques = uniqueCountries;
-                console.log($scope.uniques);
                 for (var i = 0; i < uniqueCountries.length; i++) { //Array con ivas
                     for (var j = 0; j < countriesJV.length; j++) {
                         if (uniqueCountries[i] == countriesJV[j]) {
@@ -85,7 +86,6 @@ angular.module("App").controller("ApiFinalCtrl", ["$scope", "$http", "$httpParam
     $scope.weather = function(nombre) {
         //console.log(nombre);
         $http.get("/proxyWeather", { headers: { "city": nombre } }).then(function(response) {
-            console.log(response.data.main);
             google.charts.load('current', { 'packages': ['corechart'] });
             google.charts.setOnLoadCallback(drawChart);
 
@@ -106,4 +106,38 @@ angular.module("App").controller("ApiFinalCtrl", ["$scope", "$http", "$httpParam
             }
         });
     };
+    $http.get("/proxySeries").then(function(response) {
+        temporadas = response.data.map(function(d) { return d.Temporada });
+        capitulos = response.data.map(function(d) { return d.Capitulo });
+        series = response.data.map(function(d) { return d.Nombre });
+        var options = {
+            type: 'line',
+            data: {
+                labels: series,
+                datasets: [{
+                        label: '# of seasons',
+                        data: temporadas,
+                        borderWidth: 1
+                    },
+                    {
+                        label: '# of chapters',
+                        data: capitulos,
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            reverse: false
+                        }
+                    }]
+                }
+            }
+        };
+
+        var ctx = document.getElementById('chartJSContainer').getContext('2d');
+        new Chart(ctx, options);
+    });
 }]);

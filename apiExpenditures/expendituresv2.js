@@ -221,10 +221,15 @@ apiExpenditures.register = function(app, request, jwt) {
     
     //Proxy Weather
     app.use("/proxyWeather",function(req, res) {
-        console.log(req.headers.city);
         var weather = req.headers.city;
         var apiWeather = "http://api.openweathermap.org/data/2.5/weather?q=" + weather + "&APPID=d3aed57dcb8c0af880910cd41bae1abd";
         var url = apiWeather;
+        req.pipe(request(url)).pipe(res);
+    });
+    
+    app.use("/proxySeries",function(req, res) {
+        var apiSeries = "http://wirfen.synology.me:1600/api/series";
+        var url = apiSeries;
         req.pipe(request(url)).pipe(res);
     });
 
