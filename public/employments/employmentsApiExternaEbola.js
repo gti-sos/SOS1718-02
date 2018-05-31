@@ -1,7 +1,9 @@
-/*global angular,google*/
+/*global angular,google,zingchart*/
 angular.module("App").
 controller("employmentsApiExternaEbola", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
-    var fecha = [];var casos = [];var muertes = []
+    var fecha = [];
+    var casos = [];
+    var muertes = []
     var mashape = {
         method: 'GET',
         url: "https://ebola-outbreak.p.mashape.com/cases",
@@ -12,39 +14,58 @@ controller("employmentsApiExternaEbola", ["$scope", "$http", "$httpParamSerializ
     };
 
     $http(mashape).then(function(response) {
-        for (var i = 0; i < response.data.length; i++) {
+        for (var i = 0; i < response.data.length / 3; i++) {
             fecha.push(response.data[i].date);
             casos.push(response.data[i].cases);
             muertes.push(response.data[i].deaths);
-            
+
         }
-        console.log(casos,muertes)
+        console.log(fecha,casos, muertes)
+        
+        zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/"; // set modules dir
+        zingchart.loadModules('dragging'); // load dragging module
+
+        var myConfig = { // chart configuration
+            type: 'vbullet',
+            title: {
+                text: 'cases and deads by Ebola'
+            },
+            
+            scaleX: {
+                labels: fecha
+            },
+            tooltip: { // tooltip changes based on value
+                fontSize: 1,
+                borderRadius: 1,
+                borderWidth: 0,
+                shadow: true
+            },
+            plot: {
+                valueBox: [{
+                    type: 'all',
+                    color: '#000',
+                    placement: 'goal'
+                }]
+            },
+            series: [{
+                dataDragging: true, // need this to enable drag
+                values: casos,
+                goals: muertes,
+                goal: {
+                    backgroundColor: '#64b5f6',
+                    borderWidth: 0,
+                },
+
+            }]
+        };
+
+        zingchart.render({
+            id: 'myChart',
+            data: myConfig,
+            height: 500,
+            width: '100%',
+            modules: "dragging" // need this to enable drag
+        });
     });
 
-    /*
-        $http.get("https://sos1718-02.herokuapp.com/api/v2/employments/2002").then(function(response) {
-
-
-            google.charts.load('current', { 'packages': ['table'] });
-            google.charts.setOnLoadCallback(drawTable);
-
-            function drawTable() {
-                var data = new google.visualization.DataTable();
-                data.addColumn('string', 'Country');
-                data.addColumn('number', 'Total salaried in 2002');
-                data.addColumn('number', 'Average temperature from 1980 to 1999');
-                data.addRows([
-                    ['Portugal', parseFloat(response.data.filter(r => r.country == "portugal" && r.year == 2002).map(function(d) { return (parseFloat(d.totalsalaried)) })), ]
-                ]);
-
-                var table = new google.visualization.Table(document.getElementById('table_div'));
-
-                table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
-            }
-
-        });
-
-
-
-    */
 }]);
