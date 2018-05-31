@@ -92,6 +92,14 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
         templateUrl: "unemployments/ApiFinal1.html",
         controller: "ApiFinal1Ctrl"
     }).
+    when("/analytics/unemploymentsApiFinal2", {
+        templateUrl: "unemployments/ApiFinal2.html",
+        controller: "ApiFinal2Ctrl"
+    }).
+    when("/analytics/unemploymentsApiFinal34", {
+        templateUrl: "unemployments/ApiFinal34.html",
+        controller: "ApiFinal34Ctrl"
+    }).
     when("/expenditures", {
         templateUrl: "expenditures/ExpendituresList.html",
         controller: "ExpendituresListCtrl"
@@ -110,5 +118,9 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
     when("/analytics/expendituresApiFinal", {
         templateUrl: "expenditures/ApiFinal.html",
         controller: "ApiFinalCtrl"
+    }).
+    when("/analytics/expendituresFunnyApis", {
+        templateUrl: "expenditures/FunnyApis.html",
+        controller: "FunnyApisCtrl"
     });
 });

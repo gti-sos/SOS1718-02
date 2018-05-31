@@ -1,0 +1,19 @@
+<div class="container-fluid">
+    <h1 class="manager-title">Funny APIs</h1>
+    
+    <div>
+        <h3>Love Calculator</h3>
+        <input placeholder="First Name" class="form-control" ng-model="fname" />
+        <input placeholder="Second Name" class="form-control" ng-model="sname" />
+        <button type="button" class="btn btn-info" ng-click="getLove()">Get Love %</button>
+
+        <h4>Love percentage: {{love.percentage}}%: {{love.result}}</h4>
+    </div>
+
+    <div>
+        <h3>Robohash Image Generator</h3>
+        <input placeholder="Enter any text" class="form-control" ng-model="roboText" />
+        <button type="button" class="btn btn-info" ng-click="getRobot()">Get Robot</button>
+        <img src={{robot.imageUrl}}>
+    </div>
+</div>
