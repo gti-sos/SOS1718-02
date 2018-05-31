@@ -21,7 +21,14 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
     }).
     
     
-    
+    when("/analytics/employmentsApiExternaGeo", {
+        templateUrl: "employments/employmentsApiExternaGeo.html",
+        controller: "employmentsApiExternaGeo"
+    }).
+    when("/analytics/employmentsApiExternaMundial", {
+        templateUrl: "employments/employmentsApiExternaMundial.html",
+        controller: "employmentsApiExternaMundial"
+    }).
     when("/analytics/employments", {
         templateUrl: "employments/EmploymentsView.html",
         controller: "EmploymentsView"
