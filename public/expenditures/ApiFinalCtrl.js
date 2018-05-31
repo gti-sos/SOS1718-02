@@ -17,10 +17,11 @@ var commonPopulation = []; //Array de cantidades comunes population
 var datas = [];
 var datas2 = [];
 
+var results = [];
+
 angular.module("App").controller("ApiFinalCtrl", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
     $http.get("/proxyVat").then(function(response) {
         amountVat = response.data.rates.length;
-        console.log(response.data);
         for (var i = 0; i < amountVat; i++) {
             countriesJV[i] = response.data.rates[i].name.toLowerCase();
             vatsJV[i] = response.data.rates[i].periods[0].rates.standard;
@@ -39,7 +40,8 @@ angular.module("App").controller("ApiFinalCtrl", ["$scope", "$http", "$httpParam
                 $.each(countries, function(i, el) {
                     if ($.inArray(el, uniqueCountries) === -1) uniqueCountries.push(el);
                 });
-
+                $scope.uniques = uniqueCountries;
+                console.log($scope.uniques);
                 for (var i = 0; i < uniqueCountries.length; i++) { //Array con ivas
                     for (var j = 0; j < countriesJV.length; j++) {
                         if (uniqueCountries[i] == countriesJV[j]) {
@@ -60,12 +62,10 @@ angular.module("App").controller("ApiFinalCtrl", ["$scope", "$http", "$httpParam
                         data: [uniqueCountries[i], commonVats[i], commonPopulation[i]]
                     };
                 });
-                console.log(datas);
 
                 for (var i = 0; i < datas.length; i++) {
                     datas2.push(datas[i].data);
                 }
-                console.log(datas2);
                 google.charts.load('current', { 'packages': ['table'] });
                 google.charts.setOnLoadCallback(drawTable);
 
@@ -76,18 +76,34 @@ angular.module("App").controller("ApiFinalCtrl", ["$scope", "$http", "$httpParam
                     data.addColumn('number', 'Population');
                     data.addRows(datas2);
                     var table = new google.visualization.Table(document.getElementById('table_div'));
-
                     table.draw(data, { showRowNumber: false, width: '100%', height: '100%' });
                 }
             });
         });
     });
 
-    $scope.prueba = function(nombre) {
-        console.log(nombre);
-        $http.get("/proxyWeather",
-        {headers:{ "city": nombre}}).then(function(response) {
-            console.log(response.data);
+    $scope.weather = function(nombre) {
+        //console.log(nombre);
+        $http.get("/proxyWeather", { headers: { "city": nombre } }).then(function(response) {
+            console.log(response.data.main);
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback(drawChart);
+
+            function drawChart() {
+                var data = google.visualization.arrayToDataTable([
+                    ['Country', 'Actual weather'],
+                    ['Humidity', response.data.main.humidity],
+                    ['Pressure', response.data.main.pressure],
+                    ['Temp', response.data.main.temp],
+                    ['Temp min', response.data.main.temp_min],
+                    ['Temp max', response.data.main.temp_max]
+                ]);
+                var options = {
+                    title: 'Weathers'
+                };
+                var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                chart.draw(data, options);
+            }
         });
     };
 }]);
