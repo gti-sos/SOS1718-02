@@ -14,18 +14,20 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
 
 
 
-
-    when("/integrations/employmentsExternalApi", {
+when("/integrations/employmentsExternalApi", {
         templateUrl: "employments/employmentsExternalApi.html",
         controller: "employmentsExternalApi"
     }).
-
-
-    when("/analytics/employmentsApiExternaGeo", {
+    
+    when("/integrations/employmentsApiExternaEbola", {
+        templateUrl: "employments/employmentsApiExternaEbola.html",
+        controller: "employmentsApiExternaEbola"
+    }).
+    when("/integrations/employmentsApiExternaGeo", {
         templateUrl: "employments/employmentsApiExternaGeo.html",
         controller: "employmentsApiExternaGeo"
     }).
-    when("/analytics/employmentsApiExternaMundial", {
+    when("/integrations/employmentsApiExternaMundial", {
         templateUrl: "employments/employmentsApiExternaMundial.html",
         controller: "employmentsApiExternaMundial"
     }).
@@ -41,7 +43,6 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
         templateUrl: "employments/ApiCompartidaViewProxy.html",
         controller: "ApiCompartidaViewProxy"
     }).
-
     when("/analytics/unemployments", {
         templateUrl: "unemployments/UnemploymentsView.html",
         controller: "UnemploymentsView"
