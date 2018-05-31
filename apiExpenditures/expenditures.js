@@ -97,6 +97,7 @@ apiExpenditures.register = function(app) {
     //GET all SECURED
     app.get(BASE_API + "/secure/expenditures", (req, res) => {
         console.log("Get all secured");
+        console.log(req.headers);
         var email = req.headers.email;
         var pass = req.headers.pass;
         if (email == "andreslorenzo" && pass == "andreslorenzo") {

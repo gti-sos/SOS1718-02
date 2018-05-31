@@ -14,8 +14,8 @@ var countries = []; //Array mis ciudades
 var commonVats = []; //Array de vats
 var commonPopulation = []; //Array de cantidades comunes population
 
-var data1 = [];
-var data2 = [];
+var datas = [];
+var datas2 = [];
 
 angular.module("App").controller("ApiFinalCtrl", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
     $http.get("/proxyVat").then(function(response) {
@@ -40,14 +40,14 @@ angular.module("App").controller("ApiFinalCtrl", ["$scope", "$http", "$httpParam
                     if ($.inArray(el, uniqueCountries) === -1) uniqueCountries.push(el);
                 });
 
-                for (var i = 0; i < uniqueCountries.length; i++) {
+                for (var i = 0; i < uniqueCountries.length; i++) { //Array con ivas
                     for (var j = 0; j < countriesJV.length; j++) {
                         if (uniqueCountries[i] == countriesJV[j]) {
                             commonVats.push(vatsJV[j]);
                         }
                     }
                 }
-                for (var i = 0; i < uniqueCountries.length; i++) {
+                for (var i = 0; i < uniqueCountries.length; i++) { //Array con populations
                     for (var j = 0; j < countriesCP.length; j++) {
                         if (uniqueCountries[i] == countriesCP[j]) {
                             commonPopulation.push(populationCP[j]);
@@ -55,35 +55,39 @@ angular.module("App").controller("ApiFinalCtrl", ["$scope", "$http", "$httpParam
                     }
                 }
 
-                for (var i = 0; i < uniqueCountries.length; i++) {
-                    data1.push(uniqueCountries[i], commonVats[i], commonPopulation[i]);
-                    data2.push(data1[i]);
-                }
-                //console.log(uniqueCountries);
-                //console.log(commonVats);
-                //console.log(commonPopulation);
-                console.log(data2);
+                datas = uniqueCountries.map(function(n, i) {
+                    return {
+                        data: [uniqueCountries[i], commonVats[i], commonPopulation[i]]
+                    };
+                });
+                console.log(datas);
 
+                for (var i = 0; i < datas.length; i++) {
+                    datas2.push(datas[i].data);
+                }
+                console.log(datas2);
                 google.charts.load('current', { 'packages': ['table'] });
                 google.charts.setOnLoadCallback(drawTable);
 
                 function drawTable() {
                     var data = new google.visualization.DataTable();
                     data.addColumn('string', 'Name');
-                    data.addColumn('number', 'Salary');
-                    data.addRows([
-                        ['Mike', 10000],
-                        ['Jim', 8000],
-                        ['Alice', 8000],
-                        ['Bob', 8000]
-                    ]);
-                    //data.addRows(data1);
-
+                    data.addColumn('number', 'VAT');
+                    data.addColumn('number', 'Population');
+                    data.addRows(datas2);
                     var table = new google.visualization.Table(document.getElementById('table_div'));
 
-                    table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
+                    table.draw(data, { showRowNumber: false, width: '100%', height: '100%' });
                 }
             });
         });
     });
+
+    $scope.prueba = function(nombre) {
+        console.log(nombre);
+        $http.get("/proxyWeather",
+        {headers:{ "city": nombre}}).then(function(response) {
+            console.log(response.data);
+        });
+    };
 }]);
