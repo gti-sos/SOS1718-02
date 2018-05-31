@@ -5,6 +5,9 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
     when("/", {
         templateUrl: "main.html"
     }).
+    when("/about", {
+        templateUrl: "about.html"
+    }).
 
     when("/analytics", {
         templateUrl: "analytics.html",
