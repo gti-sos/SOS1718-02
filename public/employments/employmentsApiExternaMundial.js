@@ -1,8 +1,9 @@
 /*global angular,Highcharts,google*/
 angular.module("App").
 controller("employmentsApiExternaMundial", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
-    var minute=[];var game=[];
-    
+
+    var dato = []
+
     var mashape = {
         method: 'GET',
         url: "https://montanaflynn-fifa-world-cup.p.mashape.com/goals",
@@ -16,33 +17,33 @@ controller("employmentsApiExternaMundial", ["$scope", "$http", "$httpParamSerial
 
     $http(mashape).then(function(response) {
         for (var i = 0; i < response.data.length; i++) {
-            minute.push(response.data[i].minute);
-            game.push(response.data[i].game_id);
+            dato.push([(response.data[i].game_id).toString(), (response.data[i].minute).toString(), 1])
+        }
+
+
+        console.log(dato);
+
+        google.charts.load('current', { 'packages': ['sankey'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Game');
+            data.addColumn('string', 'Minute of goal');
+            data.addColumn('number', ' goal');
+            data.addRows([
+                dato[0], dato[1], dato[2], dato[3], dato[4], dato[5], dato[6], dato[7], dato[8], dato[9], dato[10], dato[11], dato[12], dato[13], dato[14], dato[15], dato[16],
+                dato[17], dato[18], dato[19], dato[20], dato[21], dato[22], dato[23], dato[24], dato[25], dato[26], dato[27], dato[28], dato[29], dato[30], dato[31], dato[32], dato[33]
+            ]);
+
+            // Sets chart options.
+            var options = {
+                width: 600,
+            };
+
+            // Instantiates and draws our chart, passing in some options.
+            var chart = new google.visualization.Sankey(document.getElementById('sankey_basic'));
+            chart.draw(data, options);
         }
     });
-
-    console.log(game);
-
-    google.charts.load('current', { 'packages': ['table'] });
-    google.charts.setOnLoadCallback(drawTable);
-
-    function drawTable() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Minute of goal');
-        data.addColumn('string', 'Game');
-         console.log(game);
-        
-            //data.addRow([   for (var i = 0; i < minute.length; i++) {    [{ v: minute[i], f: game[i] }]       }       ]);
-        
-        data.addRows([
-          ['Mike',  {v: 10000, f: '$10,000'}, true],
-          ['Jim',   {v:8000,   f: '$8,000'},  false],
-          ['Alice', {v: 12500, f: '$12,500'}, true],
-          ['Bob',   {v: 7000,  f: '$7,000'},  true]
-        ]);
-        var table = new google.visualization.Table(document.getElementById('table_div'));
-
-        table.draw(data, { showRowNumber: true, width: '100%', height: '100%' });
-    }
-
 }]);
