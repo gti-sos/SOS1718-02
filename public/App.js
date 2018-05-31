@@ -14,10 +14,23 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
 
 
 
-when("/integrations/employmentsExternalApi", {
+    when("/integrations/employmentsExternalApi", {
         templateUrl: "employments/employmentsExternalApi.html",
         controller: "employmentsExternalApi"
+    }). 
+    
+    
+    
+    when("/integrations/employmentsExternalApiSOS1", {
+        templateUrl: "employments/employmentsExternalApiSOS1.html",
+        controller: "employmentsExternalApiSOS1"
+    }). when("/integrations/employmentsExternalApiSOS2", {
+        templateUrl: "employments/employmentsExternalApiSOS2.html",
+        controller: "employmentsExternalApiSOS2"
     }).
+
+    
+    
     
     when("/integrations/employmentsApiExternaEbola", {
         templateUrl: "employments/employmentsApiExternaEbola.html",
