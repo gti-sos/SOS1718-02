@@ -294,7 +294,12 @@ apiUnemployments.register = function(app, request, jwt) {
                 if (err) throw err;
                 var dbo = db.db("sos1718-msr-sandbox");
                 var myquery = { country: req.params.country, year: Number(req.params.year) };
+                req.body.young = Number(req.body.young);
+                req.body.adult = Number(req.body.adult);
+                req.body.old = Number(req.body.old);
+                req.body.longterm = Number(req.body.longterm);
                 var newvalues = { $set: req.body };
+                console.log(newvalues);
                 dbo.collection("unemployments").count(myquery, function(err, count) {
                     if (!err && count) {
                         dbo.collection("unemployments").updateOne(myquery, newvalues, function(err, result) {

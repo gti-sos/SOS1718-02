@@ -52,11 +52,11 @@
     <tbody>
         <tr>
             <td><input class="form-control" ng-model="newUnemployment.country" /></td>
-            <td><input class="form-control" ng-model="newUnemployment.year" /></td>
-            <td><input class="form-control" ng-model="newUnemployment.young" /></td>
-            <td><input class="form-control" ng-model="newUnemployment.adult" /></td>
-            <td><input class="form-control" ng-model="newUnemployment.old" /></td>
-            <td><input class="form-control" ng-model="newUnemployment.longterm" /></td>
+            <td><input type="number" class="form-control" ng-model="newUnemployment.year" /></td>
+            <td><input type="number" class="form-control" ng-model="newUnemployment.young" /></td>
+            <td><input type="number" class="form-control" ng-model="newUnemployment.adult" /></td>
+            <td><input type="number" class="form-control" ng-model="newUnemployment.old" /></td>
+            <td><input type="number" class="form-control" ng-model="newUnemployment.longterm" /></td>
             <td><button class="button btn-primary" ng-click="addUnemployment()" text>Add</button></td>
         </tr>
         <tr ng-repeat="unemployments in unemployments">

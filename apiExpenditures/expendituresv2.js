@@ -412,6 +412,10 @@ apiExpenditures.register = function(app, request, jwt) {
                 if (err) throw err;
                 var dbo = db.db("sos1718-alc-sandbox");
                 var myquery = { country: req.params.country, year: Number(req.params.year) };
+                req.body.young = Number(req.body.young);
+                req.body.primary = Number(req.body.primary);
+                req.body.secundary = Number(req.body.secundary);
+                req.body.tertiery = Number(req.body.tertiery);
                 var newValues = { $set: req.body };
                 dbo.collection("expenditures").count(myquery, function(err, count) {
                     if (!err && count) {

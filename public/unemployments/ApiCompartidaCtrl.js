@@ -33,8 +33,7 @@ angular.module("App").controller("ApiCompartidaCtrl", ["$scope", "$http", "$http
             //console.log(sumaYoung, sumaAdult, sumaLongterm, sumaOld);
             //console.log(response.data);
             everything = [sumaAdult, sumaLongterm, sumaOld, sumaPoles, sumaVictories];
-            everything.sort(function(a, b){return b-a});
-            console.log(everything);
+            everything.sort(function(a, b){return b-a}); //Ordena la lista de mayor a menor
 
             Highcharts.chart('container', {
                 chart: {

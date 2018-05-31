@@ -96,22 +96,22 @@ angular.module("App").controller("UnemploymentsView", ["$scope", "$http", "$http
                 data: [youngs[i], adults[i], olds[i], longterms[i]]
             };
         });
-        console.log(CandProperties);
         CandYsumas = countryandyear.map(function(n, i) {
             return [n, sumas[i]];
         });
+        
         CandYsumas.unshift(['Country', 'Unemployments']);
-
+        
         //Highcharts Basic Columnpie
         Highcharts.chart('container', {
             chart: {
                 type: 'column'
             },
             title: {
-                text: 'Monthly Average Rainfall'
+                text: 'total unemployments by country and year'
             },
             subtitle: {
-                text: 'Source: WorldClimate.com'
+                text: 'in EU'
             },
             xAxis: {
                 categories: [
@@ -122,7 +122,7 @@ angular.module("App").controller("UnemploymentsView", ["$scope", "$http", "$http
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Rainfall (mm)'
+                    text: 'number of    unemployments'
                 }
             },
             tooltip: {

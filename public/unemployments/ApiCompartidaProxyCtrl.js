@@ -28,6 +28,7 @@ angular.module("App").controller("ApiCompartidaProxyCtrl", ["$scope", "$http", "
         sumaEnrolleds = enrolleds.reduce(function(prev, next) { return prev + next }, 0);
         sumaFsc = firstsecondcycles.reduce(function(prev, next) { return prev + next }, 0);
         sumaMasters = masters.reduce(function(prev, next) { return prev + next }, 0);
+        console.log("Reduce " + sumaDegrees);
         $http.get("/api/v1/unemployments").then(function(response) {
             console.log(response.data);
             youngs = response.data.map(function(d) { return d.young });
@@ -48,7 +49,7 @@ angular.module("App").controller("ApiCompartidaProxyCtrl", ["$scope", "$http", "
                     }
                 },
                 title: {
-                    text: 'Contents of Highsoft\'s weekly fruit delivery'
+                    text: ''
                 },
                 subtitle: {
                     text: '3D donut in Highcharts'
@@ -63,7 +64,7 @@ angular.module("App").controller("ApiCompartidaProxyCtrl", ["$scope", "$http", "
                     name: 'Apis Integration',
                     data: [
                         ['Degrees', sumaDegrees],
-                        ['Enrolleds', sumaEnrolleds/1000],
+                        ['Enrolleds', sumaEnrolleds / 1000],
                         ['First Second Cycle', sumaFsc],
                         ['Masters', sumaMasters],
                         ['Young', sumaYoung],
