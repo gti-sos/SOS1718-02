@@ -204,6 +204,20 @@ apiExpenditures.register = function(app, request, jwt) {
         var url = apiServerHost + req.url;
         req.pipe(request(url)).pipe(res);
     });
+    
+    // Proxy JsonVat
+    var apiJsonvat = 'https://jsonvat.com';
+    app.use("/proxyVat", function(req, res) {
+        var url = apiJsonvat + req.url;
+        req.pipe(request(url)).pipe(res);
+    });
+    
+    //Proxy Population
+    var apiPopulation ='https://restcountries.eu/rest/v2/region/europe';
+    app.use("/proxyPopulation",function(req, res) {
+        var url = apiPopulation;
+        req.pipe(request(url)).pipe(res);
+    });
 
     //urlQuery
     app.get(BASE_API_PATH, (req, res) => {

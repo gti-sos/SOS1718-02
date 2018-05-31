@@ -5,22 +5,22 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
     when("/", {
         templateUrl: "main.html"
     }).
-    
+
     when("/analytics", {
         templateUrl: "analytics.html",
         controller: "GlobalView"
     }).
-    
-    
-    
-    
-    
+
+
+
+
+
     when("/integrations/employmentsExternalApi", {
         templateUrl: "employments/employmentsExternalApi.html",
         controller: "employmentsExternalApi"
     }).
-    
-    
+
+
     when("/analytics/employmentsApiExternaGeo", {
         templateUrl: "employments/employmentsApiExternaGeo.html",
         controller: "employmentsApiExternaGeo"
@@ -41,7 +41,7 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
         templateUrl: "employments/ApiCompartidaViewProxy.html",
         controller: "ApiCompartidaViewProxy"
     }).
-    
+
     when("/analytics/unemployments", {
         templateUrl: "unemployments/UnemploymentsView.html",
         controller: "UnemploymentsView"
@@ -89,5 +89,9 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
     when("/analytics/expendituresApiCompartidaProxy", {
         templateUrl: "expenditures/ApiCompartidaViewProxy.html",
         controller: "ApiCompartidaViewProxyCtrl"
+    }).
+    when("/analytics/expendituresApiFinal", {
+        templateUrl: "expenditures/ApiFinal.html",
+        controller: "ApiFinalCtrl"
     });
 });
