@@ -50,6 +50,7 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
     };
 
     $scope.getSearch = function() {
+        $scope.status="";
         if (user.logged == "true") {
             if (!$scope.newExpenditure.country) {
                 delete $scope.newExpenditure.country;
@@ -73,6 +74,7 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
                 $scope.expenditures = response.data;
             }, function errorCallback(response) {
                 console.log("Empty");
+                $scope.status="Empty";
                 $scope.expenditures = [];
             });
         }
@@ -119,8 +121,10 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
             if (response.data) {
                 user.logged = "true";
                 getExpenditures();
+                window.alert("Bienvenido");
                 if (response.data.admin == true) {
                     user.admin = "true";
+                    window.alert("Es usted administrador");
                 }
             }
             else {

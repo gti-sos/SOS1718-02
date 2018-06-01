@@ -25,30 +25,30 @@ angular.module("App").controller("ApiVatCtrl", ["$scope", "$http", "$httpParamSe
             vatsJV[i] = response.data.rates[i].periods[0].rates.standard;
         }
         $http.get("/proxyPopulation").then(function(response) {
-            amountCP = response.data.length;
-            for (var i = 0; i < amountCP; i++) {
+            amountCP = response.data.length;                            
+            for (var i = 0; i < amountCP; i++) {                        //Guardo las countries y poblaciones de la api
                 countriesCP[i] = response.data[i].name.toLowerCase();
                 populationCP[i] = response.data[i].population;
             }
             $http.get("/api/v2/expenditures").then(function(response) {
                 amountC = response.data.length;
                 for (var i = 0; i < amountC; i++) {
-                    countries[i] = response.data[i].country;
+                    countries[i] = response.data[i].country;            //Guardo las countries de mi api
                 }
                 
-                $.each(countries, function(i, el) {
+                $.each(countries, function(i, el) {                     //Elimino los elementos repetidos del array
                     if ($.inArray(el, uniqueCountries) === -1) uniqueCountries.push(el);
                 });
                 
                 $scope.uniques = uniqueCountries;
-                for (var i = 0; i < uniqueCountries.length; i++) { //Array con ivas
+                for (var i = 0; i < uniqueCountries.length; i++) {      //Array con ivas
                     for (var j = 0; j < countriesJV.length; j++) {
                         if (uniqueCountries[i] == countriesJV[j]) {
                             commonVats.push(vatsJV[j]);
                         }
                     }
                 }
-                for (var i = 0; i < uniqueCountries.length; i++) { //Array con populations
+                for (var i = 0; i < uniqueCountries.length; i++) {      //Array con populations
                     for (var j = 0; j < countriesCP.length; j++) {
                         if (uniqueCountries[i] == countriesCP[j]) {
                             commonPopulation.push(populationCP[j]);
@@ -56,13 +56,13 @@ angular.module("App").controller("ApiVatCtrl", ["$scope", "$http", "$httpParamSe
                     }
                 }
 
-                datas = uniqueCountries.map(function(n, i) {
+                datas = uniqueCountries.map(function(n, i) {            //Formo un array con mis countries, ivas y poblacion.
                     return {
                         data: [uniqueCountries[i], commonVats[i], commonPopulation[i]]
                     };
                 });
-
-                for (var i = 0; i < datas.length; i++) {
+                console.log(datas);
+                for (var i = 0; i < datas.length; i++) {                //Formo el array como lo quiere Google table chart
                     datas2.push(datas[i].data);
                 }
                 google.charts.load('current', { 'packages': ['table'] });
