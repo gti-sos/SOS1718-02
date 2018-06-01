@@ -29,7 +29,7 @@ controller("employmentsExternalApiSOS1", ["$scope", "$http", "$httpParamSerializ
                 animationEnabled: true,
                 
                 title: {
-                    text: "Email Categories",
+                   
                     horizontalAlign: "left"
                 },
                 data: [{
