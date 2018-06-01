@@ -1,6 +1,6 @@
 /* global angular */
 
-angular.module("App").controller("FunnyApisCtrl", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
+angular.module("App").controller("FunnyApiCtrl", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
     
     //Chuck Norris
         $scope.norris;
