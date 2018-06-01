@@ -1,0 +1,8 @@
+<form>
+    Select a country:
+    <select ng-model="country">
+    <option value={{uniques}}  ng-repeat="uniques in uniques">{{uniques}}
+    </select>
+    <button class="btn btn-info" ng-click="universities(country)">Ok</button>
+</form>
+<div id="chart_div" style="width: 900px; height: 500px;"></div>

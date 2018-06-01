@@ -102,6 +102,14 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
         templateUrl: "unemployments/ApiFinal34.html",
         controller: "ApiFinal34Ctrl"
     }).
+    when("/analytics/unemploymentsApiFinal5", {
+        templateUrl: "unemployments/ApiFinal5.html",
+        controller: "ApiFinal5Ctrl"
+    }).
+    when("/analytics/unemploymentsApiFinal6", {
+        templateUrl: "unemployments/ApiFinal6.html",
+        controller: "ApiFinal6Ctrl"
+    }).
     when("/expenditures", {
         templateUrl: "expenditures/ExpendituresList.html",
         controller: "ExpendituresListCtrl"

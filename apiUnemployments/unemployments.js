@@ -13,8 +13,8 @@ var initialsUnemployments = [
     { "country": "austria", "year": 1999, "young": 1.399999976, "adult": 1.399999976, "old": 1.399999976, "longterm": 1.399999976 },
     { "country": "italy", "year": 2001, "young": 6.0, "adult": 6.0, "old": 6.0, "longterm": 6.0 },
     { "country": "portugal", "year": 2002, "young": 11.5, "adult": 4.5, "old": 2.400000095, "longterm": 1.600000024 },
-    { "country": "slovak-republic", "year": 2004, "young": 32, "adult": 16, "old": 15.10000038, "longterm": 11 },
-    { "country": "slovak-republic", "year": 2005, "young": 32, "adult": 16, "old": 15.10000038, "longterm": 11 },
+    { "country": "slovakia", "year": 2004, "young": 32, "adult": 16, "old": 15.10000038, "longterm": 11 },
+    { "country": "slovakia", "year": 2005, "young": 32, "adult": 16, "old": 15.10000038, "longterm": 11 },
     { "country": "spain", "year": 1999, "young": 32, "adult": 16, "old": 15.10000038, "longterm": 11 },
     { "country": "spain", "year": 2005, "young": 32, "adult": 16, "old": 15.10000038, "longterm": 11 },
     { "country": "italy", "year": 2005, "young": 32, "adult": 16, "old": 15.10000038, "longterm": 11 }
@@ -80,6 +80,21 @@ apiUnemployments.register = function(app, request, jwt) {
         var url = apiServerHost + req.url;
         req.pipe(request(url)).pipe(res);
     });
+
+    // Proxy 
+    var apiServerUniversities = 'http://universities.hipolabs.com';
+    app.use("/proxyUniversities", function(req, res) {
+        var url = apiServerUniversities + req.url;
+        console.log(url);
+        req.pipe(request(url)).pipe(res);
+    });
+    var apiAlpha = 'http://services.groupkt.com/country/get/all';
+    app.use("/proxyAlpha", function(req, res) {
+        var url = apiAlpha;
+        console.log(url);
+        req.pipe(request(url)).pipe(res);
+    });
+    
 
     //urlQuery
     app.get(BASE_API_PATH, (req, res) => {

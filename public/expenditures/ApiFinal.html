@@ -3,33 +3,7 @@
 <form>
     Select a country:
     <select ng-model="myVar">
-    <option value="austria">austria
-    <option value="belgium">belgium
-    <option value="croatia">croatia
-    <option value="cyprus">cyprus
-    <option value="czech-rep">czech-rep
-    <option value="denmark">denmark
-    <option value="estonia">estonia
-    <option value="finland">finland
-    <option value="france">france
-    <option value="germany">germany
-    <option value="greece">greece
-    <option value="hungary">hungary
-    <option value="ireland">ireland
-    <option value="italy">italy
-    <option value="latvia">latvia
-    <option value="lithuania">lithuania
-    <option value="luxembourg">luxembourg
-    <option value="malta">malta
-    <option value="netherlands">netherlands
-    <option value="poland">poland
-    <option value="portugal">portugal
-    <option value="romania">romania
-    <option value="slovakia">slovakia
-    <option value="slovenia">slovenia
-    <option value="spain">spain
-    <option value="sweden">sweden
-    <option value="united-kingdom">united-kingdom
+    <option value={{uniques}}  ng-repeat="uniques in uniques">{{uniques}}
     </select>
     <button class="btn btn-info" ng-click="weather(myVar)">Ok</button>
 </form>

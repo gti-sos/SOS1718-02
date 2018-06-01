@@ -1,4 +1,4 @@
-/* global angular */ /* global $ */ /* global google */
+/* global angular */ /* global $ */ /* global google */ /* global Chart */
 var uniqueCountries = [];
 var amountVat; //Cantidad de datos Vat
 var countriesJV = []; //Array ciudades Vat
@@ -39,9 +39,11 @@ angular.module("App").controller("ApiFinalCtrl", ["$scope", "$http", "$httpParam
                 for (var i = 0; i < amountC; i++) {
                     countries[i] = response.data[i].country;
                 }
+                
                 $.each(countries, function(i, el) {
                     if ($.inArray(el, uniqueCountries) === -1) uniqueCountries.push(el);
                 });
+                
                 $scope.uniques = uniqueCountries;
                 for (var i = 0; i < uniqueCountries.length; i++) { //Array con ivas
                     for (var j = 0; j < countriesJV.length; j++) {
