@@ -6,7 +6,7 @@ describe('Data is loaded', function() {
         then(function() {
             element.all(by.repeater('employment in employments')).then(function(employments) {
                 console.log(employments.length);
-                expect(employments.length).toBeGreaterThan(5);
+                expect(employments.length).toEqual(10);
             });
         });
     });
@@ -15,8 +15,8 @@ describe('Data is loaded', function() {
         get('https://sos1718-02.herokuapp.com/#!/employments');
         element.all(by.repeater('employment in employments')).then(function(employments) {
 
-            element(by.model('newEmployment.country')).sendKeys('spain');
-            element(by.model('newEmployment.year')).sendKeys(20);
+            element(by.model('newEmployment.country')).sendKeys('blablabla');
+            element(by.model('newEmployment.year')).sendKeys(2040);
             element(by.model('newEmployment.totalself')).sendKeys(123);
             element(by.model('newEmployment.totalsalaried')).sendKeys(123);
             element(by.model('newEmployment.totalcontributingfamilyworker')).sendKeys(123);
