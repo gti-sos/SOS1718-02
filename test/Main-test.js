@@ -28,7 +28,7 @@ describe('Data is loaded', function() {
         get('https://sos1718-02.herokuapp.com/#!/expenditures').
         then(function() {
             element.all(by.repeater('expenditures in expenditures')).then(function(expenditures) {
-                expect(expenditures.length).toBeGreaterThan(1);
+                expect(expenditures.length).toEqual(0);
             });
         });
     });
