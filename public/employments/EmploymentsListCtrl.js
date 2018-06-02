@@ -74,7 +74,7 @@ angular.module("App").controller("EmploymentsListCtrl", ["$scope", "$http", "$ht
         $http.get(BASE_API_PATH_LIMIT + "&offset=0").then(function(response) {
             $scope.employments = response.data;
             console.log(response.data);
-            dataCount = response.data.length();
+            dataCount = response.data.length;
             console.log(response.data);
         }, function errorCallback(response) {
             console.log("Empty");
