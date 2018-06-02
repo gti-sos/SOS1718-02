@@ -5,6 +5,7 @@ describe('Data is loaded', function() {
         get('https://sos1718-02.herokuapp.com/#!/employments').
         then(function() {
             element.all(by.repeater('employment in employments')).then(function(employments) {
+                console.log(employments.length);
                 expect(employments.length).toEqual(10);
             });
         });
@@ -28,6 +29,7 @@ describe('Data is loaded', function() {
         get('https://sos1718-02.herokuapp.com/#!/expenditures').
         then(function() {
             element.all(by.repeater('expenditures in expenditures')).then(function(expenditures) {
+                console.log(expenditures.length);
                 expect(expenditures.length).toEqual(0);
             });
         });
@@ -36,15 +38,16 @@ describe('Data is loaded', function() {
         browser.
         get('https://sos1718-02.herokuapp.com/#!/expenditures');
         element.all(by.repeater('expenditures in expenditures')).then(function(expenditures) {
-
+            element(by.model('user.name')).sendKeys('wirfen');
+            element(by.model('user.pass')).sendKeys('wirfen');
+            element(by.buttonText('Login')).click();
             element(by.model('newExpenditure.country')).sendKeys('spain');
             element(by.model('newExpenditure.year')).sendKeys(20);
             element(by.model('newExpenditure.primary')).sendKeys(123);
             element(by.model('newExpenditure.secundary')).sendKeys(123);
             element(by.model('newExpenditure.tertiery')).sendKeys(123);
-
+            
             element(by.buttonText('Add')).click();
-
         });
     });
     it('should show some unemployments', function() {
@@ -60,7 +63,6 @@ describe('Data is loaded', function() {
         browser.
         get('https://sos1718-02.herokuapp.com/#!/unemployments');
         element.all(by.repeater('unemployments in unemployments')).then(function(unemployments) {
-
             element(by.model('newUnemployment.country')).sendKeys('spain');
             element(by.model('newUnemployment.year')).sendKeys(20);
             element(by.model('newUnemployment.young')).sendKeys(123);
