@@ -23,13 +23,13 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
         controller: "employmentsExternalApi"
     }).
     when("/integrations/employmentsExternalApiSOS1", {
-        templateUrl: "employments/employmentsExternalApiSOS1.html",
-        controller: "employmentsExternalApiSOS1"
-    })
-    .when("/integrations/employmentsExternalApiSOS2", {
-        templateUrl: "employments/employmentsExternalApiSOS2.html",
-        controller: "employmentsExternalApiSOS2"
-    }).
+            templateUrl: "employments/employmentsExternalApiSOS1.html",
+            controller: "employmentsExternalApiSOS1"
+        })
+        .when("/integrations/employmentsExternalApiSOS2", {
+            templateUrl: "employments/employmentsExternalApiSOS2.html",
+            controller: "employmentsExternalApiSOS2"
+        }).
     when("/integrations/employmentsApiExternaEbola", {
         templateUrl: "employments/employmentsApiExternaEbola.html",
         controller: "employmentsApiExternaEbola"
@@ -54,10 +54,10 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
         templateUrl: "employments/ApiCompartidaViewProxy.html",
         controller: "ApiCompartidaViewProxy"
     }).
-    
-    
-    
-    
+
+
+
+
     when("/analytics/unemployments", {
         templateUrl: "unemployments/UnemploymentsView.html",
         controller: "UnemploymentsView"
@@ -125,12 +125,20 @@ angular.module("App", ["chart.js", "ngRoute", 'auth0.auth0']).config(function($r
         templateUrl: "expenditures/ApiCompartidaViewProxy.html",
         controller: "ApiCompartidaViewProxyCtrl"
     }).
-    when("/analytics/expendituresApiFinal", {
-        templateUrl: "expenditures/ApiFinal.html",
-        controller: "ApiFinalCtrl"
+    when("/analytics/expendituresApiVat", {
+        templateUrl: "expenditures/ApiVat.html",
+        controller: "ApiVatCtrl"
     }).
-    when("/analytics/expendituresFunnyApis", {
-        templateUrl: "expenditures/FunnyApis.html",
-        controller: "FunnyApisCtrl"
+    when("/analytics/expendituresApiSeries", {
+        templateUrl: "expenditures/ApiSeries.html",
+        controller: "ApiSeriesCtrl"
+    }).
+    when("/analytics/expendituresApiWeather", {
+        templateUrl: "expenditures/ApiWeather.html",
+        controller: "ApiWeatherCtrl"
+    }).
+    when("/analytics/expendituresFunnyApi", {
+        templateUrl: "expenditures/FunnyApi.html",
+        controller: "FunnyApiCtrl"
     });
 });

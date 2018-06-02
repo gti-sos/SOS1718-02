@@ -20,7 +20,7 @@ angular.module("App").controller("ApiFinal6Ctrl", ["$scope", "$http", "$httpPara
             }
             phrase = unemployments.map(function(n, i) {
                 return {
-                    data: ["Country " + unemployments[i].country + " " + unemployments[i].year + ":" + unemployments[i].longterm + " characters:" + characters2[i] + " ," + characters3[i]]
+                    data: ["Country " + unemployments[i].country + " " + unemployments[i].year + ": " + unemployments[i].longterm + " longterm characters2:" + characters2[i] + ", characters3:" + characters3[i]]
                 };
             });
 
@@ -39,7 +39,7 @@ angular.module("App").controller("ApiFinal6Ctrl", ["$scope", "$http", "$httpPara
                 var options = {
                     wordtree: {
                         format: 'implicit',
-                        word: 'cats',
+                        word: 'country',
                         width: 1
                     }
                 };

@@ -94,7 +94,7 @@ apiUnemployments.register = function(app, request, jwt) {
         console.log(url);
         req.pipe(request(url)).pipe(res);
     });
-    
+
 
     //urlQuery
     app.get(BASE_API_PATH, (req, res) => {
@@ -127,6 +127,8 @@ apiUnemployments.register = function(app, request, jwt) {
             if (req.query.limit) {
                 limit = Number(req.query.limit);
             }
+            console.log(offset);
+            console.log(limit);
             delete query.offset;
             delete query.limit;
             dbo.collection("unemployments").find(query).skip(offset).limit(limit).toArray(function(err, result) {
