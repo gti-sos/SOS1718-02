@@ -6,7 +6,7 @@ describe('Data is loaded', function() {
         then(function() {
             element.all(by.repeater('employment in employments')).then(function(employments) {
                 console.log(employments.length);
-                expect(employments.length).toEqual(10);
+                expect(employments.length).toBeGreaterThan(0);
             });
         });
     });
