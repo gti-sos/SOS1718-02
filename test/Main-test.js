@@ -4,16 +4,16 @@ describe('Data is loaded', function() {
         browser.
         get('https://sos1718-02.herokuapp.com/#!/employments').
         then(function() {
-            element.all(by.repeater('employment in employments')).then(function(employments) {
+            element.all(by.repeater('employments in employments')).then(function(employments) {
                 console.log(employments.length);
-                expect(employments.length).toEqual(10);
+                expect(employments.length).toBeGreaterThan(5);
             });
         });
     });
     it('should add a new employment', function() {
         browser.
         get('https://sos1718-02.herokuapp.com/#!/employments');
-        element.all(by.repeater('employment in employments')).then(function(employments) {
+        element.all(by.repeater('employments in employments')).then(function(employments) {
 
             element(by.model('newEmployment.country')).sendKeys('spain');
             element(by.model('newEmployment.year')).sendKeys(20);
@@ -29,8 +29,11 @@ describe('Data is loaded', function() {
         get('https://sos1718-02.herokuapp.com/#!/expenditures').
         then(function() {
             element.all(by.repeater('expenditures in expenditures')).then(function(expenditures) {
+                element(by.model('user.name')).sendKeys('wirfen');
+                element(by.model('user.pass')).sendKeys('wirfen');
+                element(by.buttonText('Login')).click();
                 console.log(expenditures.length);
-                expect(expenditures.length).toEqual(0);
+                expect(expenditures.length).toBeGreaterThan(5);
             });
         });
     });
@@ -46,7 +49,7 @@ describe('Data is loaded', function() {
             element(by.model('newExpenditure.primary')).sendKeys(123);
             element(by.model('newExpenditure.secundary')).sendKeys(123);
             element(by.model('newExpenditure.tertiery')).sendKeys(123);
-            
+
             element(by.buttonText('Add')).click();
         });
     });
