@@ -11,7 +11,8 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
     $scope.hasNextPage = true;
 
     $scope.addExpenditure = function() {
-        $http.post(BASE_API_PATH, $scope.newExpenditure).then(function(response) {
+        if (user.admin == "true") {
+            $http.post(BASE_API_PATH, $scope.newExpenditure).then(function(response) {
             $scope.status = "Status: " + response.status;
             getExpenditures();
             window.alert("Created");
@@ -20,6 +21,10 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
             window.alert("Bad request");
             $scope.status("Bad request");
         });
+        }
+        else{
+            window.alert("Unauthorized");
+        }
     };
 
     $scope.deleteExpenditure = function(country, year) {
@@ -121,13 +126,14 @@ angular.module("App").controller("ExpendituresListCtrl", ["$scope", "$http", "$h
             if (response.data) {
                 user.logged = "true";
                 getExpenditures();
-                window.alert("Bienvenido");
+                window.alert("Welcome!!");
                 if (response.data.admin == true) {
                     user.admin = "true";
-                    window.alert("Es usted administrador");
+                    window.alert("You are admin.");
                 }
             }
             else {
+                window.alert("Unauthorized!!");
                 $scope.expenditures = [];
                 user.logged = "false";
                 user.admin = "false";

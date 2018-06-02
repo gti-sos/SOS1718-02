@@ -16,7 +16,7 @@ angular.module("App").controller("UnemploymentsListCtrl", ["$scope", "$http", "$
         }, function errorCallback(response) {
             console.log("Bad request");
             window.alert("Bad request");
-             $scope.status("Bad request");
+            $scope.status("Bad request");
         });
     };
 
@@ -91,7 +91,8 @@ angular.module("App").controller("UnemploymentsListCtrl", ["$scope", "$http", "$
             headers: { "user": $scope.user, "pass": $scope.pass }
         }).then(function(response) {
             $scope.unemployments = response.data;
-            $scope.status = response.data;
+            console.log(response.data);
+            $scope.status = response.data.length + "Registers";
             window.alert("Authorized");
         }, function errorCallback(response) {
             console.log("Empty");
