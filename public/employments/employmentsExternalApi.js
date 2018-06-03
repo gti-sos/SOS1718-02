@@ -3,7 +3,7 @@ angular.module("App").
 controller("employmentsExternalApi", ["$scope", "$http", "$httpParamSerializer", function($scope, $http, $httpParamSerializer) {
     var dato = [];
     $http.get("https://restcountries.eu/rest/v2/region/europe").then(function(response) {
-        for (var i = 0; i < response.data.length / 3; i++) {
+        for (var i = 0; i < 5; i++) {
             dato.push([response.data[i].name, 0, response.data[i].population])
 
         }
@@ -12,7 +12,7 @@ controller("employmentsExternalApi", ["$scope", "$http", "$httpParamSerializer",
 
 
     $http.get("https://sos1718-02.herokuapp.com/api/v2/employments").then(function(response) {
-        for (var i = 0; i < response.data.length; i++) {
+        for (var i = 0; i < 5; i++) {
 
             dato.push([response.data[i].country,  response.data[i].totalself,0])
 
@@ -28,8 +28,6 @@ controller("employmentsExternalApi", ["$scope", "$http", "$httpParamSerializer",
             ]);
 
             var options = {
-                title: 'Correlation between life expectancy, fertility rate ' +
-                    'and population of some world countries ',
                 hAxis: { title: 'Self employment' },
                 vAxis: { title: 'Population' },
                 bubble: { textStyle: { fontSize: 11 } }
