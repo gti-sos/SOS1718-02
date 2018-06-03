@@ -155,6 +155,7 @@ apiExpenditures.register = function(app) {
         });
     });
 
+
     //GET country & year
     app.get(BASE_API_PATH + "/:country/:year", (req, res) => {
         console.log("Get country & year");
